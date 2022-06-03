@@ -109,6 +109,7 @@ class anggotaController extends Controller
                 		$tb[$i]->menit_mulai 	=$tgl_mulai->format('i');  
                 		$tb[$i]->jam_selesai 	=$tgl_selesai->format('H'); 
                 		$tb[$i]->menit_selesai 	=$tgl_selesai->format('i');  
+                		$tb[$i]->jam_menit_mulai=$tgl_selesai->format('H:i');  
 
                 		$i++;
                 	}

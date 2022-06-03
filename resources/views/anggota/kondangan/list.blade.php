@@ -26,6 +26,7 @@
 								<th>Status</th>
 								<th>Tanggal mulai</th> 
 								<th>Tanggal selesai</th> 
+								<th>Jam mulai</th> 
 								<th>lama Acara</th> 
 								<th>Aksi</th>  
 							</tr>
@@ -179,6 +180,7 @@
 										<th>`+list.status+`</th> 
 										<th>`+list.tgl_mulai+`</th>
 										<th>`+list.tgl_selesai+`</th> 
+										<th>`+list.jam_menit_mulai+`</th> 
 										<th>`+list.lama_acara+`</th> 
 										<th data-id="`+list.id+`">
 										<a href="{{url('anggota/kondangan/tamu/')}}/`+list.id+`" class="btn btn-primary btn-sm">Cek Tamu</a>
