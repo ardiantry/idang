@@ -18,7 +18,7 @@
   display: grid;
   min-height: 50px;
   max-height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .header-chat li {
   display: block; 
@@ -47,7 +47,7 @@
   border-radius: 20px 20px 0px 20px;
   background: rgba(44, 227, 193, 0.56);
   width: 85%;
-  margin-left: 56px;
+  margin-left: 55px;
   text-align: right;
 }
 .header-chat .kanan span {
