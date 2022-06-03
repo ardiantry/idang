@@ -16,7 +16,9 @@
   margin: 0;
   width: ;
   display: grid;
-  min-height: 50px
+  min-height: 50px;
+  max-height: 500px;
+  overflow-y: scroll;
 }
 .header-chat li {
   display: block; 
