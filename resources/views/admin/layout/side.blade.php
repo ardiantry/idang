@@ -7,10 +7,10 @@
 			</a>
 		</li>
 		<li>
-			<a href="{{route('dataUndangan')}}">
-			<i class="fa fa-wechat "></i>
+			<a href="{{route('adminundangan')}}">
+			<i class="mdi mdi-calendar"></i>
 			<span>Data Undangan</span>
 			</a>
 		</li>
-	</ul>
+	</ul> 
 </div> 

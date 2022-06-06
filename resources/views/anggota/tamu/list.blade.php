@@ -8,39 +8,64 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li> 
+				@if(@$kondangan->nama_kondangan)
+
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota/kondangan')}}">Kondangan</a>
 				</li> 
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota/kondangan/detail',@$kondangan->id)}}">{{@$kondangan->nama_kondangan}}</a>
 				</li> 
+				@endif
 				<li class="breadcrumb-item active">Tamu</li>
 			</ol>
 		</div>
 		<h4 class="page-title">Data Tamu</h4></div> 
 	</div>
 	<div class="col-md-12">
-		<div class="card">
-			<div class="card-body">
-		 		<div class="row"> 
-					<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
+		<div class="card"> 
+			<div class="card-body"> 
+				<div class="row">
+					<div class="col-md-4">
+						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
+						<button class="btn btn-primary btn-sm">Print PDF</button>
+					</div>
+					<div class="col-md-4"> 
+					</div>
+					<div class="col-md-4">
+						<div class="input-group">
+							<input type="text" name="" class="form-control">
+							<span class="input-group-append">
+								<button class="btn btn-primary btn-sm">Cari</button> 
+							</span>
+						</div>
+					</div> 
+				</div>
+					
 					<div class="table-responsive"> 
 						<table class="table">
 							<tr>
 								<th>Nama Tamu</th> 
-								<th>alamat</th> 
+								<th>No Telp</th>  
+								<th>Alamat</th> 
+								@if(@$kondangan->nama_kondangan)
+								<th>Kondangan</th> 
+								@endif
 								<th>Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
 							 <tr>
 								<td>{{$key->nama}}</td> 
+								<td>{{$key->nomor_hp}}</td> 
+								@if(@$kondangan->nama_kondangan)
+								<th>{{@$kondangan->nama_kondangan}}</th> 
+								@endif
 								<td>{{$key->alamat}}</td> 
 								<td><a class="btn btn-danger btn-sm hapus" data-id="{{$key->id}}">Hapus</a></td> 
 
 							</tr>
 							 @endforeach
-						</table>
-					</div>
+						</table> 
 				</div> 	
 			</div>
 		</div>
@@ -57,9 +82,27 @@
             <div class="modal-body"> 
                 <div class="ms-alert"></div>
                 <form id="prosesSimpan" name="prosesSimpan">
+					@if(!@$kondangan->nama_kondangan)
+					 <div class="form-group">
+                        <label>Nama Undangan</label>
+
+		                  <select name="id_undangan" class="form-control">
+		                  	@php
+		                  	$dbkondangan=DB::table('tb_kondangan')->get();
+		                  	@endphp
+		                  	@foreach($dbkondangan as $key)
+		                  	<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
+		                  	@endforeach
+		                  </select>
+                    </div>
+					@endif
                     <div class="form-group">
                         <label>Nama Tamu</label>
                         <textarea class="form-control" name="nama"></textarea>
+                    </div>
+                     <div class="form-group">
+                        <label>No Telp</label>
+                        <input type="text" name="nomor_hp" class="form-control" >
                     </div>
                       <div class="form-group">
                         <label>Alamat</label>
@@ -82,7 +125,8 @@
 				e.preventDefault();  
 				window.id_edit=undefined;
 				$('.ms-alert').empty(); 
-				$('textarea[name="nama"]').empty();
+				$('input[name="nomor_hp"]').val('');
+				$('textarea[name="nama"]').empty(); 
 				$('textarea[name="alamat"]').empty();  
 				$('#ModalForm').modal({ backdrop: 'static',keyboard: false});  
 			});
@@ -97,7 +141,9 @@
 				const formsimpan  = document.forms.namedItem('prosesSimpan'); 
 				const Form_item  = new FormData(formsimpan);
 				Form_item.append('_token', '{{csrf_token()}}');  
+				@if(@$kondangan->id)
 				Form_item.append('id_undangan','{{@$kondangan->id}}');   
+				@endif
 				if(window.id_edit!=undefined)
 				{
 					Form_item.append('id_edit', window.id_edit);   

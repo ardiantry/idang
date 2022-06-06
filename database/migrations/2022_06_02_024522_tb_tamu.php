@@ -16,7 +16,9 @@ class TbTamu extends Migration
         Schema::create('tb_tamu', function (Blueprint $table) {
             $table->bigIncrements('id'); 
             $table->integer('id_undangan');   
+            $table->integer('id_user');   
             $table->char('nama',50);
+            $table->char('nomor_hp',13);
             $table->text('alamat');  
             $table->timestamps();
         });

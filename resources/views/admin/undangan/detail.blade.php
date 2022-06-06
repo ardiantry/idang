@@ -1,4 +1,4 @@
- @extends('anggota.layout.app')
+ @extends('admin.layout.app')
  @section('content') 
 
  <div class="row"> 
@@ -39,7 +39,7 @@
 					 	<tr>
 					 		<td>Jumlah Tamu</td>
 					 		<td>:</td>
-					 		<td>{{@$tb->Jumltb_tamu}} <a href="{{route('listtamu',@$tb->id)}}">Tambah tamu</a></td> 
+					 		<td>{{@$tb->Jumltb_tamu}} <a href="{{route('adminlisttamu',@$tb->id)}}">lihat Jumlah Tamu</a></td> 
 					 	</tr>
 					 	<tr>
 					 		<td>Foto</td>

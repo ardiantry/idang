@@ -169,7 +169,7 @@ strong {
     z-index: 1001;
 }
 .topbar .topbar-left {
-    background-color: #333;
+    /*! background-color: #333; */
     float: left;
     text-align: center;
     height: 70px;
@@ -187,7 +187,7 @@ strong {
     height: 14px;
 }
 .navbar-custom {
-    background: #465055;
+    /*! background: #465055; */
     padding: 0 10px 0 0;
     margin-left: 240px;
     min-height: 70px;
@@ -197,7 +197,7 @@ strong {
 }
 .navbar-custom .nav-link {
     padding: 0 0.75rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(32, 28, 28, 0.6);
     line-height: 70px;
     max-height: 70px;
 }
@@ -473,8 +473,8 @@ input.search-input:-ms-input-placeholder {
 }
 .left-sidenav-menu .menu-title {
     padding: 10px 30px;
-    color: #adb5bd;
-    font-size: 11px;
+    color: #5a5e62;
+    font-size: 14px;
     text-transform: uppercase;
 }
 .left-sidenav-menu .menu-arrow {
@@ -3584,4 +3584,10 @@ input[switch="purple"]:checked + label {
 }
 span.select2 {
     width: 100%!important;
+}
+.table-responsive {
+  margin-top: 10px;
+}
+th .btn-sm {
+  margin: 2px 0px;
 }

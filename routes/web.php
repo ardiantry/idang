@@ -27,6 +27,13 @@ Route::group(['middleware' => 'auth'], function (){
 				Route::get('/list-anggota', 'adminController@listanggota')->name('listanggota');
 				Route::get('/data-Undangan', 'adminController@dataUndangan')->name('dataUndangan');
 				
+				Route::get('/undangan', 'adminController@adminundangan')->name('adminundangan');
+
+				Route::post('/undangan/simpan-kondangan', 'adminController@simpankondangan')->name('simpanundangan');
+				Route::post('/undangan/load-Kondangan', 'adminController@loadundangan')->name('loadundangan');
+				Route::post('/undangan/hapus-kondangan', 'adminController@hapusundangan')->name('hapusundangan'); 
+				Route::get('/undangan/detail/{id_kondangan}', 'adminController@detailkondangan');  
+				Route::get('/undangan/tamu/{id_tamu}', 'adminController@listtamu')->name('adminlisttamu');
 
 			});  
 		});
@@ -40,12 +47,9 @@ Route::group(['middleware' => 'auth'], function (){
 			return  redirect('/anggota/home');	 
 		});
 		Route::get('/home', 'anggotaController@home');
-		Route::get('/kondangan', 'anggotaController@kondangan')->name('anggotakondangan');
-		Route::post('/kondangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('simpankondangan');
-		Route::post('/kondangan/load-Kondangan', 'anggotaController@loadKondangan')->name('loadKondangan');
-		Route::post('/kondangan/hapus-kondangan', 'anggotaController@hapuskondangan')->name('hapuskondangan'); 
-		Route::get('/kondangan/detail/{id_kondangan}', 'anggotaController@detailkondangan'); 
+		// kondangan
  
+
 		Route::get('/kondangan/tamu/{id_tamu}', 'anggotaController@listtamu')->name('listtamu');
 		Route::post('/kondangan/tamu/simpan-tamu', 'anggotaController@simpantamu')->name('simpantamu');
 		Route::post('/kondangan/tamu/hapus-tamu', 'anggotaController@hapustamu')->name('hapustamu');
@@ -54,6 +58,14 @@ Route::group(['middleware' => 'auth'], function (){
 		Route::post('/chat-anggota/Kirim-chat', 'chatController@KirimChat')->name('KirimChat');
 		Route::post('/chat-anggota/list-chat', 'chatController@listChat')->name('listChat');
 
+		// tamu
+		Route::get('/tamu/list', 'anggotaController@listtamu')->name('anggotatamu');
+
+		//magang
+		Route::get('/pemasukan-magang/{type}', 'anggotaController@pemasukanmagang')->name('pemasukanmagang');
+
+
+		
 
 
 

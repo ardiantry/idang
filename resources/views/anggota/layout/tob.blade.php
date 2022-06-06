@@ -1,6 +1,6 @@
 <!-- Top Bar Start -->
 	<div class="topbar">
-		<!-- LOGO -->
+		<!-- LOGO --> 
 		<div class="topbar-left">
 			<a href="index.html" class="logo">
 				<span>
@@ -62,6 +62,11 @@
 					</div>
 				</li>
 			</ul>
+			<ul class="list-unstyled topbar-nav mb-0">
+                <li>
+                    <button class="button-menu-mobile nav-link waves-effect waves-light"><i class="mdi mdi-menu nav-icon"></i></button>
+                </li>
+            </ul>
 		</nav>
 		<!-- end navbar-->
 	</div>
