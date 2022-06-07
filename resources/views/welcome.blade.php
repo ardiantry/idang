@@ -156,7 +156,7 @@ font-weight: bold;
                             <img src="{{$key->foto}}">
                             <div class="card-body">
                                  <span class="date"><i class="fa  fa-table"></i> {{$key->tgl_mulai}}</span>
-                                 <span class="lamaacara"><i class="fa fa-clock-o"></i> {{$key->lama_acara }}</span> 
+                                 <span class="lamaacara"><i class="fa fa-clock-o"></i>Sesi Acara {{$key->lama_acara }}</span> 
                                  <h4>{{@$key->nama_kondangan}}</h4>
                                  <p>Alamat : {{$key->alamat}}</p>
                                  <div class="text-right">  

@@ -43,9 +43,14 @@ Route::group(['middleware' => 'auth'], function (){
 	Route::group(['prefix' => 'anggota'], function () { 
 		Route::group(['namespace' => 'Anggota'], function () {
 		Route::get('/', function () {
-			return  redirect('/anggota/home');	 
+			return  redirect('/anggota/tamu/list');	 
 		});
-		Route::get('/home', 'anggotaController@home');
+		//Route::get('/home', 'anggotaController@home');
+		Route::get('/home', function()
+			{
+				return  redirect('/anggota/tamu/list');	 
+			});
+
 		// kondangan
  
 

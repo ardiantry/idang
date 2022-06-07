@@ -110,12 +110,14 @@ class anggotaController extends Controller
 		print json_encode(array("alert"=>$alert,'error'=>$error));  
 
 	}
+	
 public function hapustamu(Request $request) 
 	{
 		 DB::table('tb_tamu')->where('id',$request->input('id_hapus'))->delete();
 		 	print json_encode(array('error'=>false));  
 
 	}
+
 public function pemasukanmagang(Request $request) 
 	{
 		 $data_list=DB::table('tb_magang')
@@ -229,7 +231,9 @@ public function pemasukanhutang(Request $request)
 				 ->count();	
 		 return view('anggota.pemasukan_hutang.list',compact('data_list','jlh','jlh_tamu'));
 
+
 	}
+
 public function pengeluaranmagang(Request $request) 
 	{
 		 $data_list=DB::table('tb_magang')
