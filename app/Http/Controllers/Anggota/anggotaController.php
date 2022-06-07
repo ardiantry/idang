@@ -83,7 +83,11 @@ class anggotaController extends Controller
 		if($alert=='')
 		{ 
 
-			$data['id_undangan']    =$request->input('id_undangan');
+			if($request->input('id_undangan'))
+			{
+				$data['id_undangan']    =$request->input('id_undangan');
+				
+			}
 			$data['id_user']      	=Auth::user()->id; 
 			$data['nomor_hp']     	=$request->input('nomor_hp');   
 			$data['nama']  			=$request->input('nama'); 
@@ -114,8 +118,140 @@ public function hapustamu(Request $request)
 	}
 public function pemasukanmagang(Request $request) 
 	{
-		 
-		 return view('anggota.pemasukan_magang.list');
+		 $data_list=DB::table('tb_magang')
+		 ->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan')
+		 ->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu')
+		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
+		 ->where('tb_magang.jenis_barang',@$request->type)
+		 ->where('tb_magang.jenis_magang','pemasukan magang')
+		 ->where('tb_magang.id_anggota',Auth::user()->id)
+		 ->paginate(20);
+		  $jlh=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pemasukan magang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->sum('jumlah');
+		$jlh_tamu=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pemasukan magang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->count();	
+		 return view('anggota.pemasukan_magang.list',compact('data_list','jlh','jlh_tamu'));
+
+	}
+public function simpanpemasukan(Request $request) 
+	{
+		  
+			$alert='';
+			$error=true;
+			$alert.=$request->input('id_undangan')?'':'<li>Undangan  Wajib Di isi</li>'; 
+			$alert.=$request->input('satuan')?'':'<li>Total barang  Wajib Di isi</li>';  
+			if($request->input('jenis_magang')!='pengeluaran magang')
+			{
+				$data['id_tamu']     	 	=$request->input('id_tamu');    
+				$alert.=$request->input('id_tamu')?'':'<li>Tamu  Wajib Di isi</li>';
+			} 
+			else
+			{	
+				$alert.=$request->input('nama')?'':'<li>nama  Wajib Di isi</li>';
+				$alert.=$request->input('alamat')?'':'<li>alamat  Wajib Di isi</li>';
+				$alert.=$request->input('tanggal')?'':'<li>tanggal  Wajib Di isi</li>'; 
+
+			} 
+			 
+			if($alert=='')
+			{  
+				if($request->input('jenis_magang')=='pengeluaran magang')
+				{
+					$datauser['nama'] 	 	=$request->input('nama');
+					$datauser['alamat'] 	=$request->input('alamat');
+					$datauser['tanggal'] 	=Carbon::parse($request->input('tanggal'))->format('Y-m-d');
+					$datauser['updated_at'] =Carbon::now(); 
+					if($request->input('id_edit'))
+					{
+						DB::table('tb_tamu_magang')->where('id',$request->input('id_tamu'))->update($datauser);
+						$data['id_tamu'] 		=$request->input('id_tamu');
+					}
+					else
+					{
+						$datauser['created_at'] =Carbon::now(); 
+						$data['id_tamu'] 		=DB::table('tb_tamu_magang')->insertGetId($datauser);
+						
+					}
+				}
+
+				$data['jenis_barang']     	=$request->input('jenis_barang');   
+				$data['jenis_magang']  		=$request->input('jenis_magang'); 
+				$nominal_satuan 			=$request->input('jenis_barang')=='uang'?'rp':'kg';
+				$data['jenis_satuan']     	=$nominal_satuan; 
+				$data['id_anggota']      	=Auth::user()->id; 
+				$data['id_undangan']      	=$request->input('id_undangan');  
+				$data['jumlah']      	 	=$request->input('satuan');    
+				$data['updated_at']  		=Carbon::now();
+
+				if($request->input('id_edit'))
+				{ 
+				    DB::table('tb_magang')->where('id',$request->input('id_edit'))->update($data);
+				    $alert ='<li>Update Telah Berhasil</li>'; 
+				}else
+				{
+
+				    $data['created_at'] =Carbon::now();  
+				    DB::table('tb_magang')->insert($data); 
+				    $alert ='<li>Simpan Telah Berhasil</li>';
+				}
+				$error=false;
+			}
+			print json_encode(array("alert"=>$alert,'error'=>$error));  
+
+	}
+
+public function pemasukanhutang(Request $request) 
+	{
+		 $data_list=DB::table('tb_magang')
+		 ->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan')
+		 ->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu')
+		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
+		 ->where('tb_magang.jenis_barang',@$request->type)
+		 ->where('tb_magang.jenis_magang','pemasukan hutang')
+		 ->where('tb_magang.id_anggota',Auth::user()->id)
+		 ->paginate(20);
+		  $jlh=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pemasukan hutang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->sum('jumlah');
+
+		$jlh_tamu=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pemasukan hutang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->count();	
+		 return view('anggota.pemasukan_hutang.list',compact('data_list','jlh','jlh_tamu'));
+
+	}
+public function pengeluaranmagang(Request $request) 
+	{
+		 $data_list=DB::table('tb_magang')
+		 ->select('tb_magang.*','tb_tamu_magang.nama','tb_tamu_magang.alamat','tb_tamu_magang.tanggal','tb_kondangan.nama_kondangan')
+		 ->leftJoin('tb_tamu_magang','tb_tamu_magang.id','=','tb_magang.id_tamu')
+		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
+		 ->where('tb_magang.jenis_barang',@$request->type)
+		 ->where('tb_magang.jenis_magang','pengeluaran magang')
+		 ->where('tb_magang.id_anggota',Auth::user()->id)
+		 ->paginate(20);
+		  $jlh=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pengeluaran magang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->sum('jumlah');
+
+		$jlh_tamu=DB::table('tb_magang')
+				 ->where('tb_magang.jenis_barang',@$request->type)
+				 ->where('tb_magang.jenis_magang','pengeluaran magang')
+				 ->where('tb_magang.id_anggota',Auth::user()->id)
+				 ->count();	
+		 return view('anggota.pengeluaran_magang.list',compact('data_list','jlh','jlh_tamu'));
 
 	}
 

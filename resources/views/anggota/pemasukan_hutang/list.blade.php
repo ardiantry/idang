@@ -19,7 +19,7 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li>  
-				<li class="breadcrumb-item">Pemasukan Magang</li>
+				<li class="breadcrumb-item">Pemasukan Hutang</li>
 				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
 			</ol>
 		</div>
@@ -30,8 +30,8 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h3>Tambah Magang {{Request::segment(3)}}</h3>
-						<form name="tambahmagang" id="tambahmagang">
+						<h3>Tambah hutang {{Request::segment(3)}}</h3>
+						<form name="tambahhutang" id="tambahhutang">
 							<div class="ms-alert"></div>
 							<div class="form-group">
 								<label>Nama Undangan</label>
@@ -139,7 +139,7 @@ $(document).ready(function()
 	@foreach($data_list as $key)
 	window['id_'+'{{$key->id}}']={!!json_encode($key)!!};
 	@endforeach
-		$('body').delegate('#tambahmagang','submit',function(e)
+		$('body').delegate('#tambahhutang','submit',function(e)
 			{
 				e.preventDefault();
 				var this_=$(this);
@@ -147,11 +147,11 @@ $(document).ready(function()
 				this_.find('button[type="submit"]').html('loading...');
 				this_.find('button[type="submit"]').attr('disabled','disabled');
 
-				const formsimpan  = document.forms.namedItem('tambahmagang'); 
+				const formsimpan  = document.forms.namedItem('tambahhutang'); 
 				const Form_item  = new FormData(formsimpan);
 				Form_item.append('_token', '{{csrf_token()}}');
 				Form_item.append('jenis_barang', '{{Request::segment(3)}}'); 
-				Form_item.append('jenis_magang', 'pemasukan magang');    
+				Form_item.append('jenis_magang', 'pemasukan hutang');    
 				if(window.id_edit!=undefined)
 				{
 					Form_item.append('id_edit', window.id_edit);   

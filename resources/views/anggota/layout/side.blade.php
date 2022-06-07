@@ -28,13 +28,13 @@
             <a href="javascript: void(0);"><i class="mdi mdi-book-open"></i><span>Pemasukan Hutang</span></a>
             <ul class="nav-second-level" aria-expanded="false">
                 <li>
-                	<a href="javascript: void(0);">
+                	<a href="{{route('pemasukanhutang','beras')}}">
                 		<i class="fa fa-pied-piper"></i><span>Beras</span>
                 	</a>
-		             <a href="javascript: void(0);">
+		             <a href="{{route('pemasukanhutang','padi')}}">
                 		<i class="fa fa-pagelines"></i><span>Padi</span>
                 	</a>
-                	 <a href="javascript: void(0);">
+                	 <a href="{{route('pemasukanhutang','uang')}}">
                 		<i class="fa fa-dollar"></i><span>Uang</span>
                 	</a>
         		</li> 
@@ -44,13 +44,13 @@
 		    <a href="javascript: void(0);"><i class=" mdi mdi-book-open-page-variant"></i><span>Pengeluaran Magang</span></a>
 		    <ul class="nav-second-level" aria-expanded="false">
 		        <li>
-		        	<a href="javascript: void(0);">
+		        	<a href="{{route('pengeluaranmagang','beras')}}">
 		        		<i class="fa fa-pied-piper"></i><span>Beras</span>
 		        	</a>
-		             <a href="javascript: void(0);">
+		             <a href="{{route('pengeluaranmagang','padi')}}">
 		        		<i class="fa fa-pagelines"></i><span>Padi</span>
 		        	</a>
-		        	 <a href="javascript: void(0);">
+		        	 <a href="{{route('pengeluaranmagang','uang')}}">
 		        		<i class="fa fa-dollar"></i><span>Uang</span>
 		        	</a>
 				</li> 

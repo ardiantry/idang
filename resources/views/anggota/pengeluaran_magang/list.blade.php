@@ -19,7 +19,7 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li>  
-				<li class="breadcrumb-item">Pemasukan Magang</li>
+				<li class="breadcrumb-item">pengeluaran Magang</li>
 				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
 			</ol>
 		</div>
@@ -30,7 +30,7 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h3>Tambah Magang {{Request::segment(3)}}</h3>
+						<h3>Tambah Pengeluaran Magang {{Request::segment(3)}}</h3>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							<div class="form-group">
@@ -47,16 +47,16 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<label>Nama tamu</label>
-								<select class="form-control" name="id_tamu">
-									<option>-Pilih tamu--</option>
-									@php
-									$tb_tamu=DB::table('tb_tamu')->where('id_user',Auth::user()->id)->get();
-									@endphp
-									@foreach($tb_tamu as $key)
-									<option value="{{ $key->id}}">{{$key->nama}}</option>
-									@endforeach
-								</select>
+								<label>Nama</label>
+								<input type="text" name="nama" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Alamat</label>
+								<input type="text" name="alamat" class="form-control">
+							</div>
+							<div class="form-group">
+								<label>Tanggal</label>
+								<input type="date" name="tanggal" class="form-control">
 							</div>
 							<div class="form-group">
 								<label>{{$label_satuan}}</label>
@@ -151,43 +151,55 @@ $(document).ready(function()
 				const Form_item  = new FormData(formsimpan);
 				Form_item.append('_token', '{{csrf_token()}}');
 				Form_item.append('jenis_barang', '{{Request::segment(3)}}'); 
-				Form_item.append('jenis_magang', 'pemasukan magang');    
+				Form_item.append('jenis_magang', 'pengeluaran magang');    
 				if(window.id_edit!=undefined)
 				{
 					Form_item.append('id_edit', window.id_edit);   
+					Form_item.append('id_tamu',window.id_tamu);  
 				}
 				fetch('{{route('simpanpemasukan')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
 				    {  
 				    	if(data.error)
 				    	{
-				    		$('.ms-alert').html('<div class="alert alert-alert">'+data.alert+'</div>');
+				    		$('.ms-alert').html('<div class="alert alert-danger">'+data.alert+'</div>');
 				    		return
 				    	}
 				     	window.location.reload();
 				    });
 			});	
+
 			$('body').delegate('.edit','click',function(e)
 			{
 				e.preventDefault();
 				$('#yakinedit').empty(); 
-				window.id_edit=$(this).data('id');
-				var data_edit=window['id_'+$(this).data('id')];
+				window.id_edit 	=$(this).data('id'); 
+				var data_edit 	=window['id_'+$(this).data('id')];
+				window.id_tamu 	=data_edit.id_tamu; 
+
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
+
+ 
 				$('select[name="id_undangan"] option[value="'+data_edit.id_undangan+'"]').attr('selected','selected');
-				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
+				$('input[name="nama"]').val(data_edit.nama);
+				$('input[name="alamat"]').val(data_edit.alamat);
+				$('input[name="tanggal"]').val(data_edit.tanggal);  
 				$('input[name="satuan"]').val(data_edit.jumlah);
 
 			});
+
 			$('body').delegate('#yakinedit button[type="button"]','click',function(e)
 			{
 				e.preventDefault();
 				$('#yakinedit').empty(); 
 				window.id_edit=undefined; 
+				window.id_tamu=undefined; 
 				$('button[type="submit"]').html('Simpan'); 
 				$('select[name="id_undangan"] option').removeAttr('selected');
-				$('select[name="id_tamu"] option').removeAttr('selected');
-				
+				$('input[name="nama"]').val('');
+				$('input[name="alamat"]').val('');
+				$('input[name="tanggal"]').val(''); 
+				$('input[name="satuan"]').val(''); 
 				$('input[name="satuan"]').val('');
 
 			});

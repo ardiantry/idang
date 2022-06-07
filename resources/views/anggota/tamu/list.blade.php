@@ -26,6 +26,7 @@
 		<div class="card"> 
 			<div class="card-body"> 
 				<div class="row">
+					
 					<div class="col-md-4">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
 						<button class="btn btn-primary btn-sm">Print PDF</button>
@@ -82,20 +83,7 @@
             <div class="modal-body"> 
                 <div class="ms-alert"></div>
                 <form id="prosesSimpan" name="prosesSimpan">
-					@if(!@$kondangan->nama_kondangan)
-					 <div class="form-group">
-                        <label>Nama Undangan</label>
-
-		                  <select name="id_undangan" class="form-control">
-		                  	@php
-		                  	$dbkondangan=DB::table('tb_kondangan')->get();
-		                  	@endphp
-		                  	@foreach($dbkondangan as $key)
-		                  	<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
-		                  	@endforeach
-		                  </select>
-                    </div>
-					@endif
+					 
                     <div class="form-group">
                         <label>Nama Tamu</label>
                         <textarea class="form-control" name="nama"></textarea>

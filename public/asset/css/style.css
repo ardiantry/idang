@@ -187,7 +187,7 @@ strong {
     height: 14px;
 }
 .navbar-custom {
-    /*! background: #465055; */
+    background: #ccc;
     padding: 0 10px 0 0;
     margin-left: 240px;
     min-height: 70px;

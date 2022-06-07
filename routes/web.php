@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+ 
+  Route::get('/', 'HomeController@index'); 
 Auth::routes();
 Route::group(['middleware' => 'auth'], function (){ 
 	// admin Area
@@ -63,7 +62,11 @@ Route::group(['middleware' => 'auth'], function (){
 
 		//magang
 		Route::get('/pemasukan-magang/{type}', 'anggotaController@pemasukanmagang')->name('pemasukanmagang');
+		Route::post('/simpan-pemasukan', 'anggotaController@simpanpemasukan')->name('simpanpemasukan');
 
+		Route::get('/pemasukan-hutang/{type}', 'anggotaController@pemasukanhutang')->name('pemasukanhutang');
+
+		Route::get('/pengeluaran-magang/{type}', 'anggotaController@pengeluaranmagang')->name('pengeluaranmagang');
 
 		
 

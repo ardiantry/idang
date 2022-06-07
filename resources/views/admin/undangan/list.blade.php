@@ -217,7 +217,7 @@
 										<th data-id="`+list.id+`" class="text-center">
 										<a href="{{url('admin/undangan/tamu/')}}/`+list.id+`" class="btn btn-primary btn-sm" title="data tamu"><i class="fa  fa-users"></i></a>
 										<a class="btn btn-success btn-sm detail" title="detail" ><i class="fa fa-vcard-o"></i></a> 
-										<a class="btn btn-warning btn-sm edit" title="fa fa-pencil"><i class="fa fa-pencil"></i></a>
+										<a class="btn btn-warning btn-sm edit" title="edit"><i class="fa fa-pencil"></i></a>
 										<a  class="btn btn-danger btn-sm hapus" title="Hapus"><i class="fa fa-trash"></i></a></th>  
 										</tr>`;
 				    	 }

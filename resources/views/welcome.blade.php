@@ -11,6 +11,9 @@
 
         <!-- Styles -->
         <style>
+
+         
+
                html, body {
                 background-color: #fff;
                 color: #636b6f;
@@ -22,7 +25,7 @@
             .promo_tematik
     {
         background-image:unset!important;
-        background: url({{asset('image/bg-home.png')}})!important; 
+        background: url(http://192.168.1.106:70/image/bg-home.png)!important; 
         background-position: center!important;
         background-repeat: no-repeat!important;
         background-size: cover!important;
@@ -46,22 +49,26 @@
             }
 
             .top-right {
-                position: absolute;
+                position: relative;
                 right: 10px;
                 top: 18px;
+                text-align: right;
             }
 
             .content {
                 text-align: center;
             }
 
-            .title {font-size: 50px;
+            .title {font-size: 28px;
 border: 5px solid #fff;
-background: rgb(122, 222, 232);
-color: #fff;
-padding: 30px;
+background: rgb(22, 106, 115);
+color: #fdfdfd;
+padding: 15px;
 border-radius: 80px;
 box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.11);
+width: 500px;
+margin: 25px auto 0px auto;
+font-weight: bold;
             }
 
             .links > a {
@@ -76,15 +83,56 @@ box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.11);
 
             .m-b-md {
                 margin-bottom: 30px;
-            }          </style>
+            }  
+            .content {
+  text-align: center;
+  z-index: 1;
+  position: relative;
+} 
+.card img {
+  height: 202px;
+}
+.card h4 {
+  font-size: 16px;
+  text-decoration: ;
+  text-transform: capitalize;
+}
+.card span {
+  font-size: 12px;
+  margin: 0;
+  color: #9f9d9d;
+  font-style: italic;
+}
+.card .card-body
+{
+    text-align: left;
+}
+.card p {
+  font-size: 14px;
+  color: #423d3d;
+}
+.card {
+   
+  margin-bottom: 10px;
+}
+@media(max-width: 500px)
+{
+   .title {
+  width: 79%;
+}
+  
+}
+              
+              </style>
+                <link href="{{asset('asset/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset/css/icons.css')}}" rel="stylesheet" type="text/css">
     </head>
     <body>
          <div class="promo_tematik"></div>
-        <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/admin') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -97,9 +145,30 @@ box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.11);
 
             <div class="content">
                 <div class="title m-b-md">
-                    Kondangan di desa Sudimampir 
+                   SiKondang 
+                </div>
+                <div class="container">
+                    
+                <div class="row">
+                    @foreach($data_list  as $key)
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{$key->foto}}">
+                            <div class="card-body">
+                                 <span class="date"><i class="fa  fa-table"></i> {{$key->tgl_mulai}}</span>
+                                 <span class="lamaacara"><i class="fa fa-clock-o"></i> {{$key->lama_acara }}</span> 
+                                 <h4>{{@$key->nama_kondangan}}</h4>
+                                 <p>Alamat : {{$key->alamat}}</p>
+                                 <div class="text-right">  
+                                    <a href="{{url('')}}">Detail</a>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
                 </div> 
             </div>
-        </div>
+        <script src="{{asset('asset/js/bootstrap.bundle.min.js')}}"></script>
     </body>
 </html>

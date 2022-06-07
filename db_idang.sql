@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `tb_kondangan` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Membuang data untuk tabel db_idang.tb_kondangan: ~2 rows (lebih kurang)
 INSERT IGNORE INTO `tb_kondangan` (`id`, `id_anggota`, `nama_kondangan`, `foto`, `alamat`, `status`, `tgl_mulai`, `tgl_selesai`, `created_at`, `updated_at`) VALUES
@@ -86,19 +86,33 @@ CREATE TABLE IF NOT EXISTS `tb_magang` (
   `jenis_barang` enum('beras','padi','uang') DEFAULT NULL,
   `jenis_magang` enum('pemasukan magang','pemasukan hutang','pengeluaran magang') DEFAULT NULL,
   `jenis_satuan` enum('kg','rp') DEFAULT NULL,
-  `id_barang` int(11) DEFAULT NULL,
+  `id_tamu` int(11) DEFAULT NULL,
   `id_anggota` int(11) DEFAULT NULL,
+  `id_undangan` int(11) DEFAULT NULL,
+  `jumlah` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
--- Membuang data untuk tabel db_idang.tb_magang: ~0 rows (lebih kurang)
+-- Membuang data untuk tabel db_idang.tb_magang: ~8 rows (lebih kurang)
+INSERT IGNORE INTO `tb_magang` (`id`, `jenis_barang`, `jenis_magang`, `jenis_satuan`, `id_tamu`, `id_anggota`, `id_undangan`, `jumlah`, `created_at`, `updated_at`) VALUES
+	(1, 'beras', 'pemasukan magang', 'kg', 4, 5, 3, 12, '2022-06-06 20:44:55', '2022-06-06 23:11:11'),
+	(2, 'padi', 'pemasukan magang', 'kg', 5, 5, 4, 20, '2022-06-06 21:00:25', '2022-06-06 21:00:25'),
+	(3, 'beras', 'pemasukan magang', 'kg', 4, 5, 3, 10, '2022-06-06 23:22:42', '2022-06-06 23:22:42'),
+	(4, 'uang', 'pemasukan magang', 'rp', 5, 5, 4, 1212121, '2022-06-06 23:25:47', '2022-06-06 23:25:47'),
+	(5, 'uang', 'pemasukan magang', 'rp', 5, 5, 4, 100000, '2022-06-06 23:25:52', '2022-06-06 23:25:52'),
+	(6, 'padi', 'pemasukan magang', 'kg', 4, 5, 3, 12, '2022-06-06 23:26:07', '2022-06-06 23:26:07'),
+	(7, 'beras', 'pemasukan hutang', 'kg', 4, 5, 3, 10, '2022-06-06 23:28:08', '2022-06-06 23:28:08'),
+	(8, 'padi', 'pemasukan hutang', 'kg', 4, 5, 4, 12, '2022-06-06 23:31:58', '2022-06-06 23:31:58'),
+	(9, 'beras', 'pengeluaran magang', 'kg', 1, 5, 3, 12, '2022-06-07 01:24:21', '2022-06-07 01:58:22'),
+	(10, 'beras', 'pemasukan hutang', 'kg', 5, 5, 3, 50, '2022-06-07 01:24:53', '2022-06-07 01:24:53'),
+	(11, 'padi', 'pengeluaran magang', 'kg', 2, 5, 3, 23, '2022-06-07 01:59:21', '2022-06-07 01:59:21');
 
 -- membuang struktur untuk table db_idang.tb_tamu
 CREATE TABLE IF NOT EXISTS `tb_tamu` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `id_undangan` int(11) NOT NULL,
+  `id_undangan` int(11) DEFAULT NULL,
   `id_user` int(11) NOT NULL,
   `nomor_hp` char(13) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `nama` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -106,14 +120,31 @@ CREATE TABLE IF NOT EXISTS `tb_tamu` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Membuang data untuk tabel db_idang.tb_tamu: ~4 rows (lebih kurang)
 INSERT IGNORE INTO `tb_tamu` (`id`, `id_undangan`, `id_user`, `nomor_hp`, `nama`, `alamat`, `created_at`, `updated_at`) VALUES
 	(1, 3, 0, '', 'idang', 'indramayu', '2022-06-02 02:44:48', '2022-06-02 02:44:48'),
 	(2, 3, 0, '', 'fandi', 'fandi', '2022-06-03 01:13:36', '2022-06-03 01:13:36'),
 	(3, 4, 6, '084545155125', 'tamu A', 'alamat A', '2022-06-05 21:26:07', '2022-06-05 21:26:07'),
-	(4, 3, 5, '842122623222', 'Idang 1', 'indramayu', '2022-06-06 01:02:45', '2022-06-06 01:02:45');
+	(4, 3, 5, '842122623222', 'Idang 1', 'indramayu', '2022-06-06 01:02:45', '2022-06-06 01:02:45'),
+	(5, NULL, 5, '544518451451', 'Idang 2', 'Test', '2022-06-06 02:32:38', '2022-06-06 02:32:38');
+
+-- membuang struktur untuk table db_idang.tb_tamu_magang
+CREATE TABLE IF NOT EXISTS `tb_tamu_magang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` char(50) DEFAULT NULL,
+  `alamat` text,
+  `tanggal` date DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+-- Membuang data untuk tabel db_idang.tb_tamu_magang: ~0 rows (lebih kurang)
+INSERT IGNORE INTO `tb_tamu_magang` (`id`, `nama`, `alamat`, `tanggal`, `created_at`, `updated_at`) VALUES
+	(1, 'afandi', 'indramayua', '2022-06-07', '2022-06-07 01:24:21', '2022-06-07 01:58:22'),
+	(2, 'test', 'tedt 2', '2022-06-08', '2022-06-07 01:59:21', '2022-06-07 01:59:21');
 
 -- membuang struktur untuk table db_idang.users
 CREATE TABLE IF NOT EXISTS `users` (
