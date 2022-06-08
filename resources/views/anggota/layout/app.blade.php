@@ -36,8 +36,8 @@
 	</div>
 </div> 
 
-<script src="{{asset('asset/js/popper.min.js)}}"></script>
-<script src="{{asset('asset/js/bootstrap-new.min.js)}}" ></script> 
+<script src="{{asset('asset/js/popper.min.js')}}"></script>
+<script src="{{asset('asset/js/bootstrap-new.min.js')}}" ></script> 
 <script src="{{asset('asset/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('asset/js/metisMenu.min.js')}}"></script>
 <script src="{{asset('asset/js/waves.min.js')}}"></script>
