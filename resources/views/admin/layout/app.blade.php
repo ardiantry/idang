@@ -12,10 +12,13 @@
 	<link href="{{asset('asset/plugins/metro/MetroJs.min.css')}}" rel="stylesheet">
 	<!-- App css -->
 	<link href="{{asset('asset/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
+	<link href="{{asset('asset/css/bootstrap-new.min.css')}}" rel="stylesheet" type="text/css">
 	<link href="{{asset('asset/css/icons.css')}}" rel="stylesheet" type="text/css">
 	<link href="{{asset('asset/css/metismenu.min.css')}}" rel="stylesheet" type="text/css">
 	<link href="{{asset('asset/css/style.css')}}" rel="stylesheet" type="text/css">
 	<script src="{{asset('asset/js/jquery.min.js')}}"></script>
+	<script src="{{asset('asset/js/jquery-3.2.1.slim.min.js')}}"></script>
+
 </head>
 <body>
 	@include('admin.layout.tob')
@@ -33,6 +36,8 @@
 		</footer>
 	</div>
 </div> 
+<script src="{{asset('asset/js/popper.min.js)}}"></script>
+<script src="{{asset('asset/js/bootstrap-new.min.js)}}" ></script> 
 <script src="{{asset('asset/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('asset/js/metisMenu.min.js')}}"></script>
 <script src="{{asset('asset/js/waves.min.js')}}"></script>
