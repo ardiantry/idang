@@ -7,6 +7,9 @@
   font-size: 24px;
   text-transform: capitalize;
 }
+.border {
+  margin: 10px 0px;
+}
  </style>
  @php
 	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
@@ -31,14 +34,14 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h3>Tambah hutang {{Request::segment(3)}}</h3>
+
+						<h4>Tambah hutang {{Request::segment(3)}}</h4>
 						<form name="tambahhutang" id="tambahhutang">
 							<div class="ms-alert"></div>
 							<div class="form-group">
 								<label>Nama Undangan</label>
 								<select class="form-control" name="id_undangan">
-									<option>-Pilih undangan--</option>
-
+									<option>-Pilih undangan--</option> 
 									@php
 									$dbkondangan=DB::table('tb_kondangan')->get();
 									@endphp
@@ -70,11 +73,14 @@
 					<div class="col-md-8">
 						<div class="row">
 							<div class="col-md-12">
-							<table class="table">
-								<tr><td>Total Buwuhan</td><td>:</td><td>{{$jlh}}</td></tr>
-								<tr><td>Jumlah Tamu</td><td>:</td><td>{{$jlh_tamu}}</td></tr>
+								<div class="border">
+									<table class="table">
+										<tr><td>Total Buwuhan</td><td>:</td><td>{{$jlh}}</td></tr>
+										<tr><td>Jumlah Tamu</td><td>:</td><td>{{$jlh_tamu}}</td></tr>
 
-							</table>
+									</table>
+									
+								</div>
 							</div>
 							<div class="col-md-6">
 								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>

@@ -6,6 +6,9 @@
   font-size: 24px;
   text-transform: capitalize;
 }
+.border {
+  margin: 10px 0px;
+}
  </style>
  @php
 	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
@@ -30,7 +33,7 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h3>Tambah Pengeluaran Magang {{Request::segment(3)}}</h3>
+						<h4>Tambah Pengeluaran Magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							<div class="form-group">
@@ -69,11 +72,13 @@
 					<div class="col-md-8">
 						<div class="row">
 							<div class="col-md-12">
+								<div class="border">
 							<table class="table">
 								<tr><td>Total Buwuhan</td><td>:</td><td>{{$jlh}}</td></tr>
 								<tr><td>Jumlah Tamu</td><td>:</td><td>{{$jlh_tamu}}</td></tr>
 
 							</table>
+</div>
 							</div>
 							<div class="col-md-6">
 								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
