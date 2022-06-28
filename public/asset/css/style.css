@@ -169,7 +169,7 @@ strong {
     z-index: 1001;
 }
 .topbar .topbar-left {
-    /*! background-color: #333; */
+    background-color: #fdfcfc;
     float: left;
     text-align: center;
     height: 70px;

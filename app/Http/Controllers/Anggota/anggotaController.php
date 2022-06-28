@@ -47,7 +47,7 @@ class anggotaController extends Controller
 		$detik 	= floor($sisa/1);
 		return $jam.'Jam '.$menit.'menit'; 
 	} 
-
+ 
 	
 	public function listtamu(Request $request) 
 	{
@@ -120,15 +120,32 @@ public function hapustamu(Request $request)
 
 public function pemasukanmagang(Request $request) 
 	{
-		 $data_list=DB::table('tb_magang')
-		 ->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan')
-		 ->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu')
-		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
-		 ->where('tb_magang.jenis_barang',@$request->type)
-		 ->where('tb_magang.jenis_magang','pemasukan magang')
-		 ->where('tb_magang.id_anggota',Auth::user()->id)
-		 ->paginate(20);
-		  $jlh=DB::table('tb_magang')
+		 $data=DB::table('tb_magang');
+		 $data->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan');
+		 $data->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu');
+		 $data->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan');
+		 $data->where('tb_magang.jenis_barang',@$request->type);
+		 if(@$request->input('cari'))
+		 {
+		 	$data->where('tb_tamu.nama','like','%'.@$request->input('cari').'%');
+			$data->where('tb_magang.jenis_magang','pemasukan magang');
+			$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+		 	$data->Orwhere('tb_tamu.nomor_hp','like','%'.@$request->input('cari').'%');
+		 	$data->where('tb_magang.jenis_magang','pemasukan magang');
+			$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+			$data->Orwhere('tb_tamu.alamat','like','%'.@$request->input('cari').'%');
+			$data->where('tb_magang.jenis_magang','pemasukan magang');
+			$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+			$data->Orwhere('tb_kondangan.nama_kondangan','like','%'.@$request->input('cari').'%');
+			$data->where('tb_magang.jenis_magang','pemasukan magang');
+			$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+		 }
+		$data_list=$data->paginate(20);
+		$jlh=DB::table('tb_magang')
 				 ->where('tb_magang.jenis_barang',@$request->type)
 				 ->where('tb_magang.jenis_magang','pemasukan magang')
 				 ->where('tb_magang.id_anggota',Auth::user()->id)
@@ -210,14 +227,31 @@ public function simpanpemasukan(Request $request)
 
 public function pemasukanhutang(Request $request) 
 	{
-		 $data_list=DB::table('tb_magang')
-		 ->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan')
-		 ->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu')
-		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
-		 ->where('tb_magang.jenis_barang',@$request->type)
-		 ->where('tb_magang.jenis_magang','pemasukan hutang')
-		 ->where('tb_magang.id_anggota',Auth::user()->id)
-		 ->paginate(20);
+		 $data=DB::table('tb_magang');
+		 $data->select('tb_magang.*','tb_tamu.nama','tb_tamu.nomor_hp','tb_tamu.alamat','tb_kondangan.nama_kondangan');
+		 $data->leftJoin('tb_tamu','tb_tamu.id','=','tb_magang.id_tamu');
+		 $data->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan');
+
+			if(@$request->input('cari'))
+			 {
+				$data->where('tb_tamu.nama','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_magang','pemasukan hutang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+				$data->Orwhere('tb_tamu.nomor_hp','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_magang','pemasukan hutang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+				$data->Orwhere('tb_tamu.alamat','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_magang','pemasukan magang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+				$data->Orwhere('tb_kondangan.nama_kondangan','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_magang','pemasukan hutang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+			 } 
+		 	$data_list=$data->paginate(20);
 		  $jlh=DB::table('tb_magang')
 				 ->where('tb_magang.jenis_barang',@$request->type)
 				 ->where('tb_magang.jenis_magang','pemasukan hutang')
@@ -236,14 +270,34 @@ public function pemasukanhutang(Request $request)
 
 public function pengeluaranmagang(Request $request) 
 	{
-		 $data_list=DB::table('tb_magang')
-		 ->select('tb_magang.*','tb_tamu_magang.nama','tb_tamu_magang.alamat','tb_tamu_magang.tanggal','tb_kondangan.nama_kondangan')
-		 ->leftJoin('tb_tamu_magang','tb_tamu_magang.id','=','tb_magang.id_tamu')
-		 ->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan')
-		 ->where('tb_magang.jenis_barang',@$request->type)
-		 ->where('tb_magang.jenis_magang','pengeluaran magang')
-		 ->where('tb_magang.id_anggota',Auth::user()->id)
-		 ->paginate(20);
+		 $data=DB::table('tb_magang');
+		 $data->select('tb_magang.*','tb_tamu_magang.nama','tb_tamu_magang.alamat','tb_tamu_magang.tanggal','tb_kondangan.nama_kondangan');
+		 $data->leftJoin('tb_tamu_magang','tb_tamu_magang.id','=','tb_magang.id_tamu');
+		 $data->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_magang.id_undangan');
+
+		if(@$request->input('cari'))
+			 {
+				$data->where('tb_tamu_magang.nama','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_barang',@$request->type);
+				$data->where('tb_magang.jenis_magang','pengeluaran magang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id); 
+
+				$data->Orwhere('tb_tamu_magang.alamat','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_barang',@$request->type);
+				$data->where('tb_magang.jenis_magang','pengeluaran magang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+				$data->Orwhere('tb_kondangan.nama_kondangan','like','%'.@$request->input('cari').'%');
+				$data->where('tb_magang.jenis_barang',@$request->type);
+				$data->where('tb_magang.jenis_magang','pengeluaran magang');
+				$data->where('tb_magang.id_anggota',Auth::user()->id);
+
+			 } 
+
+
+
+		 
+		 $data_list =$data->paginate(20);
 		  $jlh=DB::table('tb_magang')
 				 ->where('tb_magang.jenis_barang',@$request->type)
 				 ->where('tb_magang.jenis_magang','pengeluaran magang')

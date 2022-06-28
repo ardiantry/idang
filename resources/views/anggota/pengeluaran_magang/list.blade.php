@@ -1,5 +1,5 @@
- @extends('anggota.layout.app')
- @section('content') 
+@extends('anggota.layout.app')
+@section('content') 
  <style type="text/css">
  	h3 {
   line-height: 30px;
@@ -76,19 +76,21 @@
 							</table>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
 							</div>
 							<div class="col-md-6">
+								<form action="{{url()->current()}}" method="get"> 
 								<div class="input-group">
-									<input type="text" name="" class="form-control">
+									<input type="text" name="cari" value="{{@$app->request->input('cari')}}" class="form-control">
 									<span class="input-group-append">
 									<button class="btn btn-primary btn-sm">Cari</button> 
 									</span>
 								</div>
+								</form>
 							</div> 
 						</div>
 					
-						<div class="table-responsive">
+						<div class="table-responsive" id="getdata">
 							<table class="table table-bordered">
 								<thead> 
 									<tr>
@@ -132,7 +134,8 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 $(document).ready(function()
 { 
@@ -203,6 +206,16 @@ $(document).ready(function()
 				$('input[name="satuan"]').val('');
 
 			});
+			
+$('body').delegate('#pdf','click',function(e)
+			{
+				e.preventDefault();  
+				var element = document.getElementById('getdata');
+				html2pdf(element);
+
+
+			});
+
 });
 </script>
- @endsection
+@endsection 
