@@ -169,7 +169,7 @@ strong {
     z-index: 1001;
 }
 .topbar .topbar-left {
-    background-color: #fdfcfc;
+    background-color: #006099;
     float: left;
     text-align: center;
     height: 70px;
@@ -187,7 +187,7 @@ strong {
     height: 14px;
 }
 .navbar-custom {
-    background: #ccc;
+    background: #126fc1;
     padding: 0 10px 0 0;
     margin-left: 240px;
     min-height: 70px;
@@ -3590,4 +3590,15 @@ span.select2 {
 }
 th .btn-sm {
   margin: 2px 0px;
+}
+.page-title {
+  text-transform: capitalize;
+}
+.card-body h4 {
+  background: rgb(182, 191, 202);
+  padding: 10px;
+}
+.card form {
+  border: 1px solid #ccc;
+  padding: 10px;
 }

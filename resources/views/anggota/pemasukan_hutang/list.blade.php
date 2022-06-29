@@ -115,12 +115,15 @@
 									</tr>
 								 @else
 								@foreach($data_list as $key)
+								@php
+								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								@endphp
 								<tbody>
 									<tr>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td> 
 										<td>{{$key->nama_kondangan}}</td> 
-										<td>{{$label_satuan}}</td>
+										<td>{{$key->jumlah2}}</td>
 										<td>{{$key->created_at}}</td>
 										<td>
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
