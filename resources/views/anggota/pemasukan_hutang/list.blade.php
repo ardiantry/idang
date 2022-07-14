@@ -64,7 +64,7 @@
 							</div>
 							<div class="form-group">
 								<label>{{$label_satuan}}</label>
-								 <input type="text" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
+								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
 							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
@@ -191,6 +191,18 @@ $(document).ready(function()
 				$('input[name="satuan"]').val(data_edit.jumlah);
 
 			});
+$('body').delegate('#yakinedit button[type="button"]','click',function(e)
+			{
+				e.preventDefault();
+				$('#yakinedit').empty(); 
+				window.id_edit=undefined; 
+				$('button[type="submit"]').html('Simpan'); 
+				$('select[name="id_undangan"]').val('');
+				$('select[name="id_tamu"]').val('');
+				$('input[name="satuan"]').val('');
+
+			});
+
 			$('body').delegate('#pdf','click',function(e)
 			{
 				e.preventDefault();  
@@ -199,6 +211,24 @@ $(document).ready(function()
 
 
 			});
+			$('body').delegate('.hapus','click',function(e)
+			{
+				e.preventDefault();
+
+				if(!confirm('yakin menghapus data?'))
+				{	
+					return;
+				}
+				const deleteform  = new FormData();
+				deleteform.append('_token', '{{csrf_token()}}');
+				deleteform.append('id', $(this).data('id')); 
+				fetch('{{route('Hapus_pelayan')}}', { method: 'POST',body:deleteform}).then(res => res.json()).then(data => 
+				{  
+					
+					window.location.reload();
+				});
+			});
+			
 
 });
 </script>

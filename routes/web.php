@@ -72,6 +72,8 @@ Route::group(['middleware' => 'auth'], function (){
 		Route::get('/pemasukan-hutang/{type}', 'anggotaController@pemasukanhutang')->name('pemasukanhutang');
 
 		Route::get('/pengeluaran-magang/{type}', 'anggotaController@pengeluaranmagang')->name('pengeluaranmagang');
+		Route::post('/Hapus-pelayan', 'anggotaController@Hapus_pelayan')->name('Hapus_pelayan');
+
 
 		
 
