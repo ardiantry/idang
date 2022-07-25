@@ -43,7 +43,7 @@
 								<select class="form-control" name="id_undangan">
 									<option>-Pilih undangan--</option> 
 									@php
-									$dbkondangan=DB::table('tb_kondangan')->get();
+										$dbkondangan=DB::table('tb_kondangan')->where('status','aktif')->get();
 									@endphp
 									@foreach($dbkondangan as $key)
 									<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
@@ -55,7 +55,7 @@
 								<select class="form-control" name="id_tamu">
 									<option>-Pilih tamu--</option>
 									@php
-									$tb_tamu=DB::table('tb_tamu')->where('id_user',Auth::user()->id)->get();
+									$tb_tamu=DB::table('tb_tamu')->get();
 									@endphp
 									@foreach($tb_tamu as $key)
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
@@ -106,7 +106,7 @@
 										<th>Undangan</th> 
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
-										<th>Aksi</th> 
+										<th class="hide_pdf">Aksi</th> 
 									</tr>
 								</thead>
 								@if(count($data_list)==0) 
@@ -125,7 +125,7 @@
 										<td>{{$key->nama_kondangan}}</td> 
 										<td>{{$key->jumlah2}}</td>
 										<td>{{$key->created_at}}</td>
-										<td>
+										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
 										</td> 
@@ -205,9 +205,13 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 
 			$('body').delegate('#pdf','click',function(e)
 			{
-				e.preventDefault();  
-				var element = document.getElementById('getdata');
+				e.preventDefault(); 
+				$('.hide_pdf').remove();
+				var element = document.getElementById('getdata'); 
 				html2pdf(element);
+				setTimeout(function(){
+					window.location.reload();
+				},1000);
 
 
 			});

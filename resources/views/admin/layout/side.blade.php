@@ -6,11 +6,11 @@
 			<span>Data Anggota</span>
 			</a>
 		</li>
-		<li>
+		<!-- <li>
 			<a href="{{route('adminundangan')}}">
 			<i class="mdi mdi-calendar"></i>
 			<span>Data Undangan</span>
 			</a>
-		</li>
+		</li> -->
 	</ul> 
 </div> 

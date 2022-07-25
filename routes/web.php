@@ -77,6 +77,11 @@ Route::group(['middleware' => 'auth'], function (){
 
 		
 
+			Route::get('/data-Undangan', 'anggotaController@dataUndangan')->name('anggotaundangan');
+			Route::post('/undangan/load-Kondangan', 'anggotaController@loadundangan')->name('anggotaloadundangan');
+
+			Route::post('/undangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('anggotasimpanundangan');
+
 
 
 	 

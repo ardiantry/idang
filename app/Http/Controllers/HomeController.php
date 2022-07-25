@@ -36,6 +36,7 @@ class HomeController extends Controller
                     'tb_kondangan.created_at',
                     DB::raw('count(tb_tamu.id) as Jumltb_tamu'))
                     ->LeftJoin('tb_tamu','tb_kondangan.id','=','tb_tamu.id_undangan') 
+                    ->where('status','aktif')
                     ->groupBy(
                     'tb_kondangan.id',
                     'tb_kondangan.nama_kondangan',

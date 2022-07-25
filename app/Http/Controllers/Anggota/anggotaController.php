@@ -58,15 +58,18 @@ class anggotaController extends Controller
 						if(@$request->id_tamu)
 						{
 
-						 $data->where('id_undangan',@$request->id_tamu);
+						 	$data->where('id_undangan',@$request->id_tamu);
 						}
 						else
 						{
-							$data->where('id_user',Auth::user()->id);
-
+							$data->where('id_user',Auth::user()->id); 
 						}
-			$dt_tamu 	=$data->get(); 
-			$kondangan=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
+						if(@$request->input('cari'))
+						{
+								$data->where('nama',@$request->input('cari')); 
+						}
+			$dt_tamu 	=$data->paginate(20); 
+			$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
 
 		return view('anggota.tamu.list',compact('dt_tamu','kondangan'));
 	}
@@ -91,6 +94,7 @@ class anggotaController extends Controller
 			$data['id_user']      	=Auth::user()->id; 
 			$data['nomor_hp']     	=$request->input('nomor_hp');   
 			$data['nama']  			=$request->input('nama'); 
+			$data['jenis_kelamin']  =$request->input('jenis_kelamin');  
 			$data['alamat']     	=$request->input('alamat');    
 			$data['updated_at']  	=Carbon::now();
  
@@ -349,5 +353,153 @@ public function Hapus_pelayan(Request $request)
 
 	}
 
-	
+
+public function dataUndangan(Request $request) 
+{ 
+	 $data=DB::table('tb_kondangan');
+            $data->select(
+            	'tb_kondangan.id',
+            	'tb_kondangan.nama_kondangan',
+            	'tb_kondangan.foto',
+            	'tb_kondangan.alamat',
+            	'tb_kondangan.status',
+            	'tb_kondangan.tgl_mulai', 
+            	'tb_kondangan.tgl_selesai', 
+            	DB::raw('count(tb_tamu.id) as Jumltb_tamu'));
+           		$data->LeftJoin('tb_tamu','tb_kondangan.id','=','tb_tamu.id_undangan');
+           		$data->groupBy(
+           		'tb_kondangan.id',
+            	'tb_kondangan.nama_kondangan',
+            	'tb_kondangan.foto',
+            	'tb_kondangan.alamat',
+            	'tb_kondangan.status',
+            	'tb_kondangan.tgl_mulai', 
+            	'tb_kondangan.tgl_selesai');
+            	$data->where('id_anggota',Auth::user()->id);
+            	$data_list=$data->paginate(20); 
+            	$i=0;
+            	foreach ($data_list as $key) 
+            	{
+            		$data_list[$i]->foto 			=asset('image/'.$key->foto);  
+            		$data_list[$i]->lama_acara 		=$this->mktimeWaktu($key->tgl_mulai,$key->tgl_selesai); 
+            		$tgl_mulai 				 		=Carbon::parse($key->tgl_mulai);
+            		$tgl_selesai 					=Carbon::parse($key->tgl_selesai);
+					$data_list[$i]->tgl_mulai 		=$tgl_mulai->format('Y-m-d'); 
+					$data_list[$i]->tgl_selesai 	=$tgl_selesai->format('Y-m-d');  
+            		$data_list[$i]->jam_mulai 		=$tgl_mulai->format('H'); 
+            		$data_list[$i]->menit_mulai 	=$tgl_mulai->format('i');  
+            		$data_list[$i]->jam_selesai 	=$tgl_selesai->format('H'); 
+            		$data_list[$i]->menit_selesai 	=$tgl_selesai->format('i');  
+
+            		$i++;
+            	}
+     return view('anggota.undangan.list',compact('data_list'));
+    }
+
+  public function simpankondangan(Request $request) 
+    {
+        $alert='';
+        $error=true;
+        $alert.=$request->input('nama_kondangan')?'':'<li>namakondangan  Wajib Di isi</li>'; 
+        $alert.=$request->input('alamat')?'':'<li>alamat  Wajib Di isi</li>'; 
+        $alert.=$request->input('tgl_mulai')?'':'<li>tgl_mulai  Wajib Di isi</li>'; 
+        $alert.=$request->input('tgl_selesai')?'':'<li>tgl_selesai  Wajib Di isi</li>'; 
+        $alert.=$request->input('jam_mulai')?'':'<li>jam_mulai  Wajib Di isi</li>'; 
+        $alert.=$request->input('menit_mulai')?'':'<li>menit_mulai  Wajib Di isi</li>'; 
+        $alert.=$request->input('jam_selesai')?'':'<li>jam_selesai  Wajib Di isi</li>';
+        $alert.=$request->input('menit_selesai')?'':'<li>menit_selesai  Wajib Di isi</li>';
+
+        if($alert=='')
+        { 
+
+            
+            $data['nama_kondangan'] =$request->input('nama_kondangan'); 
+            $data['alamat']         =$request->input('alamat');  
+            $data['tgl_mulai']      =Carbon::parse($request->input('tgl_mulai').' '.$request->input('jam_mulai').':'.$request->input('menit_mulai').':00' );  
+            $data['tgl_selesai']    =Carbon::parse($request->input('tgl_selesai').' '.$request->input('jam_selesai').':'.$request->input('menit_selesai').':00' );   
+            $data['updated_at']     =Carbon::now();
+
+            if($request->file('foto'))
+            {
+                    $path            =public_path('image');
+                    $file            =$request->file('foto');
+                    $file_filename   =Carbon::now()->format('Ymdhis').'.png';             
+                    $file_image      =Image::make($file->getRealPath()); 
+                    $file_image->resize(600, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                    $file_image->save($path.'/'.$file_filename);
+                    $data['foto']=$file_filename; 
+            }
+           
+            if($request->input('id_edit'))
+            { 
+                DB::table('tb_kondangan')->where('id',$request->input('id_edit'))->update($data);
+                $alert ='<li>Update Telah Berhasil</li>'; 
+            }else
+            {
+
+           		$data['id_anggota']     =Auth::user()->id; 
+       			$data['status']         ='non_aktif';
+                $data['created_at']  	=Carbon::now(); 
+                DB::table('tb_kondangan')->insert($data);
+                $alert ='<li>Simpan Telah Berhasil</li>';
+            }
+            $error=false;
+        }
+        print json_encode(array("alert"=>$alert,'error'=>$error));   
+    }
+
+
+    public function loadundangan(Request $request) 
+    {
+         $data=DB::table('tb_kondangan');
+                $data->select(
+                    'tb_kondangan.id',
+                    'tb_kondangan.nama_kondangan',
+                    'tb_kondangan.foto',
+                    'tb_kondangan.alamat',
+                    'tb_kondangan.status',
+                    'tb_kondangan.tgl_mulai', 
+                    'tb_kondangan.tgl_selesai', 
+                    'users.name', 
+                    'users.id as id_anggota',
+                    DB::raw('count(tb_tamu.id) as Jumltb_tamu'));
+                    $data->LeftJoin('tb_tamu','tb_kondangan.id','=','tb_tamu.id_undangan');
+                    $data->LeftJoin('users','users.id','=','tb_kondangan.id_anggota') ;
+                    $data->where('tb_kondangan.id_anggota',Auth::user()->id);
+                    if($request->input('cari'))
+                    {
+                    	 $data->where('tb_kondangan.nama_kondangan','like','%'.$request->input('cari').'%');
+                    }
+                    $data->groupBy(
+                    'tb_kondangan.id',
+                    'tb_kondangan.nama_kondangan',
+                    'tb_kondangan.foto',
+                    'tb_kondangan.alamat',
+                    'tb_kondangan.status',
+                    'tb_kondangan.tgl_mulai', 
+                    'tb_kondangan.tgl_selesai',
+                    'users.name','users.id');
+                    $tb=  $data->paginate(10); 
+                    $i=0;
+                    foreach ($tb as $key) 
+                    {
+                        $tb[$i]->foto           =asset('image/'.$key->foto);  
+                        $tb[$i]->lama_acara     =$this->mktimeWaktu($key->tgl_mulai,$key->tgl_selesai); 
+                        $tgl_mulai              =Carbon::parse($key->tgl_mulai);
+                        $tgl_selesai            =Carbon::parse($key->tgl_selesai);
+                        $tb[$i]->tgl_mulai      =$tgl_mulai->format('Y-m-d'); 
+                        $tb[$i]->tgl_selesai    =$tgl_selesai->format('Y-m-d');  
+                        $tb[$i]->jam_mulai      =$tgl_mulai->format('H'); 
+                        $tb[$i]->menit_mulai    =$tgl_mulai->format('i');  
+                        $tb[$i]->jam_selesai    =$tgl_selesai->format('H'); 
+                        $tb[$i]->menit_selesai  =$tgl_selesai->format('i');  
+                        $tb[$i]->jam_menit_mulai=$tgl_selesai->format('H:i');  
+
+                        $i++;
+                    }
+       print json_encode(array("tb"=>$tb));  
+    }
 }
