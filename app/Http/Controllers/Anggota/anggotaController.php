@@ -177,8 +177,7 @@ public function simpanpemasukan(Request $request)
 	{
 		  
 			$alert='';
-			$error=true;
-			$alert.=$request->input('id_undangan')?'':'<li>Undangan  Wajib Di isi</li>'; 
+			$error=true; 
 			$alert.=$request->input('satuan')?'':'<li>Total barang  Wajib Di isi</li>';  
 			if($request->input('jenis_magang')!='pengeluaran magang')
 			{
@@ -222,6 +221,7 @@ public function simpanpemasukan(Request $request)
 				$data['id_undangan']      	=$request->input('id_undangan');  
 				$data['jumlah']      	 	=$request->input('satuan');    
 				$data['updated_at']  		=Carbon::now();
+				$data['created_at'] 		=$request->input('created_at')?Carbon::parse($request->input('created_at')):Carbon::now();  
 
 				if($request->input('id_edit'))
 				{ 
@@ -230,7 +230,6 @@ public function simpanpemasukan(Request $request)
 				}else
 				{
 
-				    $data['created_at'] =Carbon::now();  
 				    DB::table('tb_magang')->insert($data); 
 				    $alert ='<li>Simpan Telah Berhasil</li>';
 				}

@@ -38,18 +38,7 @@
 						<h4>Tambah hutang {{Request::segment(3)}}</h4>
 						<form name="tambahhutang" id="tambahhutang">
 							<div class="ms-alert"></div>
-							<div class="form-group">
-								<label>Nama Undangan</label>
-								<select class="form-control" name="id_undangan">
-									<option>-Pilih undangan--</option> 
-									@php
-										$dbkondangan=DB::table('tb_kondangan')->where('status','aktif')->get();
-									@endphp
-									@foreach($dbkondangan as $key)
-									<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
-									@endforeach
-								</select>
-							</div>
+							 
 							<div class="form-group">
 								<label>Nama tamu</label>
 								<select class="form-control" name="id_tamu">
@@ -61,6 +50,10 @@
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
 								</select>
+							</div>
+							<div class="form-group">
+								<label>Tanggal</label>
+								 <input type="date" name="created_at"  placeholder="" class="form-control">
 							</div>
 							<div class="form-group">
 								<label>{{$label_satuan}}</label>
@@ -102,8 +95,7 @@
 								<thead> 
 									<tr>
 										<th>Nama Tamu</th>
-										<th>Alamat</th> 
-										<th>Undangan</th> 
+										<th>Alamat</th>  
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
@@ -121,10 +113,9 @@
 								<tbody>
 									<tr>
 										<td>{{$key->nama}}</td>
-										<td>{{$key->alamat}}</td> 
-										<td>{{$key->nama_kondangan}}</td> 
+										<td>{{$key->alamat}}</td>  
 										<td>{{$key->jumlah2}}</td>
-										<td>{{$key->created_at}}</td>
+										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
@@ -149,6 +140,9 @@
 $(document).ready(function()
 { 
 	@foreach($data_list as $key)
+	@php
+	$key->created_at=Carbon\Carbon::parse($key->created_at)->format('Y-m-d');
+	@endphp
 	window['id_'+'{{$key->id}}']={!!json_encode($key)!!};
 	@endforeach
 		$('body').delegate('#tambahhutang','submit',function(e)
@@ -186,9 +180,12 @@ $(document).ready(function()
 				var data_edit=window['id_'+$(this).data('id')];
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
-				$('select[name="id_undangan"] option[value="'+data_edit.id_undangan+'"]').attr('selected','selected');
+				// $('select[name="id_undangan"] option[value="'+data_edit.id_undangan+'"]').attr('selected','selected');
 				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
 				$('input[name="satuan"]').val(data_edit.jumlah);
+				$('input[name="created_at"]').val(data_edit.created_at);
+
+
 
 			});
 $('body').delegate('#yakinedit button[type="button"]','click',function(e)
@@ -197,9 +194,12 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				$('#yakinedit').empty(); 
 				window.id_edit=undefined; 
 				$('button[type="submit"]').html('Simpan'); 
-				$('select[name="id_undangan"]').val('');
-				$('select[name="id_tamu"]').val('');
+				// $('select[name="id_undangan"]').val('');
+
+				$('select[name="id_tamu"]').find('option').removeAttr('selected');
 				$('input[name="satuan"]').val('');
+				$('input[name="created_at"]').val('');
+
 
 			});
 
