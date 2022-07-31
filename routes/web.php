@@ -34,6 +34,13 @@ Route::group(['middleware' => 'auth'], function (){
 				Route::get('/undangan/detail/{id_kondangan}', 'adminController@detailkondangan');  
 				Route::get('/undangan/tamu/{id_tamu}', 'adminController@listtamu')->name('adminlisttamu');
 
+
+				Route::get('/tamu', 'adminController@admintamu')->name('admintamu');
+				Route::get('/chat-admin', 'adminController@chatadmin')->name('chatadmin');
+
+				
+				
+
 			});  
 		});
 	});

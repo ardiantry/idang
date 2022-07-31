@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
-use DB;
+use DB; 
 use Session;
 use Carbon\Carbon;
 use Intervention\Image\ImageManagerStatic as Image;
@@ -20,7 +20,13 @@ class adminController extends Controller
 
  public function listanggota(Request $request) 
     { 
-    	$data_list=DB::table('users')->where('status','user')->paginate(20);
+    	$data=DB::table('users');
+        $data->where('status','user');
+         if(@$request->input('cari')!='')
+         {
+            $data->where('name','like','%'.@$request->input('cari').'%');
+         }
+        $data_list=$data->paginate(20);
          return view('admin.anggota.list',compact('data_list'));
     }
 public function dataUndangan(Request $request) 
@@ -101,65 +107,21 @@ public function dataUndangan(Request $request)
     }
     public function simpankondangan(Request $request) 
     {
-        $alert='';
-        $error=true;
-        $alert.=$request->input('nama_kondangan')?'':'<li>namakondangan  Wajib Di isi</li>';
-        $alert.=$request->input('aktif')?'':'<li>aktif  Wajib Di isi</li>';  
-        $alert.=$request->input('alamat')?'':'<li>alamat  Wajib Di isi</li>'; 
-        $alert.=$request->input('tgl_mulai')?'':'<li>tgl_mulai  Wajib Di isi</li>'; 
-        $alert.=$request->input('tgl_selesai')?'':'<li>tgl_selesai  Wajib Di isi</li>'; 
-        $alert.=$request->input('jam_mulai')?'':'<li>jam_mulai  Wajib Di isi</li>'; 
-        $alert.=$request->input('menit_mulai')?'':'<li>menit_mulai  Wajib Di isi</li>'; 
-        $alert.=$request->input('jam_selesai')?'':'<li>jam_selesai  Wajib Di isi</li>';
-        $alert.=$request->input('menit_selesai')?'':'<li>menit_selesai  Wajib Di isi</li>';
+       
 
-        if($alert=='')
-        { 
-
-            if($request->input('id_anggota'))
-            {
-            $data['id_anggota']     =$request->input('id_anggota'); 
-            }
-            $data['nama_kondangan'] =$request->input('nama_kondangan'); 
-            $data['alamat']         =$request->input('alamat');  
-            $data['status']         =$request->input('aktif');
-            $data['tgl_mulai']      =Carbon::parse($request->input('tgl_mulai').' '.$request->input('jam_mulai').':'.$request->input('menit_mulai').':00' );  
-            $data['tgl_selesai']    =Carbon::parse($request->input('tgl_selesai').' '.$request->input('jam_selesai').':'.$request->input('menit_selesai').':00' );   
-            $data['updated_at']     =Carbon::now();
-
-            if($request->file('foto'))
-            {
-                    $path            =public_path('image');
-                    $file            =$request->file('foto');
-                    $file_filename   =Carbon::now()->format('Ymdhis').'.png';             
-                    $file_image      =Image::make($file->getRealPath()); 
-                    $file_image->resize(600, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                    $file_image->save($path.'/'.$file_filename);
-                    $data['foto']=$file_filename; 
-            }
-           
-            if($request->input('id_edit'))
-            { 
+             
+            
+            $data['status']         =$request->input('aktif');  
                 DB::table('tb_kondangan')->where('id',$request->input('id_edit'))->update($data);
-                $alert ='<li>Update Telah Berhasil</li>'; 
-            }else
-            {
-
-                $data['created_at'] =Carbon::now(); 
-                DB::table('tb_kondangan')->insert($data);
-                $alert ='<li>Simpan Telah Berhasil</li>';
-            }
-            $error=false;
-        }
+            $alert ='<li>Update Telah Berhasil</li>'; 
+            
+            $error=false; 
         print json_encode(array("alert"=>$alert,'error'=>$error));   
     }
     public function loadundangan(Request $request) 
     {
-         $tb=DB::table('tb_kondangan')
-                ->select(
+         $data=DB::table('tb_kondangan');
+                $data->select(
                     'tb_kondangan.id',
                     'tb_kondangan.nama_kondangan',
                     'tb_kondangan.foto',
@@ -169,11 +131,15 @@ public function dataUndangan(Request $request)
                     'tb_kondangan.tgl_selesai', 
                     'users.name', 
                     'users.id as id_anggota',
-                    DB::raw('count(tb_tamu.id) as Jumltb_tamu'))
-                    ->LeftJoin('tb_tamu','tb_kondangan.id','=','tb_tamu.id_undangan')
-                    ->LeftJoin('users','users.id','=','tb_kondangan.id_anggota') 
+                    DB::raw('count(tb_tamu.id) as Jumltb_tamu'));
+                   $data->LeftJoin('tb_tamu','tb_kondangan.id','=','tb_tamu.id_undangan');
+                    $data->LeftJoin('users','users.id','=','tb_kondangan.id_anggota');
+                    if($request->input('cari'))
+                    {
+                    $data->where('tb_kondangan.nama_kondangan','like',$request->input('cari').'%'); 
+                    }
                     //->where('tb_kondangan.id_anggota',Auth::user()->id)
-                    ->groupBy(
+                    $data->groupBy(
                     'tb_kondangan.id',
                     'tb_kondangan.nama_kondangan',
                     'tb_kondangan.foto',
@@ -181,8 +147,8 @@ public function dataUndangan(Request $request)
                     'tb_kondangan.status',
                     'tb_kondangan.tgl_mulai', 
                     'tb_kondangan.tgl_selesai',
-                    'users.name','users.id')
-                    ->paginate(10); 
+                    'users.name','users.id');
+                   $tb= $data->paginate(50); 
                     $i=0;
                     foreach ($tb as $key) 
                     {
@@ -245,26 +211,28 @@ public function dataUndangan(Request $request)
         return view('admin.undangan.detail',compact('tb')); 
     }
 
-    public function listtamu(Request $request) 
+    public function admintamu(Request $request) 
     {
 
          
 
             $data       =DB::table('tb_tamu');
-                        if(@$request->id_tamu)
-                        {
+            if(@$request->input('cari')!='')
+            {
+                $data->where('nama','like','%'.@$request->input('cari').'%');
+            }
+            $data->orderBy('id','DESC'); 
+            $dt_tamu    =$data->paginate(20);  
 
-                         $data->where('id_undangan',@$request->id_tamu);
-                        }
-                        else
-                        {
-                            $data->where('id_user',Auth::user()->id);
-
-                        }
-            $dt_tamu    =$data->get(); 
-            $kondangan=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
-
-        return view('admin.tamu.list',compact('dt_tamu','kondangan'));
+        return view('admin.tamu.list',compact('dt_tamu'));
     }
+    public function chatadmin(Request $request) 
+    {
+
+        $dt_anggota=DB::table('users')->where('id','!=',Auth::user()->id)->paginate(20);
+        return view('admin.chat.list',compact('dt_anggota'));
+   
+    }
+    
 }
 

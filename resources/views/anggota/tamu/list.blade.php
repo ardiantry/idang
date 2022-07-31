@@ -8,15 +8,6 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li> 
-				@if(@$kondangan->nama_kondangan)
-
-				<li class="breadcrumb-item">
-					<a href="{{url('anggota/kondangan')}}">Kondangan</a>
-				</li> 
-				<li class="breadcrumb-item">
-					<a href="{{url('anggota/kondangan/detail',@$kondangan->id)}}">{{@$kondangan->nama_kondangan}}</a>
-				</li> 
-				@endif
 				<li class="breadcrumb-item active">Tamu</li>
 			</ol>
 		</div>
@@ -53,10 +44,6 @@
 								<th>No Telp</th>  
 								<th>Alamat</th> 
 								<th>Jenis Kelamin</th> 
-
-								@if(@$kondangan->nama_kondangan)
-								<th>Kondangan</th> 
-								@endif
 								<th class="hide_pdf">Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
@@ -66,13 +53,8 @@
 							 <tr>
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
-								<th>{{$jenis_kelamin}}</th>  
-								<th>{{@$kondangan->nama_kondangan}}</th> 
-
-								@if(@$kondangan->nama_kondangan)
-								<th>{{@$kondangan->nama_kondangan}}</th> 
-								@endif
 								<td>{{$key->alamat}}</td> 
+								<th>{{$jenis_kelamin}}</th>  
 								<td class="hide_pdf">
 									<a class="btn btn-warning btn-sm Edit" data-id="{{$key->id}}">Edit</a> 
 									<a class="btn btn-danger btn-sm hapus" data-id="{{$key->id}}">Hapus</a>
