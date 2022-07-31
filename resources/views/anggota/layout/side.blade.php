@@ -6,6 +6,12 @@
 			<span>Data Tamu</span>
 			</a>
 		</li>
+		<li>
+			<a href="{{route('anggotaundangan')}}">
+			<i class="mdi mdi-calendar"></i>
+			<span>Data Undangan</span>
+			</a>
+		</li>
 
 		 <li class="menu-title">Kondangan</li>
 		  <li>

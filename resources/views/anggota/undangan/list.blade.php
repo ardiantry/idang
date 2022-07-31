@@ -1,4 +1,4 @@
- @extends('admin.layout.app')
+ @extends('anggota.layout.app')
  @section('content') 
 
  <div class="row"> 
@@ -18,32 +18,35 @@
 			<div class="card-body">
 						<div class="col-md-12">
 			 				<div class="row">  
-							<div class="col-md-4"> 
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+							<div class="col-md-4">
+								<a class="btn btn-success btn-sm" id="AddKondang">Tambah Undangan</a>
+								<button class="btn btn-primary btn-sm">Print PDF</button>
 							</div>
 							<div class="col-md-4"> 
 							</div>
 							<div class="col-md-4">
-								<div class="input-group">
-									<input type="text" name="cari" class="form-control">
-									<span class="input-group-append">
-										<button class="btn btn-primary btn-sm" id="caridat">Cari</button> 
-									</span>
-								</div>
+								<form action="{{url()->current()}}" method="get" id="carikondangan" > 
+									<div class="input-group">
+										<input type="text" name="cari" class="form-control">
+										<span class="input-group-append">
+											<button class="btn btn-primary btn-sm" type="submit">Cari</button> 
+										</span>
+									</div>
+								</form>
 							</div>   
 							</div>
-							<div class="table-responsive" id="getdata"> 
+							<div class="table-responsive"> 
 								<table class="table">
 									<tr>
 										<th>Judul Undangan</th> 
 										<th>Jumlah Tamu</th>
 										<th>Nama Pemilik</th>
-										<th>Status</th>
 										<th>Tanggal mulai</th> 
 										<th>Tanggal selesai</th> 
 										<th>Jam mulai</th> 
 										<th>lama Acara</th> 
-										<th class="hide_pdf">Ubah Status</th>  
+										<th>Status</th>
+										<th>Aksi</th>  
 									</tr>
 									<tbody id="loadtb"> 
 									</tbody>
@@ -68,21 +71,72 @@
                 <form id="prosesSimpan" name="prosesSimpan">
                     <div class="form-group">
                         <label>Nama Undangan</label>
-                        <textarea class="form-control" disabled="disabled" name="nama_kondangan"></textarea>
+                        <textarea class="form-control" name="nama_kondangan"></textarea>
                     </div>
-                    <div class="form-group">
+                   <!--  <div class="form-group">
                         <label>Status Aktif</label>
                        	<select class="form-control" name="aktif">
-                       	<option value="aktif">Setujui</option>
-                       	<option value="non_aktif">Tidak Di setujui</option>
+                       	<option value="aktif">Y</option>
+                       	<option value="non_aktif">N</option>
                        </select>
-                    </div>
-                     
+                    </div> -->
+                    <!--  <div class="form-group">
+                        <label>Pemilik Undangan</label>
+                       <select name="id_anggota" class="form-control">
+                       	@php
+                       	$db_anggota=DB::table('users')->where('status','user')->get();
+                       	@endphp
+                        <option value="0">lain-nya</option>
+                       	@foreach($db_anggota as $ke_u)
+                       	<option value="{{$ke_u->id}}">{{$ke_u->name}}</option>
+                       	@endforeach
+                       </select>
+                    </div> -->
                      <div class="form-group">
-                        <label>Foto Undangan</label> 
+                        <label>Foto Undangan</label>
+                       	 <input type="file" name="foto" class="form-control" accept="image/*">
                        	 <div class="image_foto"></div>
                     </div>
-                       
+                      <div class="form-group">
+                        <label>Alamat</label>
+                        <textarea class="form-control" name="alamat"></textarea>
+                    </div>
+					<div class="form-group">
+						<label>Tanggal mulai</label> 
+						<div class="input-group">
+							<input type="date" name="tgl_mulai" class="form-control" placeholder="tanggal"  />
+							<select class="form-control" name="jam_mulai">
+								<option>Jam</option>
+								@for($i=0;$i<=23;$i++)
+								<option value="{{sprintf("%02d", $i)}}">{{sprintf("%02d", $i)}}</option>
+								@endfor
+							</select>
+						 	<select class="form-control" name="menit_mulai">
+								<option>Menit</option>
+								@for($i=0;$i<=59;$i++)
+								<option value="{{sprintf("%02d", $i)}}">{{sprintf("%02d", $i)}}</option>
+								@endfor
+							</select>
+						</div> 
+					</div>
+					<div class="form-group">
+						<label>Tanggal selesai</label> 
+						<div class="input-group">
+							<input type="date"  name="tgl_selesai"  class="form-control" />
+							<select class="form-control" name="jam_selesai">
+								<option>Jam</option>
+								@for($i=0;$i<=23;$i++)
+								<option value="{{sprintf("%02d", $i)}}">{{sprintf("%02d", $i)}}</option>
+								@endfor
+							</select>
+						 	<select class="form-control" name="menit_selesai">
+								<option>Menit</option>
+								@for($i=0;$i<=59;$i++)
+								<option value="{{sprintf("%02d", $i)}}">{{sprintf("%02d", $i)}}</option>
+								@endfor
+							</select>
+						</div> 	
+					</div>
 
                     <div class="form-group">
                         <button class="btn btn-success btn-sm" type="submit">Simpan</button>
@@ -92,7 +146,6 @@
         </div>
     </div>
 </div> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script type="text/javascript">
 	$(document).ready(function()
 	{ 
@@ -115,6 +168,7 @@
 
 				$('#ModalForm').modal({ backdrop: 'static',keyboard: false});  
 			});
+
 			$('body').delegate('#prosesSimpan','submit',function(e)
 			{
 				e.preventDefault();
@@ -130,54 +184,72 @@
 				{
 					Form_item.append('id_edit', window.id_edit);   
 				}
-				fetch('{{route('simpanundangan')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
+				fetch('{{route('anggotasimpanundangan')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
 				    { 
 				    	this_.find('button[type="submit"]').html('Simpan');
 						this_.find('button[type="submit"]').removeAttr('disabled');
 						var status=data.error?'danger':'success';
 						$('.ms-alert').html('<div class="alert alert-'+status+'"><ul>'+data.alert+'</ul></div>');
-				    	 loaddt();
+						setTimeout(function(){
+						window.location.reload();
+						},1000);
+
 				    });
 			});	 
+
 			loaddt();
+
+				$('body').delegate('#carikondangan','submit',function(e)
+				{
+						e.preventDefault();
+						window.cari=$(this).find('input[name="cari"]').val();
+						loaddt();
+				});	 
+
+
+
+			
 			function loaddt()
 			{
 
 				const Form_dt  = new FormData();
+				Form_dt.append('_token', '{{csrf_token()}}');  
 				if(window.cari!=undefined)
 				{
+					Form_dt.append('cari', window.cari);  
 
-				Form_dt.append('cari', window.cari);  
-				}
-				Form_dt.append('_token', '{{csrf_token()}}');  
-				fetch('{{route('loadundangan')}}', { method: 'POST',body:Form_dt}).then(res => res.json()).then(data => 
+				} 
+				fetch('{{route('anggotaloadundangan')}}', { method: 'POST',body:Form_dt}).then(res => res.json()).then(data => 
 				    { 
 				    	var list_=``;
 
 
 				    	 for(let list of data.tb.data)
 				    	 {
+				    	 	var status_=list.status=='aktif'?'<span class="badge badge-success">Aktif</span>':'<span class="badge badge-danger">Belum Aktif</span>';
 				    	 	var name_=list.name?list.name:'-';
-				    	 	var status=list.status=='aktif'?'<span class="badge badge-success">di setujui</span':'<span class="badge badge-danger">tidak di setujui</span>';
 				    	 	window['kondangan_'+list.id]=list;
 										list_+=`<tr>
 										<th>`+list.nama_kondangan+`</th> 
 										<th>`+list.Jumltb_tamu+`</th>
 										<th>`+name_+`</th>
-										<th>`+status+`</th> 
 										<th>`+list.tgl_mulai+`</th>
 										<th>`+list.tgl_selesai+`</th> 
 										<th>`+list.jam_menit_mulai+`</th> 
 										<th>`+list.lama_acara+`</th> 
-										<th data-id="`+list.id+`" class="text-center hide_pdf" >
-										 
-										<a class="btn btn-success btn-sm edit" title="Ubahstatus"><i class="fa fa-pencil"></i></a> 
+										<th>`+status_+`</th> 
+										<th data-id="`+list.id+`" class="text-center">
+										<!-- <a href="{{url('admin/undangan/tamu/')}}/`+list.id+`" class="btn btn-primary btn-sm" title="data tamu"><i class="fa  fa-users"></i></a> -->
+										<a class="btn btn-warning btn-sm edit" title="edit"><i class="fa fa-pencil"></i></a>
+										<a  class="btn btn-danger btn-sm hapus" title="Hapus"><i class="fa fa-trash"></i></a></th>  
 										</tr>`;
 				    	 }
 				    	 $('#loadtb').html(list_);
 				    	 
 				    });
 			} 
+
+
 
 			$('body').delegate('.edit','click',function(e)
 			{ 
@@ -187,17 +259,15 @@
 				window.id_edit=$(this).closest('th').data('id');
 				$('textarea[name="nama_kondangan"]').html(window['kondangan_'+window.id_edit].nama_kondangan);
 				$('textarea[name="alamat"]').html(window['kondangan_'+window.id_edit].alamat);
-				$('select[name="aktif"] option[value="'+window['kondangan_'+window.id_edit].status+'"]').attr('selected','selected');
-
-				$('select[name="id_anggota"] option[value="'+window['kondangan_'+window.id_edit].id_anggota+'"]').attr('selected','selected');
-
+				$('select[name="aktif"] option[value="'+window['kondangan_'+window.id_edit].status+'"]').attr('selected','selected'); 
+				$('select[name="id_anggota"] option[value="'+window['kondangan_'+window.id_edit].id_anggota+'"]').attr('selected','selected'); 
 				$('input[name="tgl_mulai"]').val(window['kondangan_'+window.id_edit].tgl_mulai);
 				$('input[name="tgl_selesai"]').val(window['kondangan_'+window.id_edit].tgl_selesai);
 				$('select[name="jam_mulai"] option[value="'+window['kondangan_'+window.id_edit].jam_mulai+'"]').attr('selected','selected');
 				$('select[name="menit_mulai"] option[value="'+window['kondangan_'+window.id_edit].menit_mulai+'"]').attr('selected','selected');
 				$('select[name="jam_selesai"] option[value="'+window['kondangan_'+window.id_edit].jam_selesai+'"]').attr('selected','selected');
 				$('select[name="menit_selesai"] option[value="'+window['kondangan_'+window.id_edit].menit_selesai+'"]').attr('selected','selected'); 
-				$('.image_foto').html('<img src="'+window['kondangan_'+window.id_edit].foto+'" width="100%">');
+				$('.image_foto').html('<img src="'+window['kondangan_'+window.id_edit].foto+'" width="50px">');
 				$('#ModalForm').modal({ backdrop: 'static',keyboard: false});  
 			});
 
@@ -214,28 +284,15 @@
 				fetch('{{route('hapusundangan')}}', { method: 'POST',body:Form_dthps}).then(res => res.json()).then(data => 
 				{ 
 					loaddt();
+
 				});
 			});
 
-			$('body').delegate('#caridat','click',function(e)
+			$('body').delegate('.detail','click',function(e)
 			{ 
 				e.preventDefault();  
-				 window.cari=$('input[name="cari"]').val();
-				 loaddt();
+				window.location.href='{{url('admin/undangan/detail')}}/'+$(this).closest('th').data('id');
 				
-			});
-
-			$('body').delegate('#pdf','click',function(e)
-			{
-				e.preventDefault(); 
-				$('.hide_pdf').remove();
-				var element = document.getElementById('getdata'); 
-				html2pdf(element);
-				setTimeout(function(){
-					window.location.reload();
-				},1000);
-
-
 			});
 
 	});

@@ -34,6 +34,13 @@ Route::group(['middleware' => 'auth'], function (){
 				Route::get('/undangan/detail/{id_kondangan}', 'adminController@detailkondangan');  
 				Route::get('/undangan/tamu/{id_tamu}', 'adminController@listtamu')->name('adminlisttamu');
 
+
+				Route::get('/tamu', 'adminController@admintamu')->name('admintamu');
+				Route::get('/chat-admin', 'adminController@chatadmin')->name('chatadmin');
+
+				
+				
+
 			});  
 		});
 	});
@@ -76,6 +83,11 @@ Route::group(['middleware' => 'auth'], function (){
 
 
 		
+
+			Route::get('/data-Undangan', 'anggotaController@dataUndangan')->name('anggotaundangan');
+			Route::post('/undangan/load-Kondangan', 'anggotaController@loadundangan')->name('anggotaloadundangan');
+
+			Route::post('/undangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('anggotasimpanundangan');
 
 
 

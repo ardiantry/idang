@@ -13,7 +13,7 @@ class chatController extends Controller
 {
      public function chatanggota(Request $request) 
     {
-		$dt_anggota=DB::table('users')->where('status','user')->where('id','!=',Auth::user()->id)->paginate(20);
+		$dt_anggota=DB::table('users')->where('id','!=',Auth::user()->id)->paginate(20);
 		return view('anggota.chat.list',compact('dt_anggota'));
     }
     public function KirimChat(Request $request) 
