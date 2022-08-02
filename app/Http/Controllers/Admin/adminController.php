@@ -178,7 +178,7 @@ public function dataUndangan(Request $request)
     {
         
          $tb        =DB::table('tb_kondangan')
-                     ->select(
+                     ->select( 
                     'tb_kondangan.id',
                     'tb_kondangan.nama_kondangan',
                     'tb_kondangan.foto',
@@ -216,7 +216,7 @@ public function dataUndangan(Request $request)
 
          
 
-            $data       =DB::table('tb_tamu');
+            $data       =DB::table('tb_masarakat');
             if(@$request->input('cari')!='')
             {
                 $data->where('nama','like','%'.@$request->input('cari').'%');
@@ -233,6 +233,53 @@ public function dataUndangan(Request $request)
         return view('admin.chat.list',compact('dt_anggota'));
    
     }
+    public function hapustamuadmin(Request $request) 
+    {
+
+         DB::table('tb_masarakat')->where('id',$request->input('id_hapus'))->delete();
+            print json_encode(array('error'=>false));   
+    }
+    public function simpantamuadmin(Request $request) 
+    {
+
+        $alert='';
+        $error=true;
+        $alert.=$request->input('nama')?'':'<li>namakondangan  Wajib Di isi</li>'; 
+        $alert.=$request->input('alamat')?'':'<li>alamat  Wajib Di isi</li>'; 
+        
+
+        if($alert=='')
+        { 
+
+            if($request->input('id_undangan'))
+            {
+                $data['id_undangan']    =$request->input('id_undangan');
+                
+            }
+            $data['id_user']        =Auth::user()->id; 
+            $data['nomor_hp']       =$request->input('nomor_hp');   
+            $data['nama']           =$request->input('nama'); 
+            $data['jenis_kelamin']  =$request->input('jenis_kelamin');  
+            $data['alamat']         =$request->input('alamat');    
+            $data['updated_at']     =Carbon::now();
+ 
+            if($request->input('id_edit'))
+            { 
+                DB::table('tb_masarakat')->where('id',$request->input('id_edit'))->update($data);
+                $alert ='<li>Update Telah Berhasil</li>'; 
+            }else
+            {
+
+                $data['created_at'] =Carbon::now(); 
+                DB::table('tb_masarakat')->insert($data);
+                $alert ='<li>Simpan Telah Berhasil</li>';
+            }
+            $error=false;
+        }
+        print json_encode(array("alert"=>$alert,'error'=>$error)); 
+    }
+    
+    
     
 }
 
