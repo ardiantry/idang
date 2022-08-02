@@ -43,7 +43,7 @@
 								<th>Nama Tamu</th> 
 								<th>No Telp</th>  
 								<th>Alamat</th> 
-								<th>Jenis Kelamin</th> 
+								<!-- <th>Jenis Kelamin</th>  -->
 								<th class="hide_pdf">Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
@@ -54,7 +54,7 @@
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
 								<td>{{$key->alamat}}</td> 
-								<th>{{$jenis_kelamin}}</th>  
+							<!-- 	<th>{{$jenis_kelamin}}</th> -->  
 								<td class="hide_pdf">
 									<a class="btn btn-warning btn-sm Edit" data-id="{{$key->id}}">Edit</a> 
 									<a class="btn btn-danger btn-sm hapus" data-id="{{$key->id}}">Hapus</a>
@@ -89,13 +89,13 @@
                         <label>No Telp</label>
                         <input type="text" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
                     </div>
-                    <div class="form-group">
+                  <!--   <div class="form-group">
                         <label>Jenis Kelamin</label>
                        <select name="jenis_kelamin" class="form-control">
 	                       	<option value="l">Laki-laki</option>
 	                       	<option value="p">Perempuan</option> 
                        </select>
-                    </div>
+                    </div> -->
                       <div class="form-group">
                         <label>Alamat</label>
                         <textarea class="form-control" name="alamat" minlength="2" required="required"></textarea>
