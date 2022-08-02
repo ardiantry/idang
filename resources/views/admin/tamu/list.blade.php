@@ -152,7 +152,7 @@
 				{
 					Form_item.append('id_edit', window.id_edit);   
 				}
-				fetch('{{route('simpantamu')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
+				fetch('{{route('simpantamuadmin')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
 				    { 
 				    	this_.find('button[type="submit"]').html('Simpan');
 						this_.find('button[type="submit"]').removeAttr('disabled');
@@ -172,7 +172,7 @@
 				const Form_dthps  = new FormData();
 				Form_dthps.append('_token', '{{csrf_token()}}');  
 				Form_dthps.append('id_hapus', $(this).data('id'));   
-				fetch('{{route('hapustamu')}}', { method: 'POST',body:Form_dthps}).then(res => res.json()).then(data => 
+				fetch('{{route('hapustamuadmin')}}', { method: 'POST',body:Form_dthps}).then(res => res.json()).then(data => 
 				{ 
 						window.location.reload(); 
 				});

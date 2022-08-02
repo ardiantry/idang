@@ -37,7 +37,7 @@
 						<h4>Tambah Pengeluaran Magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label>Nama Undangan</label>
 								<select class="form-control" name="id_undangan">
 									<option>-Pilih undangan--</option>
@@ -49,7 +49,7 @@
 									<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
 									@endforeach
 								</select>
-							</div>
+							</div> -->
 							<div class="form-group">
 								<label>Nama</label>
 								<input type="text" name="nama" class="form-control">
@@ -102,7 +102,7 @@
 									<tr>
 										<th>Nama Tamu</th>
 										<th>Alamat</th> 
-										<th>Undangan</th> 
+									<!-- 	<th>Undangan</th>  -->
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
@@ -123,7 +123,7 @@
 									<tr>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td> 
-										<td>{{$key->nama_kondangan}}</td> 
+										<!-- <td>{{$key->nama_kondangan}}</td>  -->
 										<td>{{$key->jumlah2}}</td>
 										<td>{{$key->created_at}}</td>
 										<td class="hide_pdf">

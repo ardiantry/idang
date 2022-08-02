@@ -43,7 +43,7 @@
 								<select class="form-control" name="id_tamu">
 									<option>-Pilih tamu--</option>
 									@php
-									$tb_tamu=DB::table('tb_tamu')->get();
+									$tb_tamu=DB::table('tb_tamu')->where('id_user',@Auth::user()->id)->get();
 									@endphp
 									@foreach($tb_tamu as $key)
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
