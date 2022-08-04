@@ -57,10 +57,18 @@ class anggotaController extends Controller
 		$data 		= DB::table('tb_tamu');
 		$data->select('tb_tamu.*', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
-
+		$data->where('tb_tamu.id_user', Auth::user()->id);
+		if (@$request->idtamu) {
+			$data->where('tb_tamu.id_undangan', @$request->idtamu);
+		}
 		if (@$request->input('cari')) {
 			$data->where('tb_tamu.nama', 'like', '%' . @$request->input('cari') . '%');
-			$data->orWhere('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
+
+			$data->orWhere('tb_tamu.id_user', Auth::user()->id);
+			$data->where('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
+			if (@$request->idtamu) {
+				$data->where('tb_tamu.id_undangan', @$request->idtamu);
+			}
 		}
 		$dt_tamu 	= $data->paginate(20);
 		//$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
