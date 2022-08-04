@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 25 Jul 2022 pada 11.52
--- Versi server: 10.1.34-MariaDB
--- Versi PHP: 7.2.7
+-- Generation Time: Aug 04, 2022 at 03:41 AM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 7.2.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `migrations`
+-- Table structure for table `migrations`
 --
 
 CREATE TABLE `migrations` (
@@ -35,7 +35,7 @@ CREATE TABLE `migrations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `migrations`
+-- Dumping data for table `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
@@ -48,7 +48,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `password_resets`
+-- Table structure for table `password_resets`
 --
 
 CREATE TABLE `password_resets` (
@@ -60,7 +60,7 @@ CREATE TABLE `password_resets` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_chat`
+-- Table structure for table `tb_chat`
 --
 
 CREATE TABLE `tb_chat` (
@@ -73,7 +73,7 @@ CREATE TABLE `tb_chat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `tb_chat`
+-- Dumping data for table `tb_chat`
 --
 
 INSERT INTO `tb_chat` (`id`, `id_a`, `id_b`, `chat`, `created_at`, `updated_at`) VALUES
@@ -83,7 +83,7 @@ INSERT INTO `tb_chat` (`id`, `id_a`, `id_b`, `chat`, `created_at`, `updated_at`)
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kondangan`
+-- Table structure for table `tb_kondangan`
 --
 
 CREATE TABLE `tb_kondangan` (
@@ -100,7 +100,7 @@ CREATE TABLE `tb_kondangan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `tb_kondangan`
+-- Dumping data for table `tb_kondangan`
 --
 
 INSERT INTO `tb_kondangan` (`id`, `id_anggota`, `nama_kondangan`, `foto`, `alamat`, `status`, `tgl_mulai`, `tgl_selesai`, `created_at`, `updated_at`) VALUES
@@ -111,7 +111,7 @@ INSERT INTO `tb_kondangan` (`id`, `id_anggota`, `nama_kondangan`, `foto`, `alama
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_magang`
+-- Table structure for table `tb_magang`
 --
 
 CREATE TABLE `tb_magang` (
@@ -128,7 +128,7 @@ CREATE TABLE `tb_magang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_magang`
+-- Dumping data for table `tb_magang`
 --
 
 INSERT INTO `tb_magang` (`id`, `jenis_barang`, `jenis_magang`, `jenis_satuan`, `id_tamu`, `id_anggota`, `id_undangan`, `jumlah`, `created_at`, `updated_at`) VALUES
@@ -139,12 +139,42 @@ INSERT INTO `tb_magang` (`id`, `jenis_barang`, `jenis_magang`, `jenis_satuan`, `
 (21, 'beras', 'pemasukan hutang', 'kg', 4, 5, 3, 2323, '2022-07-25 01:15:29', '2022-07-25 01:15:29'),
 (22, 'padi', 'pemasukan magang', 'kg', 4, 5, 3, 10, '2022-07-25 01:32:49', '2022-07-25 01:32:49'),
 (23, 'uang', 'pemasukan hutang', 'rp', 4, 5, 3, 10, '2022-07-25 01:33:06', '2022-07-25 01:33:06'),
-(24, 'beras', 'pengeluaran magang', 'kg', 5, 5, 3, 10, '2022-07-25 01:33:30', '2022-07-25 01:33:30');
+(24, 'beras', 'pengeluaran magang', 'kg', 5, 5, 3, 10, '2022-07-25 01:33:30', '2022-07-25 01:33:30'),
+(25, 'beras', 'pengeluaran magang', 'kg', 6, 6, NULL, 2323, '2022-08-01 21:13:42', '2022-08-01 21:13:42');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_tamu`
+-- Table structure for table `tb_masarakat`
+--
+
+CREATE TABLE `tb_masarakat` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `id_undangan` int(11) DEFAULT NULL,
+  `jenis_kelamin` enum('l','p') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_user` int(11) NOT NULL,
+  `nomor_hp` char(13) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `nama` char(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tb_masarakat`
+--
+
+INSERT INTO `tb_masarakat` (`id`, `id_undangan`, `jenis_kelamin`, `id_user`, `nomor_hp`, `nama`, `alamat`, `created_at`, `updated_at`) VALUES
+(3, 4, 'l', 1, '084545155125', 'tamu Aadadadad', 'alamat A', '2022-06-05 21:26:07', '2022-08-01 21:09:34'),
+(4, 3, 'l', 5, '842122623222', 'Idang 1', 'indramayu', '2022-06-06 01:02:45', '2022-07-25 02:41:49'),
+(5, NULL, 'p', 5, '544518451451', 'Idang', 'Test', '2022-06-06 02:32:38', '2022-07-25 02:40:33'),
+(6, NULL, NULL, 8, '34534', 'adadad', 'adadad', '2022-07-13 20:16:27', '2022-07-13 20:16:27'),
+(7, NULL, 'p', 1, 'adadfadad', 'tamu Aadadadad', 'adadada', '2022-08-01 21:09:40', '2022-08-01 21:09:40');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_tamu`
 --
 
 CREATE TABLE `tb_tamu` (
@@ -160,21 +190,22 @@ CREATE TABLE `tb_tamu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `tb_tamu`
+-- Dumping data for table `tb_tamu`
 --
 
 INSERT INTO `tb_tamu` (`id`, `id_undangan`, `jenis_kelamin`, `id_user`, `nomor_hp`, `nama`, `alamat`, `created_at`, `updated_at`) VALUES
 (1, 3, NULL, 0, '', 'idang', 'indramayu', '2022-06-02 02:44:48', '2022-06-02 02:44:48'),
 (2, 3, NULL, 0, '', 'fandi', 'fandi', '2022-06-03 01:13:36', '2022-06-03 01:13:36'),
-(3, 4, NULL, 6, '084545155125', 'tamu A', 'alamat A', '2022-06-05 21:26:07', '2022-06-05 21:26:07'),
 (4, 3, 'l', 5, '842122623222', 'Idang 1', 'indramayu', '2022-06-06 01:02:45', '2022-07-25 02:41:49'),
 (5, NULL, 'p', 5, '544518451451', 'Idang', 'Test', '2022-06-06 02:32:38', '2022-07-25 02:40:33'),
-(6, NULL, NULL, 8, '34534', 'adadad', 'adadad', '2022-07-13 20:16:27', '2022-07-13 20:16:27');
+(6, NULL, NULL, 8, '34534', 'adadad', 'adadad', '2022-07-13 20:16:27', '2022-07-13 20:16:27'),
+(7, NULL, 'l', 6, 'adadadad', 'adadad', 'qeqeqeqe', '2022-08-01 21:10:44', '2022-08-01 21:10:44'),
+(8, NULL, 'p', 6, 'rerer', 'qrqrqrqrq', 'qeqeqe', '2022-08-01 21:12:21', '2022-08-01 21:12:21');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_tamu_magang`
+-- Table structure for table `tb_tamu_magang`
 --
 
 CREATE TABLE `tb_tamu_magang` (
@@ -187,7 +218,7 @@ CREATE TABLE `tb_tamu_magang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `tb_tamu_magang`
+-- Dumping data for table `tb_tamu_magang`
 --
 
 INSERT INTO `tb_tamu_magang` (`id`, `nama`, `alamat`, `tanggal`, `created_at`, `updated_at`) VALUES
@@ -195,12 +226,13 @@ INSERT INTO `tb_tamu_magang` (`id`, `nama`, `alamat`, `tanggal`, `created_at`, `
 (2, 'test', 'tedt 2', '2022-06-08', '2022-06-07 01:59:21', '2022-06-07 01:59:21'),
 (3, 'terer', 'ererer', '2022-07-14', '2022-07-13 20:00:32', '2022-07-13 20:00:32'),
 (4, 'adad', '232', '2022-07-14', '2022-07-13 20:23:33', '2022-07-13 20:23:33'),
-(5, 'fgdg', 'dfdgd', '2022-07-25', '2022-07-25 01:33:30', '2022-07-25 01:33:30');
+(5, 'fgdg', 'dfdgd', '2022-07-25', '2022-07-25 01:33:30', '2022-07-25 01:33:30'),
+(6, 'adsadad', 'adadad', '2022-08-02', '2022-08-01 21:13:42', '2022-08-01 21:13:42');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -217,7 +249,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `username`, `status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
@@ -232,89 +264,101 @@ INSERT INTO `users` (`id`, `name`, `email`, `username`, `status`, `email_verifie
 --
 
 --
--- Indeks untuk tabel `migrations`
+-- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_chat`
+-- Indexes for table `tb_chat`
 --
 ALTER TABLE `tb_chat`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_kondangan`
+-- Indexes for table `tb_kondangan`
 --
 ALTER TABLE `tb_kondangan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_magang`
+-- Indexes for table `tb_magang`
 --
 ALTER TABLE `tb_magang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_tamu`
+-- Indexes for table `tb_masarakat`
+--
+ALTER TABLE `tb_masarakat`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_tamu`
 --
 ALTER TABLE `tb_tamu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_tamu_magang`
+-- Indexes for table `tb_tamu_magang`
 --
 ALTER TABLE `tb_tamu_magang`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `migrations`
+-- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_chat`
+-- AUTO_INCREMENT for table `tb_chat`
 --
 ALTER TABLE `tb_chat`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_kondangan`
+-- AUTO_INCREMENT for table `tb_kondangan`
 --
 ALTER TABLE `tb_kondangan`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_magang`
+-- AUTO_INCREMENT for table `tb_magang`
 --
 ALTER TABLE `tb_magang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_tamu`
+-- AUTO_INCREMENT for table `tb_masarakat`
+--
+ALTER TABLE `tb_masarakat`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tb_tamu`
 --
 ALTER TABLE `tb_tamu`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_tamu_magang`
+-- AUTO_INCREMENT for table `tb_tamu_magang`
 --
 ALTER TABLE `tb_tamu_magang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
