@@ -126,7 +126,7 @@ class anggotaController extends Controller
 		$data = DB::table('tb_magang');
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
-		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_magang.id_undangan');
+		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
 
 
 		if (@$request->input('cari') != '') {
@@ -225,7 +225,7 @@ class anggotaController extends Controller
 		$data = DB::table('tb_magang');
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
-		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_magang.id_undangan');
+		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
 
 		if (@$request->input('cari') != '') {
 

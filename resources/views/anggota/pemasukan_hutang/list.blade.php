@@ -96,6 +96,8 @@
 									<tr>
 										<th>Nama Tamu</th>
 										<th>Alamat</th>  
+										<th>Nama Undangan</th>
+
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
@@ -113,7 +115,9 @@
 								<tbody>
 									<tr>
 										<td>{{$key->nama}}</td>
-										<td>{{$key->alamat}}</td>  
+										<td>{{$key->alamat}}</td> 
+										<td>{{$key->nama_kondangan}}</td>   
+										
 										<td>{{$key->jumlah2}}</td>
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 										<td class="hide_pdf">
