@@ -40,7 +40,8 @@
 					<div class="table-responsive"  id="getdata"> 
 						<table class="table">
 							<tr>
-								<th>Nama Tamu</th> 
+								<th>Nama Tamu</th>
+								<th>Nama Undangan</th>
 								<th>No Telp</th>  
 								<th>Alamat</th> 
 								<!-- <th>Jenis Kelamin</th>  -->
@@ -51,6 +52,7 @@
 							 $jenis_kelamin=$key->jenis_kelamin=='l'?'laki-laki':'perempuan';
 							 @endphp
 							 <tr>
+								{{-- <td>{{$key->nama_kondangan}}</td>  --}}
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
 								<td>{{$key->alamat}}</td> 
@@ -85,6 +87,19 @@
                         <label>Nama Tamu</label>
                         <input type="text" name="nama" minlength="2" class="form-control" required="required">
                     </div>
+					<div class="form-group">
+						<label>Nama tamu</label>
+						<select class="form-control" name="id_kondangan">
+							<option>-Pilih Undangan--</option>
+							@php
+							$tb_kondangan=DB::table('tb_kondangan')->where('id_anggota',@Auth::user()->id)->get();
+							@endphp
+							@foreach($tb_kondangan as $key)
+							<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
+							@endforeach
+						</select>
+					</div>
+					
                      <div class="form-group">
                         <label>No Telp</label>
                         <input type="text" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >

@@ -8,10 +8,10 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li> 
-				<li class="breadcrumb-item active">Data Masarakat</li>
+				<li class="breadcrumb-item active">Data Masyarakat Sudimampir</li>
 			</ol>
 		</div>
-		<h4 class="page-title">Data Masarakat</h4></div> 
+		<h4 class="page-title">Data Masyarakat Sudimampir</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card"> 
@@ -19,7 +19,7 @@
 				<div class="row">
 					
 					<div class="col-md-4">
-						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Data Masarakat</a>
+						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Data Masyarakat</a>
 						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
 					</div>
 					<div class="col-md-4"> 
@@ -40,7 +40,7 @@
 					<div class="table-responsive"  id="getdata"> 
 						<table class="table">
 							<tr>
-								<th>Nama Tamu</th> 
+								<th>Nama</th> 
 								<th>No Telp</th>  
 								<th>Alamat</th> 
 								<th>Jenis Kelamin</th> 
@@ -78,7 +78,7 @@
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title align-self-center mt-0">Isikan Data Masarakat</h5>
+                <h5 class="modal-title align-self-center mt-0">Isikan Data Masyarakat</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body"> 
@@ -86,7 +86,7 @@
                 <form id="prosesSimpan" name="prosesSimpan">
 					 
                     <div class="form-group">
-                        <label>Nama Tamu</label>
+                        <label>Nama </label>
                         <input type="text" name="nama" minlength="2" class="form-control" required="required">
                     </div>
                      <div class="form-group">

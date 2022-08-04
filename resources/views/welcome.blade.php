@@ -145,7 +145,7 @@ font-weight: bold;
 
             <div class="content">
                 <div class="title m-b-md">
-                   SiKondang 
+                   APLIKASI KONDANGAN DESA SUDIMAMPIR
                 </div>
                 <div class="container">
                     
@@ -159,9 +159,9 @@ font-weight: bold;
                                  <span class="lamaacara"><i class="fa fa-clock-o"></i>Sesi Acara {{$key->lama_acara }}</span> 
                                  <h4>{{@$key->nama_kondangan}}</h4>
                                  <p>Alamat : {{$key->alamat}}</p>
-                                 <div class="text-right">  
+                                 {{-- <div class="text-right">  
                                     <a href="{{url('')}}">Detail</a>
-                                 </div>
+                                 </div> --}}
                             </div>
                         </div>
                     </div>

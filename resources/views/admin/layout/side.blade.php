@@ -9,13 +9,13 @@
 		<li>
 			<a href="{{route('admintamu')}}">
 			<i class="fa fa-user"></i>
-			<span>Data Masarakat</span>
+			<span>Data Masyarakat</span>
 			</a>
 		</li>
 		<li>
 			<a href="{{route('adminundangan')}}"> 
 			<i class="mdi mdi-calendar"></i>
-			<span>Data Kondangan</span>
+			<span>Data Undangan</span>
 			</a>
 		</li>
 		<li>
