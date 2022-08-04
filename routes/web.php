@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function (){
 		Route::post('/chat-anggota/list-chat', 'chatController@listChat')->name('listChat');
 
 		// tamu
+		Route::get('/tamu/list/{idtamu}', 'anggotaController@listtamu')->name('anggotatamu');
 		Route::get('/tamu/list', 'anggotaController@listtamu')->name('anggotatamu');
 
 		//magang
