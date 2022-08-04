@@ -48,7 +48,6 @@ class anggotaController extends Controller
 		$detik 	= floor($sisa / 1);
 		return $jam . 'Jam ' . $menit . 'menit';
 	}
-<<<<<<< HEAD
 
 
 	public function listtamu(Request $request)
@@ -72,34 +71,6 @@ class anggotaController extends Controller
 			}
 		}
 		$dt_tamu 	= $data->paginate(20);
-=======
-
-
-	public function listtamu(Request $request)
-	{
-
-
-			$data 		=DB::table('tb_tamu');
-			$data->select('tb_tamu.*','tb_kondangan.nama_kondangan'); 
-			$data->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_tamu.id_undangan');
-			$data->where('tb_tamu.id_user',Auth::user()->id);   
-			if(@$request->idtamu)
-			{
-				$data->where('tb_tamu.id_undangan',@$request->idtamu); 
-			}	 
-			if(@$request->input('cari'))
-			{
-					$data->where('tb_tamu.nama','like','%'.@$request->input('cari').'%'); 
-
-					$data->orWhere('tb_tamu.id_user',Auth::user()->id);
-					$data->where('tb_kondangan.nama_kondangan','like','%'.@$request->input('cari').'%');  
-					if(@$request->idtamu)
-					{
-						$data->where('tb_tamu.id_undangan',@$request->idtamu); 
-					}
-			}
-			$dt_tamu 	= $data->paginate(20);
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 		//$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
 
 		return view('anggota.tamu.list', compact('dt_tamu'));
@@ -113,18 +84,12 @@ class anggotaController extends Controller
 		$error = true;
 		$alert .= $request->input('nama') ? '' : '<li>namakondangan  Wajib Di isi</li>';
 		$alert .= $request->input('alamat') ? '' : '<li>alamat  Wajib Di isi</li>';
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 		if ($alert == '') {
 
 			if ($request->input('id_undangan')) {
 				$data['id_undangan']    = $request->input('id_undangan');
-<<<<<<< HEAD
 			}
 			$data['id_user']      	= Auth::user()->id;
 			$data['nomor_hp']     	= $request->input('nomor_hp');
@@ -142,25 +107,6 @@ class anggotaController extends Controller
 				DB::table('tb_tamu')->insert($data);
 				$alert = '<li>Simpan Telah Berhasil</li>';
 			}
-=======
-			}
-			$data['id_user']      	= Auth::user()->id;
-			$data['nomor_hp']     	= $request->input('nomor_hp');
-			$data['nama']  			= $request->input('nama');
-			$data['jenis_kelamin']  = $request->input('jenis_kelamin');
-			$data['alamat']     	= $request->input('alamat');
-			$data['updated_at']  	= Carbon::now();
-
-			if ($request->input('id_edit')) {
-				DB::table('tb_tamu')->where('id', $request->input('id_edit'))->update($data);
-				$alert = '<li>Update Telah Berhasil</li>';
-			} else {
-
-				$data['created_at'] = Carbon::now();
-				DB::table('tb_tamu')->insert($data);
-				$alert = '<li>Simpan Telah Berhasil</li>';
-			}
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 			$error = false;
 		}
 		print json_encode(array("alert" => $alert, 'error' => $error));
@@ -177,11 +123,7 @@ class anggotaController extends Controller
 		$data = DB::table('tb_magang');
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
-<<<<<<< HEAD
-		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_magang.id_undangan');
-=======
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 
 
 		if (@$request->input('cari') != '') {
@@ -280,11 +222,7 @@ class anggotaController extends Controller
 		$data = DB::table('tb_magang');
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
-<<<<<<< HEAD
-		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_magang.id_undangan');
-=======
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 
 		if (@$request->input('cari') != '') {
 
@@ -356,17 +294,10 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
 		}
-<<<<<<< HEAD
 
 
 
 
-=======
-
-
-
-
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 		$data_list = $data->paginate(20);
 		$jlh = DB::table('tb_magang')
 			->where('tb_magang.jenis_barang', @$request->type)
@@ -387,13 +318,8 @@ class anggotaController extends Controller
 		$data = DB::table('tb_magang')->where('id', $request->input('id'))->delete();
 		print json_encode(array("error" => false));
 	}
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 	public function dataUndangan(Request $request)
 	{
 		$data = DB::table('tb_kondangan');
@@ -471,21 +397,12 @@ class anggotaController extends Controller
 				$file_image->save($path . '/' . $file_filename);
 				$data['foto'] = $file_filename;
 			}
-<<<<<<< HEAD
 
 			if ($request->input('id_edit')) {
 				DB::table('tb_kondangan')->where('id', $request->input('id_edit'))->update($data);
 				$alert = '<li>Update Telah Berhasil</li>';
 			} else {
 
-=======
-
-			if ($request->input('id_edit')) {
-				DB::table('tb_kondangan')->where('id', $request->input('id_edit'))->update($data);
-				$alert = '<li>Update Telah Berhasil</li>';
-			} else {
-
->>>>>>> 8ee82efc93bac2cd2740f2988b8402f1aeb54f0a
 				$data['id_anggota']     = Auth::user()->id;
 				$data['status']         = 'non_aktif';
 				$data['created_at']  	= Carbon::now();
