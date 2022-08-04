@@ -136,7 +136,12 @@
 						this_.find('button[type="submit"]').removeAttr('disabled');
 						var status=data.error?'danger':'success';
 						$('.ms-alert').html('<div class="alert alert-'+status+'"><ul>'+data.alert+'</ul></div>');
+						$('select[name="aktif"]').val('');
 				    	 loaddt();
+				    	 setTimeout(function()
+				    	 {
+				    	 	window.location.reload();
+				    	 },1000);
 				    });
 			});	 
 			loaddt();
@@ -187,7 +192,8 @@
 				window.id_edit=$(this).closest('th').data('id');
 				$('textarea[name="nama_kondangan"]').html(window['kondangan_'+window.id_edit].nama_kondangan);
 				$('textarea[name="alamat"]').html(window['kondangan_'+window.id_edit].alamat);
-				$('select[name="aktif"] option[value="'+window['kondangan_'+window.id_edit].status+'"]').attr('selected','selected');
+				$('select[name="aktif"]').find('option').removeAttr('selected');
+				$('select[name="aktif"]').find('option[value="'+window['kondangan_'+window.id_edit].status+'"]').attr('selected','selected');
 
 				$('select[name="id_anggota"] option[value="'+window['kondangan_'+window.id_edit].id_anggota+'"]').attr('selected','selected');
 
