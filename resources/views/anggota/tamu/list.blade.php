@@ -28,7 +28,7 @@
 
 					<form action="{{url()->current()}}" method="get"> 
 						<div class="input-group">
-							<input type="text" name="cari" class="form-control">
+							<input type="text" name="cari" value="{{@app('request')->input('cari')}}" class="form-control">
 							<span class="input-group-append">
 								<button class="btn btn-primary btn-sm">Cari</button> 
 							</span>
@@ -43,7 +43,7 @@
 								<th>Nama Tamu</th> 
 								<th>No Telp</th>  
 								<th>Alamat</th> 
-								<!-- <th>Jenis Kelamin</th>  -->
+								<th>Undangan</th> 
 								<th class="hide_pdf">Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
@@ -54,7 +54,7 @@
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
 								<td>{{$key->alamat}}</td> 
-							<!-- 	<th>{{$jenis_kelamin}}</th> -->  
+								<th>{{$key->nama_kondangan}}</th> 
 								<td class="hide_pdf">
 									<a class="btn btn-warning btn-sm Edit" data-id="{{$key->id}}">Edit</a> 
 									<a class="btn btn-danger btn-sm hapus" data-id="{{$key->id}}">Hapus</a>
@@ -89,6 +89,19 @@
                         <label>No Telp</label>
                         <input type="text" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
                     </div>
+                     <div class="form-group">
+                        <label>Undangan</label>
+                        <select class="form-control" name="id_undangan">
+                        	@php
+                        	$undg=DB::table('tb_kondangan')->where('id_anggota',Auth::user()->id)->get();
+                        	@endphp
+                        	<option>--Pilih Undangan--</option>
+                        	@foreach($undg as $key_ud)
+                        	<option value="{{$key_ud->id}}">{{$key_ud->nama_kondangan}}</option> 
+                        	@endforeach
+                        </select>
+                    </div>
+
                   <!--   <div class="form-group">
                         <label>Jenis Kelamin</label>
                        <select name="jenis_kelamin" class="form-control">
@@ -123,7 +136,9 @@
 			{ 
 				e.preventDefault();  
 				window.id_edit=undefined;
-				$('.ms-alert').empty(); 
+				$('.ms-alert').empty();  
+				$('input[name="nama"]').val('');
+				$('select[name="id_undangan"]').val('');
 				$('input[name="nomor_hp"]').val('');
 				$('select[name="jenis_kelamin"]').find('option').removeAttr('selected'); 
 				$('textarea[name="nama"]').empty(); 
@@ -181,10 +196,13 @@
 
 				var dat_edit=window['edit_'+$(this).data('id')];
 				window.id_edit=$(this).data('id');
+				$('select[name="id_undangan"]').val('');
 				$('input[name="nama"]').val(dat_edit.nama);
 				$('input[name="nomor_hp"]').val(dat_edit.nomor_hp); 
 				$('textarea[name="alamat"]').html(dat_edit.alamat);  
 				$('select[name="jenis_kelamin"]').find('option[value="'+dat_edit.jenis_kelamin+'"]').attr('selected','selected');   
+				$('select[name="id_undangan"]').find('option[value="'+dat_edit.id_undangan+'"]').attr('selected','selected');   
+
 
 				 
 			});

@@ -194,8 +194,8 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				$('#yakinedit').empty(); 
 				window.id_edit=undefined; 
 				$('button[type="submit"]').html('Simpan'); 
-				// $('select[name="id_undangan"]').val('');
-
+				 $('select[name="id_undangan"]').val('');
+				$('select[name="id_tamu"]').val('');
 				$('select[name="id_tamu"]').find('option').removeAttr('selected');
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');

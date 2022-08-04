@@ -55,23 +55,19 @@ class anggotaController extends Controller
 		 
 
 			$data 		=DB::table('tb_tamu');
-						if(@$request->id_tamu)
-						{
+			$data->select('tb_tamu.*','tb_kondangan.nama_kondangan'); 
+			$data->leftJoin('tb_kondangan','tb_kondangan.id','=','tb_tamu.id_undangan');
+					 
+			if(@$request->input('cari'))
+			{
+					$data->where('tb_tamu.nama','like','%'.@$request->input('cari').'%'); 
+					$data->orWhere('tb_kondangan.nama_kondangan','like','%'.@$request->input('cari').'%'); 
 
-						 	$data->where('id_undangan',@$request->id_tamu);
-						}
-						else
-						{
-							$data->where('id_user',Auth::user()->id); 
-						}
-						if(@$request->input('cari'))
-						{
-								$data->where('nama',@$request->input('cari')); 
-						}
+			}
 			$dt_tamu 	=$data->paginate(20); 
-			$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
+			//$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
 
-		return view('anggota.tamu.list',compact('dt_tamu','kondangan'));
+		return view('anggota.tamu.list',compact('dt_tamu'));
 	}
 
 	public function simpantamu(Request $request) 
