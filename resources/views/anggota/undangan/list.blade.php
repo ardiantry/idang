@@ -35,7 +35,7 @@
 								</form>
 							</div>   
 							</div>
-							<div class="table-responsive"> 
+							<div class="table-responsive">  
 								<table class="table">
 									<tr>
 										<th>Judul Undangan</th> 
