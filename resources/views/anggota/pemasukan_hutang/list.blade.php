@@ -170,10 +170,15 @@ $(document).ready(function()
 				    {  
 				    	if(data.error)
 				    	{
-				    		$('.ms-alert').html('<div class="alert alert-alert">'+data.alert+'</div>');
+				    		$('.ms-alert').html('<div class="alert alert-danger">'+data.alert+'</div>');
 				    		return
 				    	}
-				     	window.location.reload();
+				    	else
+				    	{
+							$('.ms-alert').html('<div class="alert alert-success">Data Berhasil Disimpan</div>');
+				    		setTimeout(function(){window.location.reload();},3000);				    	
+				    	}
+				     	
 				    });
 			});	
 			$('body').delegate('.edit','click',function(e)
