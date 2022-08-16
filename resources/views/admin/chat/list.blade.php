@@ -148,6 +148,7 @@ $('body').delegate('#kirimChat','submit',function(e)
 
 		this_.find('button[type="submit"]').html('Simpan');
 		this_.find('button[type="submit"]').removeAttr('disabled'); 
+		$('input[name="pesannya"]').val('');
 		getlischat();
 	}); 	
 });

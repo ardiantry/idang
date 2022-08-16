@@ -278,7 +278,14 @@ public function dataUndangan(Request $request)
         }
         print json_encode(array("alert"=>$alert,'error'=>$error)); 
     }
-    
+    public function hapusanggota(Request $request) 
+    {
+
+         DB::table('users')->where('id',$request->id_delete)->delete();
+            print json_encode(array('error'=>false));   
+        return redirect('admin/list-anggota');
+
+    }
     
     
 }

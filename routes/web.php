@@ -39,6 +39,8 @@ Route::group(['middleware' => 'auth'], function (){
 				Route::post('/kondangan/tamu/hapustamuadmin', 'adminController@hapustamuadmin')->name('hapustamuadmin');
 				Route::post('/kondangan/tamu/simpantamuadmin', 'adminController@simpantamuadmin')->name('simpantamuadmin');
 				Route::get('/chat-admin', 'adminController@chatadmin')->name('chatadmin');
+				Route::get('/hapusanggota/{id_delete}', 'adminController@hapusanggota')->name('hapusanggota');
+
 
 				
 				

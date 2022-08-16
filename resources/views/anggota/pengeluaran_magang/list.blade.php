@@ -176,7 +176,11 @@ $(document).ready(function()
 				    		$('.ms-alert').html('<div class="alert alert-danger">'+data.alert+'</div>');
 				    		return
 				    	}
-				     	window.location.reload();
+				    	else
+				    	{
+							$('.ms-alert').html('<div class="alert alert-success">Data Berhasil Disimpan</div>');
+				    		setTimeout(function(){window.location.reload();},3000);				    	
+				    	}
 				    });
 			});	
 
