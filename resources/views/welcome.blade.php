@@ -144,9 +144,7 @@ font-weight: bold;
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                   SiKondang 
-                </div>
+                   <h4 style="margin-top: 50px ">SiKondang</h4>  
                 <div class="container">
                     
                 <div class="row">
