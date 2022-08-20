@@ -8,10 +8,10 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li> 
-				<li class="breadcrumb-item active">Data Undangan</li>
+				<li class="breadcrumb-item active">Data Hajatan</li>
 			</ol>
 		</div>
-		<h4 class="page-title">Data Undangan</h4></div> 
+		<h4 class="page-title">Data Hajatan</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">

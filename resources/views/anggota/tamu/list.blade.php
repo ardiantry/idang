@@ -20,7 +20,7 @@
 					
 					<div class="col-md-4">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
-						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+						<button class="btn btn-primary btn-sm" id="pdf">Cetak PDF</button>
 					</div>
 					<div class="col-md-4"> 
 					</div>
@@ -40,11 +40,11 @@
 					<div class="table-responsive"  id="getdata"> 
 						<table class="table">
 							<tr>
+								<th>NO</th>
 								<th>Nama Tamu</th>
-								{{-- <th>Nama Undangan</th> --}}
 								<th>No Telp</th>  
 								<th>Alamat</th> 
-								<th>Undangan</th> 
+								<th>Hajatan</th> 
 								<th class="hide_pdf">Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
@@ -53,6 +53,7 @@
 							 @endphp
 							 <tr>
 								{{-- <td>{{$key->nama_kondangan}}</td>  --}}
+								<td scope="row">{{$loop->iteration}}</td>
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
 								<td>{{$key->alamat}}</td> 
@@ -102,15 +103,15 @@
 					
                      <div class="form-group">
                         <label>No Telp</label>
-                        <input type="text" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
+                        <input type="number" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
                     </div>
                      <div class="form-group">
-                        <label>Undangan</label>
+                        <label>Hajatan</label>
                         <select class="form-control" name="id_undangan">
                         	@php
                         	$undg=DB::table('tb_kondangan')->where('id_anggota',Auth::user()->id)->get();
                         	@endphp
-                        	<option>--Pilih Undangan--</option>
+                        	<option>--Pilih Hajatan--</option>
                         	@foreach($undg as $key_ud)
                         	<option value="{{$key_ud->id}}">{{$key_ud->nama_kondangan}}</option> 
                         	@endforeach

@@ -11,7 +11,7 @@
 }
  </style>
  @php
-	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
+	$label_satuan=Request::segment(3)!='uang'?'Jumlah':'Nominal';
 	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal';
 	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-';
  @endphp
@@ -26,7 +26,7 @@
 				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
 			</ol>
 		</div>
-		<h4 class="page-title">{{Request::segment(3)}}</h4></div> 
+		<h4 class="page-title">Data Pemasukan Magang {{Request::segment(3)}}</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
@@ -34,7 +34,7 @@
 				<div class="row">
 					<div class="col-md-4">
 
-						<h4>Tambah Magang {{Request::segment(3)}}</h4>
+						<h4>Pemasukan magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							 
@@ -92,9 +92,10 @@
 							<table class="table table-bordered">
 								<thead> 
 									<tr>
-										<th>Nama Tamu</th>
+										<th>NO</th>
+										<th>Nama</th>
 										<th>Alamat</th>  
-										<th>Nama Undangan</th>
+										<th>Nama Hajatan</th>
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
@@ -113,6 +114,7 @@
 								@endphp
 								<tbody>
 									<tr>
+										<td scope="row">{{$loop->iteration}}</td>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td>  
 										<td>{{$key->nama_kondangan}}</td>  

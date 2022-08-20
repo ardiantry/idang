@@ -11,9 +11,9 @@
 }
  </style>
  @php
-	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
-	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal';
-	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-';
+	$label_satuan=Request::segment(3)!='uang'?'Jumlah':'Nominal'; //segment 3 uang
+	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal'; //segment 3 uang
+	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-'; //segment 3 uang
 
  @endphp
  <div class="row"> 
@@ -23,18 +23,18 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li>  
-				<li class="breadcrumb-item">pengeluaran Magang</li>
-				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
+				<li class="breadcrumb-item">Pengeluaran Magang</li>
+				<li class="breadcrumb-item active">{{Request::segment(3)}}</li> 
 			</ol>
 		</div>
-		<h4 class="page-title">{{Request::segment(3)}}</h4></div> 
+		<h4 class="page-title">Data Pengeluaran Magang {{Request::segment(3)}}</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h4>Tambah Pengeluaran Magang {{Request::segment(3)}}</h4>
+						<h4>Pengeluaran Magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							<!-- <div class="form-group">
@@ -100,7 +100,8 @@
 							<table class="table table-bordered">
 								<thead> 
 									<tr>
-										<th>Nama Tamu</th>
+										<th>NO</th>
+										<th>Nama</th>
 										<th>Alamat</th> 
 									<!-- 	<th>Undangan</th>  -->
 										<th>{{$label_satuan}}</th>
@@ -121,11 +122,12 @@
 								@endphp
 								<tbody>
 									<tr>
+										<td scope="row">{{$loop->iteration}}</td>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td> 
 										<!-- <td>{{$key->nama_kondangan}}</td>  -->
 										<td>{{$key->jumlah2}}</td>
-										<td>{{$key->created_at}}</td>
+										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>

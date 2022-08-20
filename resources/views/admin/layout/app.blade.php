@@ -2,7 +2,7 @@
 	<html lang="en">
  <head>
 	<meta charset="utf-8">
-	<title>{{@Auth::user()->name}} | Kondangan di desa Sudimampir </title>
+	<title>{{@Auth::user()->name}} | APLIKASI KONDANGAN </title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	<meta content="Kondangan di desa Sudimampir TA idang" name="description">
 	<meta content="idang" name="author">
@@ -30,9 +30,9 @@
 			</div>
 		</div>
 		<footer class="footer text-center text-sm-left">&copy; 2022 SUDIMAMPIR 
-			<span class="text-muted d-none d-sm-inline-block float-right">Crafted with
+			{{-- <span class="text-muted d-none d-sm-inline-block float-right">Crafted with
 			 <i class="mdi mdi-heart text-danger"></i> by Idang
-			</span>
+			</span> --}}
 		</footer>
 	</div>
 </div> 

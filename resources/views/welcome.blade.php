@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>kondangan di desa sudimampir</title>
+        <title>Aplikasi Kondangan</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -126,6 +126,7 @@ font-weight: bold;
               </style>
                 <link href="{{asset('asset/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('asset/css/icons.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css"> 
     </head>
     <body>
          <div class="promo_tematik"></div>
@@ -144,10 +145,14 @@ font-weight: bold;
             @endif
 
             <div class="content">
+                
                 <div class="title m-b-md">
-                   APLIKASI KONDANGAN DESA SUDIMAMPIR
-                </div>
+                    APLIKASI KONDANGAN DESA SUDIMAMPIR
+                 </div>
+                
                 <div class="container">
+                         
+                       
                     
                 <div class="row">
                     @foreach($data_list  as $key)

@@ -14,8 +14,37 @@ class anggotaController extends Controller
 {
 	public function home(Request $request)
 	{
-		return view('anggota.home.dasboard');
+		$tamu = DB::table('tb_tamu')
+
+			->where('tb_tamu.id_user', Auth::user()->id)
+			->count();
+
+		$masukmagang = DB::table('tb_magang')
+
+			->where('tb_magang.jenis_magang', 'pemasukan magang')
+			->where('tb_magang.id_anggota', Auth::user()->id)
+			->count();
+		$masukhutang = DB::table('tb_magang')
+
+			->where('tb_magang.jenis_magang', 'pemasukan hutang')
+			->where('tb_magang.id_anggota', Auth::user()->id)
+			->count();
+
+		$keluarmagang = DB::table('tb_magang')
+
+			->where('tb_magang.jenis_magang', 'pengeluaran magang')
+			->where('tb_magang.id_anggota', Auth::user()->id)
+			->count();
+
+		return view('anggota.home.dasboard', compact('tamu', 'masukmagang', 'masukhutang', 'keluarmagang'));
 	}
+
+	// function count_data($table)
+	// {
+	// 	return $this->db->get($table)->num_rows();
+	// }
+
+
 
 	public function mktimeWaktu($datestar, $dateend)
 	{
@@ -70,7 +99,9 @@ class anggotaController extends Controller
 				$data->where('tb_tamu.id_undangan', @$request->idtamu);
 			}
 		}
-		$dt_tamu 	= $data->paginate(20);
+
+		$data->orderBy('created_at', 'desc');
+		$dt_tamu 	= $data->paginate(10);
 		//$kondangan 	=DB::table('tb_kondangan')->where('id',@$request->id_tamu)->first();
 
 		return view('anggota.tamu.list', compact('dt_tamu'));
@@ -82,7 +113,9 @@ class anggotaController extends Controller
 
 		$alert = '';
 		$error = true;
-		$alert .= $request->input('nama') ? '' : '<li>namakondangan  Wajib Di isi</li>';
+		$alert .= $request->input('nama') ? '' : '<li>nama  Wajib Di isi</li>';
+		$alert .= $request->input('nomor_hp') ? '' : '<li>nomor  Wajib Di isi</li>';
+		$alert .= $request->input('id_undangan') ? '' : '<li>hajatan  Wajib Di isi</li>';
 		$alert .= $request->input('alamat') ? '' : '<li>alamat  Wajib Di isi</li>';
 
 
@@ -97,6 +130,7 @@ class anggotaController extends Controller
 			$data['jenis_kelamin']  = $request->input('jenis_kelamin');
 			$data['alamat']     	= $request->input('alamat');
 			$data['updated_at']  	= Carbon::now();
+
 
 			if ($request->input('id_edit')) {
 				DB::table('tb_tamu')->where('id', $request->input('id_edit'))->update($data);
@@ -150,8 +184,10 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			$data->orderBy('created_at', 'desc');
 		}
 		$data_list = $data->paginate(20);
+
 		$jlh = DB::table('tb_magang')
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan magang')
@@ -177,6 +213,16 @@ class anggotaController extends Controller
 			$alert .= $request->input('nama') ? '' : '<li>nama  Wajib Di isi</li>';
 			$alert .= $request->input('alamat') ? '' : '<li>alamat  Wajib Di isi</li>';
 			$alert .= $request->input('tanggal') ? '' : '<li>tanggal  Wajib Di isi</li>';
+
+			// if ($request->input('id_edit')) {
+			// 	DB::table('tb_magang')->where('id', $request->input('id_edit'))->update($data);
+			// 	$alert = '<li>Update Telah Berhasil</li>';
+			// } else {
+
+			// 	$data['created_at'] = Carbon::now();
+			// 	DB::table('tb_magang')->insert($data);
+			// 	$alert = '<li>Simpan Telah Berhasil</li>';
+			// }
 		}
 
 		if ($alert == '') {
@@ -188,11 +234,14 @@ class anggotaController extends Controller
 				if ($request->input('id_edit')) {
 					DB::table('tb_tamu_magang')->where('id', $request->input('id_tamu'))->update($datauser);
 					$data['id_tamu'] 		= $request->input('id_tamu');
+					$alert = '<li>Update Telah Berhasil</li>';
 				} else {
 					$datauser['created_at'] = Carbon::now();
 					$data['id_tamu'] 		= DB::table('tb_tamu_magang')->insertGetId($datauser);
+					$alert = '<li>Simpan Telah Berhasil</li>';
 				}
 			}
+
 
 			$data['jenis_barang']     	= $request->input('jenis_barang');
 			$data['jenis_magang']  		= $request->input('jenis_magang');
@@ -250,6 +299,7 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			$data->orderBy('created_at', 'desc');
 		}
 		$data_list = $data->paginate(20);
 		$jlh = DB::table('tb_magang')
@@ -293,6 +343,7 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pengeluaran magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			$data->orderBy('created_at', 'desc');
 		}
 
 
@@ -345,6 +396,7 @@ class anggotaController extends Controller
 		);
 		$data->where('id_anggota', Auth::user()->id);
 		$data_list = $data->paginate(20);
+
 		$i = 0;
 		foreach ($data_list as $key) {
 			$data_list[$i]->foto 			= asset('image/' . $key->foto);
@@ -363,7 +415,7 @@ class anggotaController extends Controller
 		return view('anggota.undangan.list', compact('data_list'));
 	}
 
-	public function simpankondangan(Request $request)
+	public function simpankondangan(Request $request) //fungsi kelas untuk menyimpan hajatan
 	{
 		$alert = '';
 		$error = true;
@@ -415,7 +467,7 @@ class anggotaController extends Controller
 	}
 
 
-	public function loadundangan(Request $request)
+	public function loadundangan(Request $request) //fungsi untung memanggil data undangan
 	{
 		$data = DB::table('tb_kondangan');
 		$data->select(
@@ -428,9 +480,9 @@ class anggotaController extends Controller
 			'tb_kondangan.tgl_selesai',
 			'users.name',
 			'users.id as id_anggota',
-			DB::raw('count(tb_tamu.id) as Jumltb_tamu')
+			DB::raw('count(tb_tamu.id) as Jumltb_tamu') //jumlah tamu berdasarkan undangan
 		);
-		$data->LeftJoin('tb_tamu', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
+		$data->LeftJoin('tb_tamu', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan'); //join tabel tamu dengan tb kondangan
 		$data->LeftJoin('users', 'users.id', '=', 'tb_kondangan.id_anggota');
 		$data->where('tb_kondangan.id_anggota', Auth::user()->id);
 		if ($request->input('cari')) {
@@ -448,23 +500,25 @@ class anggotaController extends Controller
 			'users.id'
 		);
 		$tb =  $data->paginate(10);
+
 		$i = 0;
 		foreach ($tb as $key) {
 			$tb[$i]->foto           = asset('image/' . $key->foto);
 			$tb[$i]->lama_acara     = $this->mktimeWaktu($key->tgl_mulai, $key->tgl_selesai);
 			$tgl_mulai              = Carbon::parse($key->tgl_mulai);
 			$tgl_selesai            = Carbon::parse($key->tgl_selesai);
-			$tb[$i]->tgl_mulai      = $tgl_mulai->format('Y-m-d');
-			$tb[$i]->tgl_selesai    = $tgl_selesai->format('Y-m-d');
+			$tb[$i]->tgl_mulai      = $tgl_mulai->format('d-m-Y');
+			$tb[$i]->tgl_selesai    = $tgl_selesai->format('d-m-Y');
 			$tb[$i]->jam_mulai      = $tgl_mulai->format('H');
 			$tb[$i]->menit_mulai    = $tgl_mulai->format('i');
 			$tb[$i]->jam_selesai    = $tgl_selesai->format('H');
 			$tb[$i]->menit_selesai  = $tgl_selesai->format('i');
-			
+
 			$tb[$i]->jam_menit_mulai = $tgl_mulai->format('H:i');
 
 			$i++;
 		}
+
 		print json_encode(array("tb" => $tb));
 	}
 }
