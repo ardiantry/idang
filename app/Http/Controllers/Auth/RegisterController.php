@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use DB;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 class RegisterController extends Controller
 {
@@ -33,6 +34,15 @@ class RegisterController extends Controller
             $request->session()->flush();
                return redirect('register')->with('nik','NIK  Sudah Ada');       
         }
+
+         $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+       // $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+                        ?: redirect($this->redirectPath());
     }
     /**
      * Where to redirect users after registration.
