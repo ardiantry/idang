@@ -38,13 +38,17 @@
 							<tr>
 								<th>Nama</th> 
 								<th>Email</th>  
+								<th>NIK</th>  
+
 								<th>Hapus Anggota</th>  
 
 							</tr>
 							 @foreach($data_list as $key)
 							 <tr>
 								<td>{{$key->name}}</td> 
-								<td>{{$key->email}}</td>   
+								<td>{{$key->email}}</td> 
+								<td>{{$key->nik}}</td>   
+
 								<th><a href="{{route('hapusanggota',$key->id)}}" class="hapus btn btn-danger"> Hapus</a></th>  
 
 							</tr>
