@@ -286,6 +286,19 @@ public function dataUndangan(Request $request)
         return redirect('admin/list-anggota');
 
     }
+    public function exportdtmasarakat(Request $request) 
+    { 
+          $data       =DB::table('tb_masarakat');
+            if(@$request->input('cari')!='')
+            {
+                $data->where('nama','like','%'.@$request->input('cari').'%');
+            }
+            $data->orderBy('id','DESC'); 
+            $dt_tamu    =$data->get();  
+
+        return view('admin.tamu.excel',compact('dt_tamu'));
+
+    }
     
     
 }
