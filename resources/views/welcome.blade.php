@@ -145,11 +145,15 @@ font-weight: bold;
             @endif
 
             <div class="content">
+
                 
-                <div class="title m-b-md">
+                {{-- <div class="title m-b-md">
                     APLIKASI KONDANGAN DESA SUDIMAMPIR
-                 </div>
+                 </div> --}}
                 
+           <h4 style="margin-top: 50px ">APLIKASI KONDANGAN</h4>  
+           <h4 style="margin-top: 10px ">DESA SUDIMAMPIR</h4>  
+
                 <div class="container">
                          
                        

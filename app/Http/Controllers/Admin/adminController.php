@@ -18,15 +18,15 @@ class adminController extends Controller
             ->where('users.status', 'user')
             ->count();
 
-        $hajatan = DB::table('tb_kondangan') 
-            ->where('tb_kondangan.status','non_aktif')
+        $hajatan = DB::table('tb_kondangan')
+            ->where('tb_kondangan.status', 'non_aktif')
             ->count();
-            
-        $hajatanaktif = DB::table('tb_kondangan') 
-            ->where('tb_kondangan.status','aktif')
-            ->count();    
 
-        return view('admin.home.dasboard', compact('anggota','hajatan','hajatanaktif'));
+        $hajatanaktif = DB::table('tb_kondangan')
+            ->where('tb_kondangan.status', 'aktif')
+            ->count();
+
+        return view('admin.home.dasboard', compact('anggota', 'hajatan', 'hajatanaktif'));
     }
 
     public function listanggota(Request $request)
@@ -170,8 +170,8 @@ class adminController extends Controller
             $tb[$i]->lama_acara     = $this->mktimeWaktu($key->tgl_mulai, $key->tgl_selesai);
             $tgl_mulai              = Carbon::parse($key->tgl_mulai);
             $tgl_selesai            = Carbon::parse($key->tgl_selesai);
-            $tb[$i]->tgl_mulai      = $tgl_mulai->format('Y-m-d');
-            $tb[$i]->tgl_selesai    = $tgl_selesai->format('Y-m-d');
+            $tb[$i]->tgl_mulai      = $tgl_mulai->format('d-m-Y');
+            $tb[$i]->tgl_selesai    = $tgl_selesai->format('d-m-Y');
             $tb[$i]->jam_mulai      = $tgl_mulai->format('H');
             $tb[$i]->menit_mulai    = $tgl_mulai->format('i');
             $tb[$i]->jam_selesai    = $tgl_selesai->format('H');
@@ -293,5 +293,18 @@ class adminController extends Controller
         DB::table('users')->where('id', $request->id_delete)->delete();
         print json_encode(array('error' => false));
         return redirect('admin/list-anggota');
+    }
+
+
+    public function exportdtmasarakat(Request $request)
+    {
+        $data       = DB::table('tb_masarakat');
+        if (@$request->input('cari') != '') {
+            $data->where('nama', 'like', '%' . @$request->input('cari') . '%');
+        }
+        $data->orderBy('id', 'DESC');
+        $dt_tamu    = $data->get();
+
+        return view('admin.tamu.excel', compact('dt_tamu'));
     }
 }

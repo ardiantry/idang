@@ -104,7 +104,7 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="6" class="text-center">Data kosong</th>
+										<th colspan="7" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else

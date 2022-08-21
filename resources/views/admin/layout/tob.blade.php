@@ -3,9 +3,9 @@
 		<!-- LOGO -->
 		<div class="topbar-left">
 			<a href="index.html" class="logo">
-				<span>
-					<img src="{{asset('asset/images/logo-sm.png')}}" alt="logo-small" class="logo-sm"> 
-				</span> 
+				<h3>
+					APLIKASI KONDANGAN
+				</h3> 
 			</a>
 		</div>
 		<!-- Navbar -->

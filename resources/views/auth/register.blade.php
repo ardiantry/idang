@@ -52,6 +52,20 @@
                                 @enderror
                             </div>
                         </div>
+                          {{-- <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('NIK') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nik" type="text" class="form-control @if(Session::has('nik')) is-invalid @endif" name="nik" value="{{ old('nik') }}" required autocomplete="nik">
+ 
+                               @if(Session::has('nik'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{Session::get('nik')}}</strong>
+                                    </span>
+                                    @endif
+                                
+                            </div>
+                        </div> --}}
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>

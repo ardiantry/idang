@@ -101,7 +101,7 @@
 
 										<th>{{$label_satuan}}</th>
 										<th>Tanggal</th> 
-										<th class="hide_pdf">Aksi</th> 
+										<th> Aksi</th> 
 									</tr>
 								</thead>
 								@if(count($data_list)==0) 

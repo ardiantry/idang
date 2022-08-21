@@ -18,11 +18,19 @@
 			<div class="card-body"> 
 				<div class="row">
 					
-					<div class="col-md-4">
+
+					{{-- <div class="col-md-4">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Data Masyarakat</a>
-						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button> --}}
+
+					<div class="col-md-6">
+						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Data Masarakat</a>
+						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button> 
+						<a class="btn btn-success btn-sm" href="{{url('admin/export-dtmasarakat')}}" >Export Excel</a>
+
+
 					</div>
-					<div class="col-md-4"> 
+					<div class="col-md-2"> 
 					</div>
 					<div class="col-md-4">
 
