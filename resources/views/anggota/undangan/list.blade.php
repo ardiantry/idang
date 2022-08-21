@@ -281,7 +281,7 @@
 				const Form_dthps  = new FormData();
 				Form_dthps.append('_token', '{{csrf_token()}}');  
 				Form_dthps.append('id_hapus', $(this).closest('th').data('id'));   
-				fetch('{{route('hapusundangan')}}', { method: 'POST',body:Form_dthps}).then(res => res.json()).then(data => 
+				fetch('{{route('hapusundangan2')}}', { method: 'POST',body:Form_dthps}).then(res => res.json()).then(data => 
 				{ 
 					loaddt();
 

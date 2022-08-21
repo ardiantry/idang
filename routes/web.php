@@ -72,6 +72,7 @@ Route::group(['middleware' => 'auth'], function (){
 		Route::post('/kondangan/tamu/simpan-tamu', 'anggotaController@simpantamu')->name('simpantamu');
 		Route::post('/kondangan/tamu/hapus-tamu', 'anggotaController@hapustamu')->name('hapustamu');
 
+
 		Route::get('/chat-anggota', 'chatController@chatanggota')->name('chatanggota');
 		Route::post('/chat-anggota/Kirim-chat', 'chatController@KirimChat')->name('KirimChat');
 		Route::post('/chat-anggota/list-chat', 'chatController@listChat')->name('listChat');
@@ -96,6 +97,8 @@ Route::group(['middleware' => 'auth'], function (){
 			Route::post('/undangan/load-Kondangan', 'anggotaController@loadundangan')->name('anggotaloadundangan');
 
 			Route::post('/undangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('anggotasimpanundangan');
+			Route::post('/undangan/hapuskondangan', 'anggotaController@hapusundangan')->name('hapusundangan2'); 
+
 
 
 

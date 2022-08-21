@@ -470,4 +470,9 @@ class anggotaController extends Controller
 		}
 		print json_encode(array("tb" => $tb));
 	}
+	 public function hapusundangan(Request $request) 
+    {
+        DB::table('tb_kondangan')->where('id',$request->input('id_hapus'))->delete();
+        print json_encode(array("error"=>false));
+    }
 }
