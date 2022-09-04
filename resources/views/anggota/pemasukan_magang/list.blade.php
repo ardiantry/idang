@@ -58,6 +58,14 @@
 								<label>{{$label_satuan}}</label>
 								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
 							</div>
+							<div class="form-group">
+								<label>Status</label>
+								 <select name="status" placeholder="Status" class="form-control">
+								 	<option value="sudahbayar">Sudah Bayar</option>
+								 	<option value="belumbayar">Belum Bayar</option>
+
+								 </select>
+							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
 						</form>
@@ -96,6 +104,8 @@
 										<th>Alamat</th>  
 										<th>Nama Undangan</th>
 										<th>{{$label_satuan}}</th>
+										<th>Status</th>
+
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
 									</tr>
@@ -103,20 +113,22 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="6" class="text-center">Data kosong</th>
+										<th colspan="7" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								$status_=$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
 								@endphp
 								<tbody>
 									<tr>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td>  
 										<td>{{$key->nama_kondangan}}</td>  
-										<td>{{$key->jumlah2}}</td> 
+										<td>{{$key->jumlah2}}</td>
+										<td>{{$status_}}</td>  
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 
 										<td class="hide_pdf">
@@ -187,6 +199,9 @@ $(document).ready(function()
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
 				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
+				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
+
+				
 				$('input[name="satuan"]').val(data_edit.jumlah);
 				$('input[name="created_at"]').val(data_edit.created_at);
 
@@ -200,6 +215,8 @@ $(document).ready(function()
 				// $('select[name="id_undangan"]').val('');
 				$('select[name="id_tamu"]').val('');
 				$('select[name="id_tamu"]').find('option').removeAttr('selected');
+				$('select[name="status"]').find('option').removeAttr('selected');
+
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');
 

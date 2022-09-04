@@ -19,9 +19,32 @@
 			</a>
 		</li>
 		<li>
+			@php
+			$id_ku=Auth::user()->id; 
+			$data=DB::table('tb_chat');
+			$data->where('id_a',$id_ku);  
+			$data->Orwhere('id_b',$id_ku);  
+			$db_chat=$data->get(); 
+			$data_=array();
+			foreach($db_chat as $key)
+			{
+				$k_dia='';
+				if($key->id_a==$id_ku)
+				{
+					$k_dia=$key->id_b;
+				}
+				if($key->id_b==$id_ku)
+				{
+					$k_dia=$key->id_a;
+				}
+				$data_[$k_dia]=$k_dia;
+
+			}
+			$jml=count($data_);
+			@endphp
 			<a href="{{route('chatadmin')}}">
 			<i class="fa fa-wechat "></i>
-			<span>Data Chat</span>
+			<span>Data Chat <span>{{$jml}}</span></span>
 			</a>
 		</li>
 	</ul> 

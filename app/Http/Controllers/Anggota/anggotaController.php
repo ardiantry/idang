@@ -159,6 +159,8 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan magang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
+			->where('tb_magang.status', 'sudahbayar')
+
 			->sum('jumlah');
 		$jlh_tamu = DB::table('tb_magang')
 			->where('tb_magang.jenis_barang', @$request->type)
@@ -199,6 +201,9 @@ class anggotaController extends Controller
 
 			$data['jenis_barang']     	= $request->input('jenis_barang');
 			$data['jenis_magang']  		= $request->input('jenis_magang');
+			$data['status']  			= $request->input('status');
+
+			
 			$nominal_satuan 			= $request->input('jenis_barang') == 'uang' ? 'rp' : 'kg';
 			$data['jenis_satuan']     	= $nominal_satuan;
 			$data['id_anggota']      	= Auth::user()->id;
@@ -259,6 +264,7 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan hutang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
+			->where('tb_magang.status', 'sudahbayar')
 			->sum('jumlah');
 
 		$jlh_tamu = DB::table('tb_magang')
@@ -475,4 +481,9 @@ class anggotaController extends Controller
         DB::table('tb_kondangan')->where('id',$request->input('id_hapus'))->delete();
         print json_encode(array("error"=>false));
     }
+    public function rekapmagang(Request $request) 
+    {
+        	return view('anggota.rekap.list');
+    }
+    
 }

@@ -74,7 +74,7 @@
                         <label>Status Aktif</label>
                        	<select class="form-control" name="aktif">
                        	<option value="aktif">Setujui</option>
-                       	<option value="non_aktif">Tidak Di setujui</option>
+                       	<option value="non_aktif">Belum Di Setujui</option>
                        </select>
                     </div>
                      
