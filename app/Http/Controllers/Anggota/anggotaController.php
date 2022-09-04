@@ -485,5 +485,9 @@ class anggotaController extends Controller
     {
         	return view('anggota.rekap.list');
     }
+    public function ekxportxlrekap(Request $request) 
+    {
+        	return view('anggota.rekap.ekxportxlrekap');
+    }
     
 }

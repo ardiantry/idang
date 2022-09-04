@@ -99,6 +99,8 @@ Route::group(['middleware' => 'auth'], function (){
 			Route::post('/undangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('anggotasimpanundangan');
 			Route::post('/undangan/hapuskondangan', 'anggotaController@hapusundangan')->name('hapusundangan2'); 
 			Route::get('/rekap-magang', 'anggotaController@rekapmagang')->name('rekapmagang'); 
+			Route::get('ekxport-xl-rekap', 'anggotaController@ekxportxlrekap'); 
+
 
 
 
