@@ -85,6 +85,8 @@
 							</div>
 							<div class="col-md-6">
 								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<a class="btn btn-warning btn-sm" href="{{route('anggotatamu')}}">Tambah Tamu</a>
+
 							</div>
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
