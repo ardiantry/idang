@@ -253,7 +253,7 @@ class adminController extends Controller
         DB::table('tb_masarakat')->where('id', $request->input('id_hapus'))->delete();
         print json_encode(array('error' => false));
     }
-    public function simpantamuadmin(Request $request)
+    public function simpantamuadmin(Request $request) //kelas simpan masyrakat
     {
 
         $alert = '';
@@ -268,7 +268,7 @@ class adminController extends Controller
                 $data['id_undangan']    = $request->input('id_undangan');
             }
             $data['id_user']        = Auth::user()->id;
-            $data['nomor_hp']       = $request->input('nomor_hp');
+            // $data['nomor_hp']       = $request->input('nomor_hp');
             $data['nama']           = $request->input('nama');
             $data['jenis_kelamin']  = $request->input('jenis_kelamin');
             $data['alamat']         = $request->input('alamat');

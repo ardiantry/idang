@@ -211,8 +211,9 @@ class anggotaController extends Controller
 			$alert .= $request->input('id_tamu') ? '' : '<li>Tamu  Wajib Di isi</li>';
 		} else {
 			$alert .= $request->input('nama') ? '' : '<li>nama  Wajib Di isi</li>';
+			
 			$alert .= $request->input('alamat') ? '' : '<li>alamat  Wajib Di isi</li>';
-			$alert .= $request->input('tanggal') ? '' : '<li>tanggal  Wajib Di isi</li>';
+			$alert .= $request->input('created_at') ? '' : '<li>tanggal  Wajib Di isi</li>';
 
 			// if ($request->input('id_edit')) {
 			// 	DB::table('tb_magang')->where('id', $request->input('id_edit'))->update($data);
@@ -343,7 +344,7 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pengeluaran magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			$data->orderBy('created_at', 'desc');
+			$data->orderBy('nama', 'asc');
 		}
 
 
@@ -520,5 +521,10 @@ class anggotaController extends Controller
 		}
 
 		print json_encode(array("tb" => $tb));
+	}
+	public function hapusundangan(Request $request)
+	{
+		DB::table('tb_kondangan')->where('id', $request->input('id_hapus'))->delete();
+		print json_encode(array("error" => false));
 	}
 }

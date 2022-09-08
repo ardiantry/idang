@@ -3,7 +3,7 @@
 		<!-- LOGO --> 
 		<div class="topbar-left">
 			<a href="index.html" class="logo">
-				<h3>
+				<h3 style="font-size:2vw;">
 					APLIKASI KONDANGAN
 				</h3> 
 			</a>

@@ -146,7 +146,7 @@ $('body').delegate('#kirimChat','submit',function(e)
 	fetch('{{route('KirimChat')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
 	{ 
 
-		this_.find('button[type="submit"]').html('Simpan');
+		this_.find('button[type="submit"]').html('kirim');
 		this_.find('button[type="submit"]').removeAttr('disabled'); 
 		$('input[name="pesannya"]').val('');
 		getlischat(); 

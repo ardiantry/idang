@@ -52,6 +52,23 @@
 								</select>
 							</div>
 							<div class="form-group">
+								<label>Nama Tamu (jika tamu belum mengisi daftar tamu)</label>
+								 <input type="text" name="nama"  placeholder="" class="form-control">
+							</div>	
+							{{-- <div class="form-group">
+								<label>Hajatan (Jika belum mengisi buku tamu)</label>
+								<select class="form-control" name="id_undangan">
+									@php
+									$undg=DB::table('tb_kondangan')->where('id_anggota',Auth::user()->id)->get();
+									@endphp
+									<option>--Pilih Hajatan--</option>
+									@foreach($undg as $key_ud)
+									<option value="{{$key_ud->id}}">{{$key_ud->nama_kondangan}}</option> 
+									@endforeach
+								</select>
+							</div> --}}
+							
+							<div class="form-group">
 								<label>Tanggal</label>
 								 <input type="date" name="created_at"  placeholder="" class="form-control">
 							</div>
