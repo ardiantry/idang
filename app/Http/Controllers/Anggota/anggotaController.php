@@ -164,7 +164,7 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan magang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
-			->where('tb_magang.status', 'sudahbayar')
+			//->where('tb_magang.status', 'sudahbayar')
 
 			->sum('jumlah');
 		$jlh_tamu = DB::table('tb_magang')
@@ -274,7 +274,7 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan hutang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
-			->where('tb_magang.status', 'sudahbayar')
+			//->where('tb_magang.status', 'sudahbayar')
 			->sum('jumlah');
 
 		$jlh_tamu = DB::table('tb_magang')
