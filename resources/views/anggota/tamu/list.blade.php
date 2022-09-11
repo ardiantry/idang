@@ -20,7 +20,7 @@
 					
 					<div class="col-md-4">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
-						<button class="btn btn-primary btn-sm" id="pdf">Cetak PDF</button>
+						<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 					</div>
 					<div class="col-md-4"> 
 					</div>
@@ -156,7 +156,7 @@
 				$('input[name="nama"]').val('');
 				$('select[name="id_undangan"]').val('');
 				$('input[name="nomor_hp"]').val('');
-				$('select[name="jenis_kelamin"]').find('option').removeAttr('selected'); 
+				// $('select[name="jenis_kelamin"]').find('option').removeAttr('selected'); 
 				$('textarea[name="nama"]').empty(); 
 				$('textarea[name="alamat"]').empty();  
 				$('#ModalForm').modal({ backdrop: 'static',keyboard: false});  
@@ -216,7 +216,7 @@
 				$('input[name="nama"]').val(dat_edit.nama);
 				$('input[name="nomor_hp"]').val(dat_edit.nomor_hp); 
 				$('textarea[name="alamat"]').html(dat_edit.alamat);  
-				$('select[name="jenis_kelamin"]').find('option[value="'+dat_edit.jenis_kelamin+'"]').attr('selected','selected');   
+				// $('select[name="jenis_kelamin"]').find('option[value="'+dat_edit.jenis_kelamin+'"]').attr('selected','selected');   
 				$('select[name="id_undangan"]').find('option[value="'+dat_edit.id_undangan+'"]').attr('selected','selected');   
 
 

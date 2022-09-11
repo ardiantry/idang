@@ -49,12 +49,14 @@
 									@foreach($tb_tamu as $key)
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
+									
+
 								</select>
 							</div>
-							<div class="form-group">
+							{{-- <div class="form-group">
 								<label>Nama Tamu (jika tamu belum mengisi daftar tamu)</label>
 								 <input type="text" name="nama"  placeholder="" class="form-control">
-							</div>	
+							</div>	 --}}
 							{{-- <div class="form-group">
 								<label>Hajatan (Jika belum mengisi buku tamu)</label>
 								<select class="form-control" name="id_undangan">
@@ -76,6 +78,13 @@
 								<label>{{$label_satuan}}</label>
 								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
 							</div>
+							<div class="form-group">
+								<label>Status</label>
+								 <select name="status" placeholder="Status" class="form-control">
+									<option value="sudahbayar">Sudah Bayar</option>
+									{{-- <option value="belumbayar">Belum Bayar</option> --}}
+								 </select>
+							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
 						</form>
@@ -93,7 +102,9 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
+								<a class="btn btn-warning btn-sm" href="{{route('anggotatamu')}}">Tambah Tamu</a>
+
 							</div>
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
@@ -117,18 +128,20 @@
 										<th>Nama Hajatan</th>
 
 										<th>{{$label_satuan}}</th>
+										<th>Status</th>
 										<th>Tanggal</th> 
 										<th> Aksi</th> 
 									</tr>
 								</thead>
 								@if(count($data_list)==0) 
 									<tr>
-										<td colspan="6" class="text-center">Data kosong</td> 
+										<td colspan="7" class="text-center">Data kosong</td> 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								$status_=$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
 								@endphp
 								<tbody>
 									<tr>
@@ -138,6 +151,8 @@
 										<td>{{$key->nama_kondangan}}</td>   
 										
 										<td>{{$key->jumlah2}}</td>
+										<td>{{$status_}}</td>
+
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
@@ -158,9 +173,13 @@
 	</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript">
+
+
 $(document).ready(function()
+{
+    // $('id_tamu').select2();
 { 
 	@foreach($data_list as $key)
 	@php
@@ -210,6 +229,8 @@ $(document).ready(function()
 				$('button[type="submit"]').html('Edit'); 
 				// $('select[name="id_undangan"] option[value="'+data_edit.id_undangan+'"]').attr('selected','selected');
 				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
+				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
+
 				$('input[name="satuan"]').val(data_edit.jumlah);
 				$('input[name="created_at"]').val(data_edit.created_at);
 
@@ -225,6 +246,8 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				 $('select[name="id_undangan"]').val('');
 				$('select[name="id_tamu"]').val('');
 				$('select[name="id_tamu"]').find('option').removeAttr('selected');
+				$('select[name="status"]').find('option').removeAttr('selected');
+
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');
 

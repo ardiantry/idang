@@ -93,6 +93,17 @@ Route::group(['middleware' => 'auth'], function () {
 			Route::get('/pengeluaran-magang/{type}', 'anggotaController@pengeluaranmagang')->name('pengeluaranmagang');
 			Route::post('/Hapus-pelayan', 'anggotaController@Hapus_pelayan')->name('Hapus_pelayan');
 
+			Route::get('/data-Undangan', 'anggotaController@dataUndangan')->name('anggotaundangan');
+			Route::post('/undangan/load-Kondangan', 'anggotaController@loadundangan')->name('anggotaloadundangan');
+
+			Route::post('/undangan/simpan-kondangan', 'anggotaController@simpankondangan')->name('anggotasimpanundangan');
+			Route::post('/undangan/hapuskondangan', 'anggotaController@hapusundangan')->name('hapusundangan2');
+			Route::get('/rekap-magang', 'anggotaController@rekapmagang')->name('rekapmagang');
+			Route::get('ekxport-xl-rekap', 'anggotaController@ekxportxlrekap');
+
+
+
+
 
 
 

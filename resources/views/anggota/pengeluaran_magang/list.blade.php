@@ -66,6 +66,17 @@
 								<label>{{$label_satuan}}</label>
 								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
 							</div>
+
+							<div class="form-group">
+								<label>Status</label>
+								 <select name="status" placeholder="Status" class="form-control">
+									<option value="belumbayar">Belum Bayar</option>
+									<option value="sudahbayar">Sudah Bayar</option>
+
+								 	
+
+								 </select>
+							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
 						</form>
@@ -82,7 +93,7 @@
 </div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 							</div>
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
@@ -105,6 +116,7 @@
 										<th>Alamat</th> 
 									<!-- 	<th>Undangan</th>  -->
 										<th>{{$label_satuan}}</th>
+										<th>Status</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
 									</tr>
@@ -119,6 +131,7 @@
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								$status_=$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
 								@endphp
 								<tbody>
 									<tr>
@@ -127,7 +140,9 @@
 										<td>{{$key->alamat}}</td> 
 										<!-- <td>{{$key->nama_kondangan}}</td>  -->
 										<td>{{$key->jumlah2}}</td>
+										<td>{{$status_}}</td> 
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
+										  
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
@@ -202,6 +217,7 @@ $(document).ready(function()
 				$('input[name="nama"]').val(data_edit.nama);
 				$('input[name="alamat"]').val(data_edit.alamat);
 				$('input[name="tanggal"]').val(data_edit.tanggal);  
+				$('input[name="status"]').val(data_edit.status);  
 				$('input[name="satuan"]').val(data_edit.jumlah);
 
 			});
@@ -219,7 +235,7 @@ $(document).ready(function()
 				$('input[name="alamat"]').val('');
 				$('input[name="tanggal"]').val(''); 
 				$('input[name="satuan"]').val(''); 
-				$('input[name="satuan"]').val('');
+				$('input[name="status"]').val('');
 
 			});
 			

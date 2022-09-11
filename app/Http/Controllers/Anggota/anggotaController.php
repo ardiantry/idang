@@ -192,6 +192,8 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan magang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
+			->where('tb_magang.status', 'sudahbayar')
+
 			->sum('jumlah');
 		$jlh_tamu = DB::table('tb_magang')
 			->where('tb_magang.jenis_barang', @$request->type)
@@ -211,7 +213,7 @@ class anggotaController extends Controller
 			$alert .= $request->input('id_tamu') ? '' : '<li>Tamu  Wajib Di isi</li>';
 		} else {
 			$alert .= $request->input('nama') ? '' : '<li>nama  Wajib Di isi</li>';
-			
+
 			$alert .= $request->input('alamat') ? '' : '<li>alamat  Wajib Di isi</li>';
 			$alert .= $request->input('created_at') ? '' : '<li>tanggal  Wajib Di isi</li>';
 
@@ -246,6 +248,9 @@ class anggotaController extends Controller
 
 			$data['jenis_barang']     	= $request->input('jenis_barang');
 			$data['jenis_magang']  		= $request->input('jenis_magang');
+			$data['status']  			= $request->input('status');
+
+
 			$nominal_satuan 			= $request->input('jenis_barang') == 'uang' ? 'rp' : 'kg';
 			$data['jenis_satuan']     	= $nominal_satuan;
 			$data['id_anggota']      	= Auth::user()->id;
@@ -307,6 +312,7 @@ class anggotaController extends Controller
 			->where('tb_magang.jenis_barang', @$request->type)
 			->where('tb_magang.jenis_magang', 'pemasukan hutang')
 			->where('tb_magang.id_anggota', Auth::user()->id)
+			->where('tb_magang.status', 'sudahbayar')
 			->sum('jumlah');
 
 		$jlh_tamu = DB::table('tb_magang')
@@ -320,7 +326,7 @@ class anggotaController extends Controller
 	public function pengeluaranmagang(Request $request)
 	{
 		$data = DB::table('tb_magang');
-		$data->select('tb_magang.*', 'tb_tamu_magang.nama', 'tb_tamu_magang.alamat', 'tb_tamu_magang.tanggal', 'tb_kondangan.nama_kondangan');
+		$data->select('tb_magang.*', 'tb_tamu_magang.nama', 'tb_tamu_magang.alamat', 'tb_tamu_magang.tanggal', 'tb_tamu_magang.status', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu_magang', 'tb_tamu_magang.id', '=', 'tb_magang.id_tamu');
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_magang.id_undangan');
 
@@ -522,9 +528,24 @@ class anggotaController extends Controller
 
 		print json_encode(array("tb" => $tb));
 	}
+
 	public function hapusundangan(Request $request)
 	{
 		DB::table('tb_kondangan')->where('id', $request->input('id_hapus'))->delete();
 		print json_encode(array("error" => false));
+	}
+
+	// public function hapusundangan(Request $request)
+	// {
+	// 	DB::table('tb_kondangan')->where('id', $request->input('id_hapus'))->delete();
+	// 	print json_encode(array("error" => false));
+	// }
+	public function rekapmagang(Request $request)
+	{
+		return view('anggota.rekap.list');
+	}
+	public function ekxportxlrekap(Request $request)
+	{
+		return view('anggota.rekap.ekxportxlrekap');
 	}
 }

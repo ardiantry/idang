@@ -74,7 +74,8 @@
                         <label>Status Aktif</label>
                        	<select class="form-control" name="aktif">
                        	<option value="aktif">Setujui</option>
-                       	<option value="non_aktif">Tidak Di setujui</option>
+                       	<option value="non_aktif">Belum Dietujui</option>
+                       	{{-- <option value="non_aktif">Selesai</option> --}}
                        </select>
                     </div>
                      
@@ -163,7 +164,7 @@
 				    	 for(let list of data.tb.data)
 				    	 {
 				    	 	var name_=list.name?list.name:'-';
-				    	 	var status=list.status=='aktif'?'<span class="badge badge-success">di setujui</span':'<span class="badge badge-danger">tidak di setujui</span>';
+				    	 	var status=list.status=='aktif'?'<span class="badge badge-success">di setujui</span':'<span class="badge badge-danger">belum disetujui</span>';
 				    	 	window['kondangan_'+list.id]=list;
 										list_+=`<tr>
 										<th>`+list.nama_kondangan+`</th> 

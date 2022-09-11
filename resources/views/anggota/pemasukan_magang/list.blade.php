@@ -58,6 +58,15 @@
 								<label>{{$label_satuan}}</label>
 								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
 							</div>
+							<div class="form-group">
+								<label>Status</label>
+								 <select name="status" placeholder="Status" class="form-control">
+								 	<option value="belumbayar">Belum Bayar</option>
+									<option value="sudahbayar">Sudah Bayar</option>
+								 	
+
+								 </select>
+							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
 						</form>
@@ -74,7 +83,9 @@
 </div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
+								<a class="btn btn-warning btn-sm" href="{{route('anggotatamu')}}">Tambah Tamu</a>
+								
 							</div>
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
@@ -97,6 +108,8 @@
 										<th>Alamat</th>  
 										<th>Nama Hajatan</th>
 										<th>{{$label_satuan}}</th>
+										<th>Status</th>
+
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
 									</tr>
@@ -111,6 +124,7 @@
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								$status_=$key->status=='belumbayar'?'Belum Bayar':'Sudah di bayar';
 								@endphp
 								<tbody>
 									<tr>
@@ -118,7 +132,9 @@
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td>  
 										<td>{{$key->nama_kondangan}}</td>  
-										<td>{{$key->jumlah2}}</td> 
+										<td>{{$key->jumlah2}}</td>
+										<td>{{$status_}}</td>
+							
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
 
 										<td class="hide_pdf">
@@ -189,6 +205,10 @@ $(document).ready(function()
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
 				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
+				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
+				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
+
+				
 				$('input[name="satuan"]').val(data_edit.jumlah);
 				$('input[name="created_at"]').val(data_edit.created_at);
 
@@ -202,6 +222,8 @@ $(document).ready(function()
 				// $('select[name="id_undangan"]').val('');
 				$('select[name="id_tamu"]').val('');
 				$('select[name="id_tamu"]').find('option').removeAttr('selected');
+				$('select[name="status"]').find('option').removeAttr('selected');
+
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');
 
