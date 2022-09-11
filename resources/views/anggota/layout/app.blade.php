@@ -18,6 +18,9 @@
 	<link href="{{asset('asset/css/style.css')}}" rel="stylesheet" type="text/css">
 	<script src="{{asset('asset/js/jquery.min.js')}}"></script>
 	<script src="{{asset('asset/js/jquery-3.2.1.slim.min.js')}}"></script>
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 </head>
 <body>
 	@include('anggota.layout.tob')

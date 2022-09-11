@@ -127,32 +127,37 @@ class anggotaController extends Controller
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
-
+		
 
 		if (@$request->input('cari') != '') {
 			$data->where('tb_tamu.nama', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_tamu.nomor_hp', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_tamu.alamat', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		} else {
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		}
 		$data_list = $data->paginate(20);
 		$jlh = DB::table('tb_magang')
@@ -238,26 +243,31 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_tamu.nomor_hp', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_tamu.alamat', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 
 			$data->Orwhere('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		} else {
 
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
+			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		}
 		$data_list = $data->paginate(20);
 		$jlh = DB::table('tb_magang')

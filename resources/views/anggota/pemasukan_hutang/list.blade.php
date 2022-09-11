@@ -91,6 +91,18 @@
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
 								<div class="input-group">
+									@php
+									$kondangan = DB::table('tb_kondangan')->where('status','aktif')->where('id_anggota',Auth::user()->id)->get();
+									@endphp
+									<select name="kondangan" class="form-control">
+										<option value="">Pilih Kondangan</option>
+										@foreach($kondangan as $key)
+										@php
+										$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
+										@endphp 
+											<option value="{{@$key->id}}" {{$selected_}}>{{@$key->nama_kondangan}}</option>
+										@endforeach		
+									</select>
 									<input type="text" name="cari" value="{{@$app->request->input('cari')}}" class="form-control">
 									<span class="input-group-append">
 									<button class="btn btn-primary btn-sm">Cari</button> 
@@ -157,6 +169,7 @@
 <script type="text/javascript">
 $(document).ready(function()
 { 
+	$('select[name="id_tamu"]').select2();
 	@foreach($data_list as $key)
 	@php
 	$key->created_at=Carbon\Carbon::parse($key->created_at)->format('Y-m-d');
@@ -203,10 +216,10 @@ $(document).ready(function()
 				var data_edit=window['id_'+$(this).data('id')];
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
-				// $('select[name="id_undangan"] option[value="'+data_edit.id_undangan+'"]').attr('selected','selected');
-				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
-				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
-
+				$('select[name="id_tamu"]').find('option').removeAttr('selected'); 
+				$('select[name="id_tamu"]').find('option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
+				$('select[name="id_tamu"]').trigger('change');
+				$('select[name="status"]').find('option[value="'+data_edit.status+'"]').attr('selected','selected');
 				$('input[name="satuan"]').val(data_edit.jumlah);
 				$('input[name="created_at"]').val(data_edit.created_at);
 
@@ -219,10 +232,10 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				$('#yakinedit').empty(); 
 				window.id_edit=undefined; 
 				$('button[type="submit"]').html('Simpan'); 
-				 $('select[name="id_undangan"]').val('');
-				$('select[name="id_tamu"]').val('');
+				 $('select[name="id_undangan"]').val(''); 
 				$('select[name="id_tamu"]').find('option').removeAttr('selected');
 				$('select[name="status"]').find('option').removeAttr('selected');
+				$('select[name="id_tamu"]').trigger('change');
 
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');
@@ -232,14 +245,17 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 
 			$('body').delegate('#pdf','click',function(e)
 			{
-				e.preventDefault(); 
+				e.preventDefault();  
 				$('.hide_pdf').remove();
+				@if(@$app->request->input('kondangan'))
+				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan {{@$app->request->input('kondangan')}}</h5>');
+				@endif
+				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);
 				setTimeout(function(){
 					window.location.reload();
 				},1000);
-
 
 			});
 			$('body').delegate('.hapus','click',function(e)
