@@ -248,7 +248,8 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
-				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan {{@$app->request->input('kondangan')}}</h5>');
+				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').text();
+				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan '+nm_kond+'</h5>');
 				@endif
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
