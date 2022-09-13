@@ -142,12 +142,8 @@
 								 @else
 								@foreach($data_list as $key)
 								@php
-								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
-<<<<<<< HEAD
-								$status_=@$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
-=======
-								$status_=$key->status=='belumbayar'?'Belum Bayar':'Sudah di bayar';
->>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
+								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-'; 
+								$status_=@$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar'; 
 								@endphp
 								<tbody>
 									<tr>
@@ -155,16 +151,10 @@
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td>  
 										<td>{{$key->nama_kondangan}}</td>  
-										<td>{{$key->jumlah2}}</td>
-<<<<<<< HEAD
+										<td>{{$key->jumlah2}}</td> 
 										<td>{{$status_}}</td>  
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td> 
-=======
-										<td>{{$status_}}</td>
-							
-										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
-
->>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
+ 
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>

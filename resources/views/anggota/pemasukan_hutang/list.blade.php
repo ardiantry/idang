@@ -57,10 +57,8 @@
 
 								</select>
 							</div>
-<<<<<<< HEAD
 							<div id="alamat"> 
 							</div>
-=======
 							{{-- <div class="form-group">
 								<label>Nama Tamu (jika tamu belum mengisi daftar tamu)</label>
 								 <input type="text" name="nama"  placeholder="" class="form-control">
@@ -78,7 +76,6 @@
 								</select>
 							</div> --}}
 							
->>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
 							<div class="form-group">
 								<label>Tanggal</label>
 								 <input type="date" name="created_at"  placeholder="" class="form-control">
