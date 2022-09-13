@@ -159,19 +159,29 @@ class anggotaController extends Controller
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
 			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		}
-		$data_list = $data->paginate(20);
-		$jlh = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			//->where('tb_magang.status', 'sudahbayar')
+		$data_list  = $data->paginate(20);
+		$data_jhl   = $data->get();
+		$jlh 		=0;
+		$jlh_tamu 	=0;
+		foreach ($data_jhl as $key) 
+		{
+			$jlh  	+=$key->jumlah;
+			$jlh_tamu++;
+			# code...
+		}
 
-			->sum('jumlah');
-		$jlh_tamu = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->count();
+		// $jlh = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan magang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	//->where('tb_magang.status', 'sudahbayar')
+
+		// 	->sum('jumlah');
+		// $jlh_tamu = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan magang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	->count();
 		return view('anggota.pemasukan_magang.list', compact('data_list', 'jlh', 'jlh_tamu'));
 	}
 	public function simpanpemasukan(Request $request)
@@ -216,6 +226,11 @@ class anggotaController extends Controller
 			$data['jumlah']      	 	= $request->input('satuan');
 			$data['updated_at']  		= Carbon::now();
 			$data['created_at'] 		= $request->input('created_at') ? Carbon::parse($request->input('created_at')) : Carbon::now();
+
+			if($request->input('id_tamu')&&$request->input('alamat'))
+			{
+				DB::table('tb_tamu')->where('id', $request->input('id_tamu'))->update(['alamat'=>$request->input('alamat')]);
+			}
 
 			if ($request->input('id_edit')) {
 				DB::table('tb_magang')->where('id', $request->input('id_edit'))->update($data);
@@ -269,19 +284,28 @@ class anggotaController extends Controller
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
 			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
 		}
-		$data_list = $data->paginate(20);
-		$jlh = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan hutang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			//->where('tb_magang.status', 'sudahbayar')
-			->sum('jumlah');
+		$data_list = $data->paginate(20); 
+		$data_jhl   = $data->get();
+		$jlh 		=0;
+		$jlh_tamu 	=0;
+		foreach ($data_jhl as $key) 
+		{
+			$jlh  	+=$key->jumlah;
+			$jlh_tamu++; 
+		}
 
-		$jlh_tamu = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan hutang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->count();
+		// $jlh = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan hutang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	//->where('tb_magang.status', 'sudahbayar')
+		// 	->sum('jumlah');
+
+		// $jlh_tamu = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan hutang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	->count();
 		return view('anggota.pemasukan_hutang.list', compact('data_list', 'jlh', 'jlh_tamu'));
 	}
 

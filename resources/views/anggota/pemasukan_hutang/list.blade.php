@@ -45,11 +45,17 @@
 									<option>-Pilih tamu--</option>
 									@php
 									$tb_tamu=DB::table('tb_tamu')->where('id_user',@Auth::user()->id)->get();
+									$arry_alamat=array();
 									@endphp
 									@foreach($tb_tamu as $key)
+									@php
+									$arry_alamat[$key->id]=@$key->alamat;
+									@endphp
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
 								</select>
+							</div>
+							<div id="alamat"> 
 							</div>
 							<div class="form-group">
 								<label>Tanggal</label>
@@ -176,6 +182,23 @@ $(document).ready(function()
 	@endphp
 	window['id_'+'{{$key->id}}']={!!json_encode($key)!!};
 	@endforeach
+	$('body').delegate('select[name="id_tamu"]','change',function(e)
+	{
+		e.preventDefault();
+		getalamat($(this).val());
+	});
+	var alamat_={!!json_encode($arry_alamat)!!}; 
+	function getalamat(id_tamu=undefined)
+	{
+		$('#alamat').empty();
+		if(id_tamu==undefined)
+		{
+			return;
+		}
+		var alamat=alamat_[id_tamu]; 
+		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea class="form-control" name="alamat">'+alamat+'</textarea></div>');
+	}
+
 		$('body').delegate('#tambahhutang','submit',function(e)
 			{
 				e.preventDefault();

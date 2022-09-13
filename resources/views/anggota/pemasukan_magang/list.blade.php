@@ -44,11 +44,18 @@
 									<option>-Pilih tamu--</option>
 									@php
 									$tb_tamu=DB::table('tb_tamu')->where('id_user',@Auth::user()->id)->get();
+									$arry_alamat=array();
 									@endphp
 									@foreach($tb_tamu as $key)
+									@php
+									$arry_alamat[$key->id]=@$key->alamat;
+									@endphp
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
 								</select>
+							</div>
+							<div id="alamat">
+								
 							</div>
 							<div class="form-group">
 								<label>Tanggal</label>
@@ -79,7 +86,7 @@
 								<tr><td>Jumlah Tamu</td><td>:</td><td>{{$jlh_tamu}}</td></tr>
 
 							</table>
-</div>
+							</div>
 							</div>
 							<div class="col-md-6">
 								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
@@ -96,7 +103,7 @@
 										<option value="">Pilih Kondangan</option>
 										@foreach($kondangan as $key)
 										@php
-										$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
+										@$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
 										@endphp 
 											<option value="{{@$key->id}}" {{$selected_}}>{{@$key->nama_kondangan}}</option>
 										@endforeach		
@@ -119,8 +126,7 @@
 										<th>Alamat</th>  
 										<th>Nama Undangan</th>
 										<th>{{$label_satuan}}</th>
-										<th>Status</th>
-
+										<th>Status</th> 
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
 									</tr>
@@ -135,7 +141,7 @@
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
-								$status_=$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
+								$status_=@$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
 								@endphp
 								<tbody>
 									<tr>
@@ -144,8 +150,7 @@
 										<td>{{$key->nama_kondangan}}</td>  
 										<td>{{$key->jumlah2}}</td>
 										<td>{{$status_}}</td>  
-										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
-
+										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td> 
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
@@ -169,21 +174,38 @@
 <script type="text/javascript">
 $(document).ready(function()
 { 
-		$('select[name="id_tamu"]').select2();
+	$('select[name="id_tamu"]').select2();
 	@foreach($data_list as $key)
 	@php
 	$key->created_at=Carbon\Carbon::parse($key->created_at)->format('Y-m-d');
 	@endphp
 	window['id_'+'{{$key->id}}']={!!json_encode($key)!!};
 	@endforeach
+
+	$('body').delegate('select[name="id_tamu"]','change',function(e)
+	{
+		e.preventDefault();
+		getalamat($(this).val());
+	});
+	var alamat_={!!json_encode($arry_alamat)!!}; 
+	function getalamat(id_tamu=undefined)
+	{
+		$('#alamat').empty();
+		if(id_tamu==undefined)
+		{
+			return;
+		}
+		var alamat=alamat_[id_tamu]; 
+		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea class="form-control" name="alamat">'+alamat+'</textarea></div>');
+	}
+
 		$('body').delegate('#tambahmagang','submit',function(e)
 			{
 				e.preventDefault();
 				var this_=$(this);
 				$('.ms-alert').empty();
 				this_.find('button[type="submit"]').html('loading...');
-				this_.find('button[type="submit"]').attr('disabled','disabled');
-
+				this_.find('button[type="submit"]').attr('disabled','disabled'); 
 				const formsimpan  = document.forms.namedItem('tambahmagang'); 
 				const Form_item  = new FormData(formsimpan);
 				Form_item.append('_token', '{{csrf_token()}}');
@@ -195,6 +217,7 @@ $(document).ready(function()
 				}
 				fetch('{{route('simpanpemasukan')}}', { method: 'POST',body:Form_item}).then(res => res.json()).then(data => 
 				    {  
+
 				    	if(data.error)
 				    	{
 				    		$('.ms-alert').html('<div class="alert alert-danger">'+data.alert+'</div>');
@@ -218,11 +241,11 @@ $(document).ready(function()
 				$('select[name="id_tamu"]').find('option').removeAttr('selected'); 
 				$('select[name="id_tamu"]').find('option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
 				$('select[name="id_tamu"]').trigger('change');
-				$('select[name="status"]').find('option[value="'+data_edit.status+'"]').attr('selected','selected');
-
-				
+				$('select[name="status"]').find('option[value="'+data_edit.status+'"]').attr('selected','selected'); 
 				$('input[name="satuan"]').val(data_edit.jumlah);
 				$('input[name="created_at"]').val(data_edit.created_at);
+				getalamat(data_edit.id_tamu);
+
 
 			});
 		$('body').delegate('#yakinedit button[type="button"]','click',function(e)
@@ -238,6 +261,7 @@ $(document).ready(function()
 
 				$('input[name="satuan"]').val('');
 				$('input[name="created_at"]').val('');
+					getalamat();
 
 
 			});
