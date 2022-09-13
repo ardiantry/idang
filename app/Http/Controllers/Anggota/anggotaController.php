@@ -89,9 +89,11 @@ class anggotaController extends Controller
 		$data->where('tb_tamu.id_user', Auth::user()->id);
 		if (@$request->idtamu) {
 			$data->where('tb_tamu.id_undangan', @$request->idtamu);
+			
 		}
 		if (@$request->input('cari')) {
 			$data->where('tb_tamu.nama', 'like', '%' . @$request->input('cari') . '%');
+			
 
 			$data->orWhere('tb_tamu.id_user', Auth::user()->id);
 			$data->where('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
@@ -158,56 +160,70 @@ class anggotaController extends Controller
 		$data->select('tb_magang.*', 'tb_tamu.nama', 'tb_tamu.nomor_hp', 'tb_tamu.alamat', 'tb_kondangan.nama_kondangan');
 		$data->leftJoin('tb_tamu', 'tb_tamu.id', '=', 'tb_magang.id_tamu');
 		$data->leftJoin('tb_kondangan', 'tb_kondangan.id', '=', 'tb_tamu.id_undangan');
-		
+
 
 		if (@$request->input('cari') != '') {
 			$data->where('tb_tamu.nama', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_tamu.nomor_hp', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_tamu.alamat', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 		} else {
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-
-			$data->orderBy('created_at', 'desc');
-
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
-
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 		}
-		$data_list = $data->paginate(20);
+		$data_list  = $data->paginate(20);
+		$data_jhl   = $data->get();
+		$jlh 		= 0;
+		$jlh_tamu 	= 0;
+		foreach ($data_jhl as $key) {
+			$jlh  	+= $key->jumlah;
+			$jlh_tamu++;
+			# code...
+		}
 
-		$jlh = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->where('tb_magang.status', 'sudahbayar')
+		// $jlh = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan magang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	//->where('tb_magang.status', 'sudahbayar')
 
-			->sum('jumlah');
-		$jlh_tamu = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->count();
+		// 	->sum('jumlah');
+		// $jlh_tamu = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan magang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	->count();
 		return view('anggota.pemasukan_magang.list', compact('data_list', 'jlh', 'jlh_tamu'));
 	}
 	public function simpanpemasukan(Request $request)
@@ -293,52 +309,65 @@ class anggotaController extends Controller
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_tamu.nomor_hp', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_tamu.alamat', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan magang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 
 			$data->Orwhere('tb_kondangan.nama_kondangan', 'like', '%' . @$request->input('cari') . '%');
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 		} else {
 
 			$data->where('tb_magang.jenis_magang', 'pemasukan hutang');
 			$data->where('tb_magang.jenis_barang', @$request->type);
 			$data->where('tb_magang.id_anggota', Auth::user()->id);
-
-			$data->orderBy('created_at', 'desc');
-
-			if(@$request->input('kondangan') != ''){$data->where('tb_kondangan.id', $request->input('kondangan'));}
-
+			if (@$request->input('kondangan') != '') {
+				$data->where('tb_kondangan.id', $request->input('kondangan'));
+			}
 		}
 		$data_list = $data->paginate(20);
-		$jlh = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan hutang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->where('tb_magang.status', 'sudahbayar')
-			->sum('jumlah');
+		$data_jhl   = $data->get();
+		$jlh 		= 0;
+		$jlh_tamu 	= 0;
+		foreach ($data_jhl as $key) {
+			$jlh  	+= $key->jumlah;
+			$jlh_tamu++;
+		}
 
-		$jlh_tamu = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pemasukan hutang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->count();
+		// $jlh = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan hutang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	//->where('tb_magang.status', 'sudahbayar')
+		// 	->sum('jumlah');
+
+		// $jlh_tamu = DB::table('tb_magang')
+		// 	->where('tb_magang.jenis_barang', @$request->type)
+		// 	->where('tb_magang.jenis_magang', 'pemasukan hutang')
+		// 	->where('tb_magang.id_anggota', Auth::user()->id)
+		// 	->count();
 		return view('anggota.pemasukan_hutang.list', compact('data_list', 'jlh', 'jlh_tamu'));
 	}
-
 	public function pengeluaranmagang(Request $request)
 	{
 		$data = DB::table('tb_magang');
@@ -372,18 +401,28 @@ class anggotaController extends Controller
 
 
 
-		$data_list = $data->paginate(20);
-		$jlh = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pengeluaran magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->sum('jumlah');
 
-		$jlh_tamu = DB::table('tb_magang')
-			->where('tb_magang.jenis_barang', @$request->type)
-			->where('tb_magang.jenis_magang', 'pengeluaran magang')
-			->where('tb_magang.id_anggota', Auth::user()->id)
-			->count();
+		$data_list  = $data->paginate(20);
+		$data_jhl   = $data->get();
+		$jlh 		= 0;
+		$jlh_tamu 	= 0;
+		foreach ($data_jhl as $key) {
+			$jlh  	+= $key->jumlah;
+			$jlh_tamu++;
+			# code...
+		}
+
+		//$jlh = DB::table('tb_magang')
+		//	->where('tb_magang.jenis_barang', @$request->type)
+		//	->where('tb_magang.jenis_magang', 'pengeluaran magang')
+		//	->where('tb_magang.id_anggota', Auth::user()->id)
+		//	->sum('jumlah');
+
+		//$jlh_tamu = DB::table('tb_magang')
+		//	->where('tb_magang.jenis_barang', @$request->type)
+		//	->where('tb_magang.jenis_magang', 'pengeluaran magang')
+		//	->where('tb_magang.id_anggota', Auth::user()->id)
+		//	->count();
 		return view('anggota.pengeluaran_magang.list', compact('data_list', 'jlh', 'jlh_tamu'));
 	}
 

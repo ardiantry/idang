@@ -124,7 +124,7 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="6" class="text-center">Data kosong</th>
+										<th colspan="7" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else
@@ -244,6 +244,9 @@ $('body').delegate('#pdf','click',function(e)
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				var element = document.getElementById('getdata'); 
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pengeluaran Magang {{Request::segment(3)}}</h4>');
+				$('#getdata').append('<div> Jumlah Total Buwuhan :{{$jlh}}</div>');
+				
 				html2pdf(element);
 				setTimeout(function(){
 					window.location.reload();
@@ -251,6 +254,22 @@ $('body').delegate('#pdf','click',function(e)
 
 
 			});
+			// $('body').delegate('#pdf','click',function(e)
+			// {
+			// 	e.preventDefault();  
+			// 	$('.hide_pdf').remove();
+			// 	@if(@$app->request->input('kondangan'))
+			// 	var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+			// 	$('#getdata').prepend('<h5 style="text-align:center">Pemasukan Magang Hajatan '+nm_kond+'</h5>');
+			// 	@endif
+			// 	$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
+			// 	var element = document.getElementById('getdata'); 
+			// 	html2pdf(element);
+			// 	setTimeout(function(){
+			// 		window.location.reload();
+			// 	},1000);
+
+			// });			
 
 	$('body').delegate('.hapus','click',function(e)
 			{

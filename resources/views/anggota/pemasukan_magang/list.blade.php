@@ -94,7 +94,7 @@
 									$kondangan = DB::table('tb_kondangan')->where('status','aktif')->where('id_anggota',Auth::user()->id)->get();
 									@endphp
 									<select name="kondangan" class="form-control">
-										<option value="">Pilih Kondangan</option>
+										<option value="">Pilih Hajatan</option>
 										@foreach($kondangan as $key)
 										@php
 										$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
@@ -130,7 +130,7 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="7" class="text-center">Data kosong</th>
+										<th colspan="8" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else
@@ -219,16 +219,11 @@ $(document).ready(function()
 				var data_edit=window['id_'+$(this).data('id')];
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
-<<<<<<< HEAD
-				$('select[name="id_tamu"] option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
-				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
-				$('select[name="status"] option[value="'+data_edit.status+'"]').attr('selected','selected');
-=======
+
 				$('select[name="id_tamu"]').find('option').removeAttr('selected'); 
 				$('select[name="id_tamu"]').find('option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
 				$('select[name="id_tamu"]').trigger('change');
 				$('select[name="status"]').find('option[value="'+data_edit.status+'"]').attr('selected','selected');
->>>>>>> d73c99b16e803446307799246a77314178bfc730
 
 				
 				$('input[name="satuan"]').val(data_edit.jumlah);
@@ -258,8 +253,10 @@ $('body').delegate('#pdf','click',function(e)
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
-				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan {{@$app->request->input('kondangan')}}</h5>');
+				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+				$('#getdata').prepend('<h4 style="text-align:center">'+nm_kond+'</h4>');
 				@endif
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pemasukan Magang {{Request::segment(3)}}</h4>');
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);

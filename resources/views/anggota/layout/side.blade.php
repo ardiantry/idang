@@ -70,10 +70,10 @@
 				</li> 
 		    </ul>
 		</li>
-		<li>
+		{{-- <li>
 			 <a href="{{url('anggota/rekap-magang')}}"><i class=" mdi mdi-book-open-page-variant"></i><span>Rekapitulasi</span></a>
 		   
-		</li>
+		</li> --}}
 		<li class="menu-title">Lain-lain</li>
 		<li>
 			@php

@@ -25,7 +25,7 @@
 
 					<div class="col-md-6">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Data Masarakat</a>
-						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button> 
+						<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button> 
 						{{-- <a class="btn btn-success btn-sm" href="{{url('admin/export-dtmasarakat')}}" >Export Excel</a> --}}
 
 

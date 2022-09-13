@@ -113,7 +113,7 @@
 									$kondangan = DB::table('tb_kondangan')->where('status','aktif')->where('id_anggota',Auth::user()->id)->get();
 									@endphp
 									<select name="kondangan" class="form-control">
-										<option value="">Pilih Kondangan</option>
+										<option value="">Pilih Hajatan</option>
 										@foreach($kondangan as $key)
 										@php
 										$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
@@ -142,12 +142,12 @@
 										<th>{{$label_satuan}}</th>
 										<th>Status</th>
 										<th>Tanggal</th> 
-										<th> Aksi</th> 
+										<th class="hide_pdf"> Aksi</th> 
 									</tr>
 								</thead>
 								@if(count($data_list)==0) 
 									<tr>
-										<td colspan="7" class="text-center">Data kosong</td> 
+										<td colspan="8" class="text-center">Data kosong</td> 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
@@ -191,8 +191,7 @@
 
 $(document).ready(function()
 {
-    // $('id_tamu').select2();
-{ 
+ 
 	$('select[name="id_tamu"]').select2();
 	@foreach($data_list as $key)
 	@php
@@ -267,13 +266,15 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 
 			});
 
-			$('body').delegate('#pdf','click',function(e)
+		$('body').delegate('#pdf','click',function(e)
 			{
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
-				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan {{@$app->request->input('kondangan')}}</h5>');
+				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+				$('#getdata').prepend('<h4 style="text-align:center">'+nm_kond+'</h4>');
 				@endif
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pemasukan Hutang {{Request::segment(3)}} </h4>');
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);
@@ -282,6 +283,7 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				},1000);
 
 			});
+
 			$('body').delegate('.hapus','click',function(e)
 			{
 				e.preventDefault();

@@ -228,6 +228,7 @@
 			{
 				e.preventDefault(); 
 				$('.hide_pdf').remove();
+				$('#getdata').prepend('<h4 style="text-align:center">Data Tamu</h4>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);
 				setTimeout(function(){
