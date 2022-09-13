@@ -11,7 +11,7 @@
 }
  </style>
  @php
-	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
+	$label_satuan=Request::segment(3)!='uang'?'Jumlah':'Nominal';
 	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal';
 	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-';
  @endphp
@@ -26,7 +26,7 @@
 				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
 			</ol>
 		</div>
-		<h4 class="page-title">{{Request::segment(3)}}</h4></div> 
+		<h4 class="page-title">Data Pemasukan Magang {{Request::segment(3)}}</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
@@ -34,7 +34,7 @@
 				<div class="row">
 					<div class="col-md-4">
 
-						<h4>Tambah Magang {{Request::segment(3)}}</h4>
+						<h4>Pemasukan magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							 
@@ -68,8 +68,9 @@
 							<div class="form-group">
 								<label>Status</label>
 								 <select name="status" placeholder="Status" class="form-control">
-								 	<option value="sudahbayar">Sudah Bayar</option>
 								 	<option value="belumbayar">Belum Bayar</option>
+									<option value="sudahbayar">Sudah Bayar</option>
+								 	
 
 								 </select>
 							</div>
@@ -89,7 +90,7 @@
 							</div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 								<a class="btn btn-warning btn-sm" href="{{route('anggotatamu')}}">Tambah Tamu</a>
 								
 							</div>
@@ -100,7 +101,7 @@
 									$kondangan = DB::table('tb_kondangan')->where('status','aktif')->where('id_anggota',Auth::user()->id)->get();
 									@endphp
 									<select name="kondangan" class="form-control">
-										<option value="">Pilih Kondangan</option>
+										<option value="">Pilih Hajatan</option>
 										@foreach($kondangan as $key)
 										@php
 										@$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
@@ -122,9 +123,10 @@
 							<table class="table table-bordered">
 								<thead> 
 									<tr>
-										<th>Nama Tamu</th>
+										<th>NO</th>
+										<th>Nama</th>
 										<th>Alamat</th>  
-										<th>Nama Undangan</th>
+										<th>Nama Hajatan</th>
 										<th>{{$label_satuan}}</th>
 										<th>Status</th> 
 										<th>Tanggal</th> 
@@ -134,23 +136,35 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="7" class="text-center">Data kosong</th>
+										<th colspan="8" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+<<<<<<< HEAD
 								$status_=@$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
+=======
+								$status_=$key->status=='belumbayar'?'Belum Bayar':'Sudah di bayar';
+>>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
 								@endphp
 								<tbody>
 									<tr>
+										<td scope="row">{{$loop->iteration}}</td>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td>  
 										<td>{{$key->nama_kondangan}}</td>  
 										<td>{{$key->jumlah2}}</td>
+<<<<<<< HEAD
 										<td>{{$status_}}</td>  
 										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td> 
+=======
+										<td>{{$status_}}</td>
+							
+										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
+
+>>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
@@ -238,6 +252,7 @@ $(document).ready(function()
 				var data_edit=window['id_'+$(this).data('id')];
 				$('#yakinedit').html('<button type="button" class="btn btn-danger btn-sm">Batal</button>');
 				$('button[type="submit"]').html('Edit'); 
+
 				$('select[name="id_tamu"]').find('option').removeAttr('selected'); 
 				$('select[name="id_tamu"]').find('option[value="'+data_edit.id_tamu+'"]').attr('selected','selected');
 				$('select[name="id_tamu"]').trigger('change');
@@ -273,8 +288,13 @@ $('body').delegate('#pdf','click',function(e)
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
 				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+<<<<<<< HEAD
+				$('#getdata').prepend('<h4 style="text-align:center">'+nm_kond+'</h4>');
+=======
 				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan '+nm_kond+'</h5>');
+>>>>>>> e777b784d61f9aec28b69965ebe4c641c7f2c30e
 				@endif
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pemasukan Magang {{Request::segment(3)}}</h4>');
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);

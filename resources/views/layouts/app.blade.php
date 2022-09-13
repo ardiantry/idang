@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Sudimampir') }}</title>
+    <title>Aplikasi Kondangan</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -18,13 +18,17 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
 </head>
 <body>
+    @include('sweetalert::alert')
     <style type="text/css">
         .promo_tematik
+
+        
 {
     background-image:unset!important;
-    background: url({{asset('image/bg-home.png')}})!important; 
+    /* background: url({{asset('image/bg-home.png')}})!important;  */
     background-position: center!important;
     background-repeat: no-repeat!important;
     background-size: cover!important;
@@ -36,10 +40,10 @@
     </style>
     <div class="promo_tematik"></div>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    Kondangan di desa Sudimampir
+                   Aplikasi Kondangan Di Desa Sudimampir
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>

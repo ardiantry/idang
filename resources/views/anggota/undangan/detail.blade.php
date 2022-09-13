@@ -21,8 +21,9 @@
 			<div class="card-body">
 		 		<div class="row"> 
 					 <table class="table">
-					 	<tr>
-					 		<td>Nama Acara</td>
+					 	
+						<tr>
+							<td>Nama Acara</td>
 					 		<td>:</td>
 					 		<td>{{@$tb->nama_kondangan}}</td> 
 					 	</tr>

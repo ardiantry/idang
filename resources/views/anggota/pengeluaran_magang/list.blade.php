@@ -11,9 +11,9 @@
 }
  </style>
  @php
-	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
-	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal';
-	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-';
+	$label_satuan=Request::segment(3)!='uang'?'Jumlah':'Nominal'; //segment 3 uang
+	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal'; //segment 3 uang
+	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-'; //segment 3 uang
 
  @endphp
  <div class="row"> 
@@ -23,18 +23,18 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li>  
-				<li class="breadcrumb-item">pengeluaran Magang</li>
-				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
+				<li class="breadcrumb-item">Pengeluaran Magang</li>
+				<li class="breadcrumb-item active">{{Request::segment(3)}}</li> 
 			</ol>
 		</div>
-		<h4 class="page-title">{{Request::segment(3)}}</h4></div> 
+		<h4 class="page-title">Data Pengeluaran Magang {{Request::segment(3)}}</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-4">
-						<h4>Tambah Pengeluaran Magang {{Request::segment(3)}}</h4>
+						<h4>Pengeluaran Magang {{Request::segment(3)}}</h4>
 						<form name="tambahmagang" id="tambahmagang">
 							<div class="ms-alert"></div>
 							<!-- <div class="form-group">
@@ -60,11 +60,22 @@
 							</div>
 							<div class="form-group">
 								<label>Tanggal</label>
-								<input type="date" name="tanggal" class="form-control">
+								<input type="date" name="created_at" class="form-control">
 							</div>
 							<div class="form-group">
 								<label>{{$label_satuan}}</label>
 								 <input type="number" name="satuan" placeholder="{{$nominal_satuan}}" class="form-control">
+							</div>
+
+							<div class="form-group">
+								<label>Status</label>
+								 <select name="status" placeholder="Status" class="form-control">
+									<option value="belumbayar">Belum Bayar</option>
+									<option value="sudahbayar">Sudah Bayar</option>
+
+								 	
+
+								 </select>
 							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
 							<span id="yakinedit"></span>
@@ -82,7 +93,7 @@
 </div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 							</div>
 							<div class="col-md-6">
 								<form action="{{url()->current()}}" method="get"> 
@@ -100,10 +111,12 @@
 							<table class="table table-bordered">
 								<thead> 
 									<tr>
-										<th>Nama Tamu</th>
+										<th>NO</th>
+										<th>Nama</th>
 										<th>Alamat</th> 
 									<!-- 	<th>Undangan</th>  -->
 										<th>{{$label_satuan}}</th>
+										<th>Status</th>
 										<th>Tanggal</th> 
 										<th class="hide_pdf">Aksi</th> 
 									</tr>
@@ -111,21 +124,25 @@
 								@if(count($data_list)==0)
 								 
 									<tr>
-										<th colspan="6" class="text-center">Data kosong</th>
+										<th colspan="7" class="text-center">Data kosong</th>
 									 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
 								@php
 								$key->jumlah2=Request::segment(3)!='uang'?$key->jumlah.' kg':'Rp '.number_format($key->jumlah,0,'.','.').',-';
+								$status_=$key->status=='sudahbayar'?'Sudah Bayar':'Belum di bayar';
 								@endphp
 								<tbody>
 									<tr>
+										<td scope="row">{{$loop->iteration}}</td>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td> 
 										<!-- <td>{{$key->nama_kondangan}}</td>  -->
 										<td>{{$key->jumlah2}}</td>
-										<td>{{$key->created_at}}</td>
+										<td>{{$status_}}</td> 
+										<td>{{Carbon\Carbon::parse($key->created_at)->format('d-m-Y')}}</td>
+										  
 										<td class="hide_pdf">
 											<a class="btn btn-warning btn-sm edit" title="edit" data-id="{{$key->id}}"><i class="fa fa-pencil"></i></a>
 											<a class="btn btn-danger btn-sm hapus" title="hapus" data-id="{{$key->id}}"><i class="fa fa-trash"></i></a>
@@ -200,6 +217,7 @@ $(document).ready(function()
 				$('input[name="nama"]').val(data_edit.nama);
 				$('input[name="alamat"]').val(data_edit.alamat);
 				$('input[name="tanggal"]').val(data_edit.tanggal);  
+				$('input[name="status"]').val(data_edit.status);  
 				$('input[name="satuan"]').val(data_edit.jumlah);
 
 			});
@@ -217,7 +235,7 @@ $(document).ready(function()
 				$('input[name="alamat"]').val('');
 				$('input[name="tanggal"]').val(''); 
 				$('input[name="satuan"]').val(''); 
-				$('input[name="satuan"]').val('');
+				$('input[name="status"]').val('');
 
 			});
 			
@@ -226,6 +244,9 @@ $('body').delegate('#pdf','click',function(e)
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				var element = document.getElementById('getdata'); 
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pengeluaran Magang {{Request::segment(3)}}</h4>');
+				$('#getdata').append('<div> Jumlah Total Buwuhan :{{$jlh}}</div>');
+				
 				html2pdf(element);
 				setTimeout(function(){
 					window.location.reload();
@@ -233,6 +254,22 @@ $('body').delegate('#pdf','click',function(e)
 
 
 			});
+			// $('body').delegate('#pdf','click',function(e)
+			// {
+			// 	e.preventDefault();  
+			// 	$('.hide_pdf').remove();
+			// 	@if(@$app->request->input('kondangan'))
+			// 	var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+			// 	$('#getdata').prepend('<h5 style="text-align:center">Pemasukan Magang Hajatan '+nm_kond+'</h5>');
+			// 	@endif
+			// 	$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
+			// 	var element = document.getElementById('getdata'); 
+			// 	html2pdf(element);
+			// 	setTimeout(function(){
+			// 		window.location.reload();
+			// 	},1000);
+
+			// });			
 
 	$('body').delegate('.hapus','click',function(e)
 			{

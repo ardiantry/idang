@@ -20,7 +20,7 @@
 					
 					<div class="col-md-4">
 						<a class="btn btn-success btn-sm" id="AddKondang">Tambah Tamu</a>
-						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+						<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 					</div>
 					<div class="col-md-4"> 
 					</div>
@@ -40,10 +40,11 @@
 					<div class="table-responsive"  id="getdata"> 
 						<table class="table">
 							<tr>
-								<th>Nama Tamu</th> 
+								<th>NO</th>
+								<th>Nama Tamu</th>
 								<th>No Telp</th>  
 								<th>Alamat</th> 
-								<th>Undangan</th> 
+								<th>Hajatan</th> 
 								<th class="hide_pdf">Aksi</th>
 							</tr>
 							 @foreach($dt_tamu as $key)
@@ -51,6 +52,8 @@
 							 $jenis_kelamin=$key->jenis_kelamin=='l'?'laki-laki':'perempuan';
 							 @endphp
 							 <tr>
+								{{-- <td>{{$key->nama_kondangan}}</td>  --}}
+								<td scope="row">{{$loop->iteration}}</td>
 								<td>{{$key->nama}}</td> 
 								<td>{{$key->nomor_hp}}</td> 
 								<td>{{$key->alamat}}</td> 
@@ -84,18 +87,31 @@
                     <div class="form-group">
                         <label>Nama Tamu</label>
                         <input type="text" name="nama" minlength="2" class="form-control" required="required">
-                    </div>
+                    {{-- </div>
+					<div class="form-group">
+						<label>Nama tamu</label>
+						<select class="form-control" name="id_kondangan">
+							<option>-Pilih Undangan--</option>
+							@php
+							$tb_kondangan=DB::table('tb_kondangan')->where('id_anggota',@Auth::user()->id)->get();
+							@endphp
+							@foreach($tb_kondangan as $key)
+							<option value="{{ $key->id}}">{{$key->nama_kondangan}}</option>
+							@endforeach
+						</select>
+					</div> --}}
+					
                      <div class="form-group">
                         <label>No Telp</label>
-                        <input type="text" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
+                        <input type="number" name="nomor_hp" minlength="2" maxlength="15" class="form-control" required="required" >
                     </div>
                      <div class="form-group">
-                        <label>Undangan</label>
+                        <label>Hajatan</label>
                         <select class="form-control" name="id_undangan">
                         	@php
                         	$undg=DB::table('tb_kondangan')->where('id_anggota',Auth::user()->id)->get();
                         	@endphp
-                        	<option>--Pilih Undangan--</option>
+                        	<option>--Pilih Hajatan--</option>
                         	@foreach($undg as $key_ud)
                         	<option value="{{$key_ud->id}}">{{$key_ud->nama_kondangan}}</option> 
                         	@endforeach
@@ -140,7 +156,7 @@
 				$('input[name="nama"]').val('');
 				$('select[name="id_undangan"]').val('');
 				$('input[name="nomor_hp"]').val('');
-				$('select[name="jenis_kelamin"]').find('option').removeAttr('selected'); 
+				// $('select[name="jenis_kelamin"]').find('option').removeAttr('selected'); 
 				$('textarea[name="nama"]').empty(); 
 				$('textarea[name="alamat"]').empty();  
 				$('#ModalForm').modal({ backdrop: 'static',keyboard: false});  
@@ -200,7 +216,7 @@
 				$('input[name="nama"]').val(dat_edit.nama);
 				$('input[name="nomor_hp"]').val(dat_edit.nomor_hp); 
 				$('textarea[name="alamat"]').html(dat_edit.alamat);  
-				$('select[name="jenis_kelamin"]').find('option[value="'+dat_edit.jenis_kelamin+'"]').attr('selected','selected');   
+				// $('select[name="jenis_kelamin"]').find('option[value="'+dat_edit.jenis_kelamin+'"]').attr('selected','selected');   
 				$('select[name="id_undangan"]').find('option[value="'+dat_edit.id_undangan+'"]').attr('selected','selected');   
 
 
@@ -212,6 +228,7 @@
 			{
 				e.preventDefault(); 
 				$('.hide_pdf').remove();
+				$('#getdata').prepend('<h4 style="text-align:center">Data Tamu</h4>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);
 				setTimeout(function(){

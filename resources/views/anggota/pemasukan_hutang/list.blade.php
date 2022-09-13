@@ -12,7 +12,7 @@
 }
  </style>
  @php
-	$label_satuan=Request::segment(3)!='uang'?'Jumlah Beras':'Nominal';
+	$label_satuan=Request::segment(3)!='uang'?'Jumlah ':'Nominal';
 	$nominal_satuan=Request::segment(3)!='uang'?'kg':'Nominal';
 	$jlh=Request::segment(3)!='uang'?$jlh.'kg':'Rp '.number_format($jlh,0,'.','.').',-';
  @endphp
@@ -27,7 +27,7 @@
 				<li class="breadcrumb-item active">{{Request::segment(3)}}</li>
 			</ol>
 		</div>
-		<h4 class="page-title">{{Request::segment(3)}}</h4></div> 
+		<h4 class="page-title"> Data Pemasukan Hutang {{Request::segment(3)}}</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
@@ -35,7 +35,7 @@
 				<div class="row">
 					<div class="col-md-4">
 
-						<h4>Tambah hutang {{Request::segment(3)}}</h4>
+						<h4>Pemasukan hutang {{Request::segment(3)}}</h4>
 						<form name="tambahhutang" id="tambahhutang">
 							<div class="ms-alert"></div>
 							 
@@ -53,10 +53,32 @@
 									@endphp
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
+									
+
 								</select>
 							</div>
+<<<<<<< HEAD
 							<div id="alamat"> 
 							</div>
+=======
+							{{-- <div class="form-group">
+								<label>Nama Tamu (jika tamu belum mengisi daftar tamu)</label>
+								 <input type="text" name="nama"  placeholder="" class="form-control">
+							</div>	 --}}
+							{{-- <div class="form-group">
+								<label>Hajatan (Jika belum mengisi buku tamu)</label>
+								<select class="form-control" name="id_undangan">
+									@php
+									$undg=DB::table('tb_kondangan')->where('id_anggota',Auth::user()->id)->get();
+									@endphp
+									<option>--Pilih Hajatan--</option>
+									@foreach($undg as $key_ud)
+									<option value="{{$key_ud->id}}">{{$key_ud->nama_kondangan}}</option> 
+									@endforeach
+								</select>
+							</div> --}}
+							
+>>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
 							<div class="form-group">
 								<label>Tanggal</label>
 								 <input type="date" name="created_at"  placeholder="" class="form-control">
@@ -68,9 +90,8 @@
 							<div class="form-group">
 								<label>Status</label>
 								 <select name="status" placeholder="Status" class="form-control">
-								 	<option value="sudahbayar">Sudah Bayar</option>
-								 	<option value="belumbayar">Belum Bayar</option>
-
+									<option value="sudahbayar">Sudah Bayar</option>
+									{{-- <option value="belumbayar">Belum Bayar</option> --}}
 								 </select>
 							</div>
 							<button type="submit" class="btn btn-success btn-sm">Simpan</button>
@@ -90,7 +111,7 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+								<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 								<a class="btn btn-warning btn-sm" href="{{route('anggotatamu')}}">Tambah Tamu</a>
 
 							</div>
@@ -101,7 +122,7 @@
 									$kondangan = DB::table('tb_kondangan')->where('status','aktif')->where('id_anggota',Auth::user()->id)->get();
 									@endphp
 									<select name="kondangan" class="form-control">
-										<option value="">Pilih Kondangan</option>
+										<option value="">Pilih Hajatan</option>
 										@foreach($kondangan as $key)
 										@php
 										$selected_=@$app->request->input('kondangan')==@$key->id?'selected="selected"':'';
@@ -122,19 +143,20 @@
 							<table class="table table-bordered" >
 								<thead> 
 									<tr>
-										<th>Nama Tamu</th>
+										<th>NO</th>
+										<th>Nama</th>
 										<th>Alamat</th>  
-										<th>Nama Undangan</th>
+										<th>Nama Hajatan</th>
 
 										<th>{{$label_satuan}}</th>
 										<th>Status</th>
 										<th>Tanggal</th> 
-										<th class="hide_pdf">Aksi</th> 
+										<th class="hide_pdf"> Aksi</th> 
 									</tr>
 								</thead>
 								@if(count($data_list)==0) 
 									<tr>
-										<td colspan="7" class="text-center">Data kosong</td> 
+										<td colspan="8" class="text-center">Data kosong</td> 
 									</tr>
 								 @else
 								@foreach($data_list as $key)
@@ -144,6 +166,7 @@
 								@endphp
 								<tbody>
 									<tr>
+										<td scope="row">{{$loop->iteration}}</td>
 										<td>{{$key->nama}}</td>
 										<td>{{$key->alamat}}</td> 
 										<td>{{$key->nama_kondangan}}</td>   
@@ -171,10 +194,13 @@
 	</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script type="text/javascript">
+
+
 $(document).ready(function()
-{ 
+{
+ 
 	$('select[name="id_tamu"]').select2();
 	@foreach($data_list as $key)
 	@php
@@ -266,14 +292,19 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 
 			});
 
-			$('body').delegate('#pdf','click',function(e)
+		$('body').delegate('#pdf','click',function(e)
 			{
 				e.preventDefault();  
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
 				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+<<<<<<< HEAD
+				$('#getdata').prepend('<h4 style="text-align:center">'+nm_kond+'</h4>');
+=======
 				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan '+nm_kond+'</h5>');
+>>>>>>> e777b784d61f9aec28b69965ebe4c641c7f2c30e
 				@endif
+				$('#getdata').prepend('<h4 style="text-align:center">Data Pemasukan Hutang {{Request::segment(3)}} </h4>');
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');
 				var element = document.getElementById('getdata'); 
 				html2pdf(element);
@@ -282,6 +313,7 @@ $('body').delegate('#yakinedit button[type="button"]','click',function(e)
 				},1000);
 
 			});
+
 			$('body').delegate('.hapus','click',function(e)
 			{
 				e.preventDefault();

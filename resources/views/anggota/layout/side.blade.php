@@ -1,18 +1,26 @@
 <div class="left-sidenav">
 	<ul class="metismenu left-sidenav-menu" id="side-nav">
 		 <li>
+			<a href="{{route('home')}}">
+			<i class="fa fa-tachometer"></i>
+			<span>Dashboard</span>
+			</a>
+
+			<li>
+				<a href="{{route('anggotaundangan')}}">
+				<i class="mdi mdi-calendar"></i>
+				<span>Hajatan Saya</span>
+				</a>
+			</li>
+		
+		</li>
+		 <li>
 			<a href="{{route('anggotatamu')}}">
 			<i class="fa fa-user"></i>
 			<span>Data Tamu</span>
 			</a>
 		</li>
-		<li>
-			<a href="{{route('anggotaundangan')}}">
-			<i class="mdi mdi-calendar"></i>
-			<span>Data Undangan</span>
-			</a>
-		</li>
-
+		
 		 <li class="menu-title">Kondangan</li>
 		  <li>
             <a href="javascript: void(0);"><i class="mdi mdi-book-open-variant"></i><span>Pemasukan Magang</span></a>
@@ -62,10 +70,10 @@
 				</li> 
 		    </ul>
 		</li>
-		<li>
+		{{-- <li>
 			 <a href="{{url('anggota/rekap-magang')}}"><i class=" mdi mdi-book-open-page-variant"></i><span>Rekapitulasi</span></a>
 		   
-		</li>
+		</li> --}}
 		<li class="menu-title">Lain-lain</li>
 		<li>
 			@php
@@ -93,7 +101,11 @@
 			@endphp
 			<a href="{{route('chatanggota')}}">
 			<i class="fa fa-wechat "></i>
+
+			
+
 			<span>Data Chat <span class="badge badge-danger">{{$jml}}</span></span>
+   
 			</a>
 		</li>
 	</ul>

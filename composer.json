@@ -11,9 +11,15 @@
         "php": "^7.4|^8.0",
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.7",
+<<<<<<< HEAD
         "laravel/framework": "^8.0.0",
         "laravel/tinker": "^1.0",
         "shuchkin/simplexlsx": "^1.0"
+=======
+        "laravel/framework": "5.8.*",
+        "laravel/tinker": "^1.0",
+        "realrashid/sweet-alert": "^5.1"
+>>>>>>> 8f5b07d8502489fd0873e8ddcd20d9b2a05575c5
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

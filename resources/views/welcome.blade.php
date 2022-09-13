@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>kondangan di desa sudimampir</title>
+        <title>Aplikasi Kondangan</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
@@ -126,6 +126,7 @@ font-weight: bold;
               </style>
                 <link href="{{asset('asset/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('asset/css/icons.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css"> 
     </head>
     <body>
          <div class="promo_tematik"></div>
@@ -144,8 +145,18 @@ font-weight: bold;
             @endif
 
             <div class="content">
-                   <h4 style="margin-top: 50px ">SiKondang</h4>  
+
+                
+                {{-- <div class="title m-b-md">
+                    APLIKASI KONDANGAN DESA SUDIMAMPIR
+                 </div> --}}
+                
+           <h4 style="margin-top: 50px ">APLIKASI KONDANGAN</h4>  
+           <h4 style="margin-top: 10px ">DESA SUDIMAMPIR</h4>  
+
                 <div class="container">
+                         
+                       
                     
                 <div class="row">
                     @foreach($data_list  as $key)
@@ -157,9 +168,9 @@ font-weight: bold;
                                  <span class="lamaacara"><i class="fa fa-clock-o"></i>Sesi Acara {{$key->lama_acara }}</span> 
                                  <h4>{{@$key->nama_kondangan}}</h4>
                                  <p>Alamat : {{$key->alamat}}</p>
-                                 <div class="text-right">  
+                                 {{-- <div class="text-right">  
                                     <a href="{{url('')}}">Detail</a>
-                                 </div>
+                                 </div> --}}
                             </div>
                         </div>
                     </div>

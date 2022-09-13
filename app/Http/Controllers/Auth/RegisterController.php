@@ -7,9 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use DB;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
+
 class RegisterController extends Controller
 {
     /*
@@ -25,31 +23,12 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-
-  public function register(Request $request)
-    {
-        $cek=DB::table('users')->where('nik',$request->input('nik'))->first();
-        if($cek)
-        {
-            $request->session()->flush();
-               return redirect('register')->with('nik','NIK  Sudah Ada');       
-        }
-
-         $this->validator($request->all())->validate();
-
-        event(new Registered($user = $this->create($request->all())));
-
-       // $this->guard()->login($user);
-
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-    }
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/admin/home';
+    protected $redirectTo = '/admin/home/dasboard';
 
     /**
      * Create a new controller instance.
@@ -67,8 +46,6 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-
-
     protected function validator(array $data)
     {
         return Validator::make($data, [
@@ -76,9 +53,7 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'nik'       =>['required', 'string', 'max:255'],
         ]);
-
     }
 
     /**
@@ -89,13 +64,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-       
         return User::create([
             'name' => $data['name'],
             'username' => $data['username'],
             'status' => 'user',
             'email' => $data['email'],
-            'nik'   =>$data['nik'],
             'password' => Hash::make($data['password']),
         ]);
     }

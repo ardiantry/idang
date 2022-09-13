@@ -15,7 +15,7 @@
 
 
 	@endphp
-	@foreach($db_pie as $ky)
+	{{-- @foreach($db_pie as $ky)
 	 @if($ky->jenis_magang=='pemasukan magang')
 		 @php
 		 	$magang++;
@@ -29,12 +29,12 @@
 		 	$pengeluaran++;
 		 @endphp
 	 @endif
-	@endforeach;
+	@endforeach; --}}
 	@php
 	$dt_pie=array(
-		array('label'=>'Pemasukan Magang','value'=>$magang),
-		array('label'=>'Pemasukan Hutang','value'=>$hutang),
-		array('label'=>'Pengeluaran Magang','value'=>$pengeluaran),
+		// array('label'=>'Pemasukan Magang','value'=>$magang),
+		// array('label'=>'Pemasukan Hutang','value'=>$hutang),
+		// array('label'=>'Pengeluaran Magang','value'=>$pengeluaran),
 
 	);
 	$year=Carbon\Carbon::now()->format('Y');
@@ -165,7 +165,7 @@
 		</div>
 		<h4 class="page-title">{{Request::segment(3)}}</h4>
 	</div> 
-	<div class="col-md-4">
+	{{-- <div class="col-md-4">
 		<div class="card"> 
 			<div class="card-body">
 			<h4>Data Rekapitulasi Magang</h4>
@@ -174,8 +174,8 @@
 				
 
 		</div>
-	</div>
-	<div class="col-md-8">
+	</div> --}}
+	{{-- <div class="col-md-8">
 		<div class="card"> 
 			<div class="card-body">
 
@@ -184,11 +184,11 @@
 			</div>
 
 		</div>
-	</div>
+	</div> --}}
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-body">
-				<a href="{{url('anggota/ekxport-xl-rekap')}}" class="btn btn-success btn-sm">Export Excel</a>
+				<a href="{{url('anggota/ekxport-xl-rekap')}}" class="btn btn-success btn-sm">Download Excel</a>
 				<div class="table-responsive">
 					<table class="table border">
 						<thead>

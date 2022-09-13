@@ -8,10 +8,10 @@
 				<li class="breadcrumb-item">
 					<a href="{{url('anggota')}}">Home</a>
 				</li> 
-				<li class="breadcrumb-item active">Data Undangan</li>
+				<li class="breadcrumb-item active">Hajatan</li>
 			</ol>
 		</div>
-		<h4 class="page-title">Data Undangan</h4></div> 
+		<h4 class="page-title">Hajatan</h4></div> 
 	</div>
 	<div class="col-md-12">
 		<div class="card">
@@ -19,8 +19,8 @@
 						<div class="col-md-12">
 			 				<div class="row">  
 							<div class="col-md-4">
-								<a class="btn btn-success btn-sm" id="AddKondang">Tambah Undangan</a>
-								<button class="btn btn-primary btn-sm">Print PDF</button>
+								<a class="btn btn-success btn-sm" id="AddKondang">Tambah Hajatan</a>
+								{{-- <button class="btn btn-primary btn-sm">Print PDF</button> --}}
 							</div>
 							<div class="col-md-4"> 
 							</div>
@@ -37,7 +37,7 @@
 							</div>
 							<div class="table-responsive">  
 								<table class="table">
-									<tr>
+									
 										<th>Judul Undangan</th> 
 										<th>Jumlah Tamu</th>
 										<th>Nama Pemilik</th>
@@ -48,6 +48,7 @@
 										<th>Status</th>
 										<th>Aksi</th>  
 									</tr>
+									
 									<tbody id="loadtb"> 
 									</tbody>
 								</table>
@@ -63,14 +64,15 @@
     <div class="modal-dialog modal-dialog-centered modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title align-self-center mt-0">Isikan Data Undangan</h5>
+                <h5 class="modal-title align-self-center mt-0">HAJATAN</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body"> 
                 <div class="ms-alert"></div>
                 <form id="prosesSimpan" name="prosesSimpan">
-                    <div class="form-group">
-                        <label>Nama Undangan</label>
+                    
+					<div class="form-group">
+                        <label>Nama Hajatan</label>
                         <textarea class="form-control" name="nama_kondangan"></textarea>
                     </div>
                    <!--  <div class="form-group">

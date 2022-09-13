@@ -17,7 +17,7 @@
 			<div class="card-body">   
 				<div class="row">
 					<div class="col-md-4">
-						<button class="btn btn-primary btn-sm" id="pdf">Print PDF</button>
+						<button class="btn btn-primary btn-sm" id="pdf">Download PDF</button>
 					</div>
 					<div class="col-md-4"> 
 					</div>
@@ -38,7 +38,7 @@
 							<tr>
 								<th>Nama</th> 
 								<th>Email</th>  
-								<th>NIK</th>  
+								{{-- <th>NIK</th>   --}}
 
 								<th>Hapus Anggota</th>  
 
@@ -47,7 +47,7 @@
 							 <tr>
 								<td>{{$key->name}}</td> 
 								<td>{{$key->email}}</td> 
-								<td>{{$key->nik}}</td>   
+								{{-- <td>{{$key->nik}}</td>    --}}
 
 								<th><a href="{{route('hapusanggota',$key->id)}}" class="hapus btn btn-danger"> Hapus</a></th>  
 
