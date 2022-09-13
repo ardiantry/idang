@@ -206,7 +206,7 @@ function getalamat(id_tamu=undefined)
 		}
 		var alamat=alamat_[id_tamu]; 
 		var nm_kondnagan=nama_kondangan[id_tamu]; 
-		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea class="form-control" name="alamat">'+alamat+'</textarea></div><div  class="form-group"><label>Nama Kondangan</label><input class="form-control" value="'+nm_kondnagan+'"></div>');
+		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea readonly="readonly" class="form-control" name="alamat">'+alamat+'</textarea></div><div  class="form-group"><label>Nama Kondangan</label><input readonly="readonly" class="form-control" value="'+nm_kondnagan+'"></div>');
 	}
 
 		$('body').delegate('#tambahmagang','submit',function(e)
