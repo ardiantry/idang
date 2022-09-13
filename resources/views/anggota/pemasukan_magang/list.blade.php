@@ -254,7 +254,11 @@ $('body').delegate('#pdf','click',function(e)
 				$('.hide_pdf').remove();
 				@if(@$app->request->input('kondangan'))
 				var nm_kond=$('select[name="kondangan"]').find('option[value="{{@$app->request->input('kondangan')}}"]').html();
+<<<<<<< HEAD
 				$('#getdata').prepend('<h4 style="text-align:center">'+nm_kond+'</h4>');
+=======
+				$('#getdata').prepend('<h5>Pemasukan Magang Hajatan '+nm_kond+'</h5>');
+>>>>>>> e777b784d61f9aec28b69965ebe4c641c7f2c30e
 				@endif
 				$('#getdata').prepend('<h4 style="text-align:center">Data Pemasukan Magang {{Request::segment(3)}}</h4>');
 				$('#getdata').append('<div>Jumlah total Tamu :{{$jlh_tamu}}, Jumlah Total Buwuhan :{{$jlh}}</div>');

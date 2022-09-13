@@ -211,6 +211,15 @@ class anggotaController extends Controller
 			$jlh_tamu++;
 			# code...
 		}
+<<<<<<< HEAD
+=======
+		$data_list = $data->paginate(20);
+		$jlh = DB::table('tb_magang')
+			->where('tb_magang.jenis_barang', @$request->type)
+			->where('tb_magang.jenis_magang', 'pemasukan magang')
+			->where('tb_magang.id_anggota', Auth::user()->id)
+			//->where('tb_magang.status', 'sudahbayar')
+>>>>>>> e777b784d61f9aec28b69965ebe4c641c7f2c30e
 
 		// $jlh = DB::table('tb_magang')
 		// 	->where('tb_magang.jenis_barang', @$request->type)
@@ -346,6 +355,7 @@ class anggotaController extends Controller
 			}
 		}
 		$data_list = $data->paginate(20);
+<<<<<<< HEAD
 		$data_jhl   = $data->get();
 		$jlh 		= 0;
 		$jlh_tamu 	= 0;
@@ -353,6 +363,14 @@ class anggotaController extends Controller
 			$jlh  	+= $key->jumlah;
 			$jlh_tamu++;
 		}
+=======
+		$jlh = DB::table('tb_magang')
+			->where('tb_magang.jenis_barang', @$request->type)
+			->where('tb_magang.jenis_magang', 'pemasukan hutang')
+			->where('tb_magang.id_anggota', Auth::user()->id)
+			//->where('tb_magang.status', 'sudahbayar')
+			->sum('jumlah');
+>>>>>>> e777b784d61f9aec28b69965ebe4c641c7f2c30e
 
 		// $jlh = DB::table('tb_magang')
 		// 	->where('tb_magang.jenis_barang', @$request->type)
