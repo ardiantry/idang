@@ -44,12 +44,14 @@
 								<select class="form-control" name="id_tamu">
 									<option>-Pilih tamu--</option>
 									@php
-									$tb_tamu=DB::table('tb_tamu')->where('id_user',@Auth::user()->id)->get();
+									$tb_tamu=DB::table('tb_tamu')->select('tb_tamu.*','tb_kondangan.nama_kondangan')->leftjoin('tb_kondangan','tb_kondangan.id','=','tb_tamu.id_undangan')->where('tb_tamu.id_user',@Auth::user()->id)->get();
 									$arry_alamat=array();
+									$arry_kondangan=array();
 									@endphp
 									@foreach($tb_tamu as $key)
 									@php
 									$arry_alamat[$key->id]=@$key->alamat;
+									$arry_kondangan[$key->id]=@$key->nama_kondangan;
 									@endphp
 									<option value="{{ $key->id}}">{{$key->nama}}</option>
 									@endforeach
@@ -211,6 +213,7 @@ $(document).ready(function()
 		getalamat($(this).val());
 	});
 	var alamat_={!!json_encode($arry_alamat)!!}; 
+	var nama_kondangan={!!json_encode($arry_kondangan)!!}; 
 	function getalamat(id_tamu=undefined)
 	{
 		$('#alamat').empty();
@@ -219,7 +222,8 @@ $(document).ready(function()
 			return;
 		}
 		var alamat=alamat_[id_tamu]; 
-		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea class="form-control" name="alamat">'+alamat+'</textarea></div>');
+		var nm_kondnagan=nama_kondangan[id_tamu]; 
+		$('#alamat').html('<div  class="form-group"><label>Alamat</label><textarea class="form-control" name="alamat">'+alamat+'</textarea></div><div  class="form-group"><label>Nama Kondangan</label><div class="form-control">'+nm_kondnagan+'</div></div>');
 	}
 
 		$('body').delegate('#tambahhutang','submit',function(e)

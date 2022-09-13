@@ -21,7 +21,7 @@
     
 </head>
 <body>
-    @include('sweetalert::alert')
+   
     <style type="text/css">
         .promo_tematik
 
